@@ -1,6 +1,6 @@
 const canvasData = {
-    height: 32,
-    width: 128,
+    height: 800,
+    width: 800,
     pixelSize: 16,
 }
 
