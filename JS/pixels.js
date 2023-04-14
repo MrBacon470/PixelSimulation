@@ -11,7 +11,10 @@ const pixelTypes = [
 
 let rows = canvasData.height/canvasData.pixelSize
 let cols = canvasData.width/canvasData.pixelSize
-let pixelGrid = new Array(rows).fill(new Array(cols).fill(0))
+let pixelGrid = new Array(rows)
+for(let i = 0; i < cols; i++) {
+    pixelGrid[i] = new Array(cols).fill(0)
+}
 console.log(`Rows: ${rows} | Columns: ${cols}`)
 console.log(pixelGrid)
 
@@ -32,5 +35,8 @@ function getPixelID(r,c) {
 }
 
 function drawPixel(r,c) {
-    
+    canvas2D.fillStyle = pixelTypes[pixelGrid[r][c]].color
+    canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
 }
+drawPixel(0,0)
+drawPixel(5,0)
