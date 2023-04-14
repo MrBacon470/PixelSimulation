@@ -13,7 +13,6 @@ function Init() {
         pixelGrid[i] = new Array(cols).fill(0)
     }
     console.log(`Pixel Grid Successfully Generated`)
-    //Extra Stuff
     updateCanvas()
 }
 

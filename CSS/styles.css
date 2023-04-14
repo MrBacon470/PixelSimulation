@@ -1,0 +1,32 @@
+:root {
+    --bg-color: #3b3a3a
+}
+
+* {
+    color:whitesmoke;
+}
+
+html {
+  background-color: var(--bg-color);
+}
+
+.flexCol {
+    display: flex;
+    flex-direction: column;
+}
+
+.flexRow {
+    display: flex;
+    flex-direction: row;
+}
+
+#simulationCanvas {
+    border: 2px solid white;
+}
+
+#uiHolder {
+    position: absolute;
+    right:45%;
+    top:1em;
+    margin-left: 12em;
+}
