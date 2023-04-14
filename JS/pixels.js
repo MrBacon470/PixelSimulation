@@ -1,10 +1,12 @@
 const pixelTypes = [
     {
         name: 'Empty',
+        abbr: 'EMPT',
         color: '#000000',
     },
     {
         name: 'Sand',
+        abbr: 'SAND',
         color: '#C2B280',
     },
 ]
@@ -36,7 +38,7 @@ function drawPixel(r,c) {
 function updatePixel(row,col) {
     if(pixelGrid[row][col] == SAND) {
         let down = row+1 < pixelGrid.length && (pixelGrid[row+1][col] == EMPT)
-        let left = row+1 < pixelGrid.length && col-1 > -1 && (pixelGrid[row+1][col] == EMPT)
+        let left = row+1 < pixelGrid.length && col-1 > -1 && (pixelGrid[row+1][col-1] == EMPT)
         let right = row+1 < pixelGrid.length && col+1 < pixelGrid[row+1].length && (pixelGrid[row+1][col+1] == EMPT)
         if(!down && !left && !right) return //If it can't move don't waste time
         if(left && right) {

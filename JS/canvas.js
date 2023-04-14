@@ -18,13 +18,16 @@ function updateCanvas() {
     }
 }
 
+
 canvas.addEventListener('mousedown',function(e) { //Click Event
     const vars = getMousePos(e)
     let col = Math.floor(vars.x/canvasData.pixelSize)
     let row = Math.floor(vars.y/canvasData.pixelSize)
     pixelGrid[row][col] = pixelSelectedIndex
     drawPixel(row,col)
+    updatePixel(row,col)
 })
+
 
 function  getMousePos(evt) {
     var rect = canvas.getBoundingClientRect(), // abs. size of element
