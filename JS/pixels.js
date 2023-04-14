@@ -35,7 +35,9 @@ function drawPixel(r,c) {
     canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
 }
 
-function updatePixel(row,col) {
+function updatePixel() {
+    let row = getRandomInt(pixelGrid.length)
+    let col = getRandomInt(pixelGrid[row].length)
     if(pixelGrid[row][col] == SAND) {
         let down = row+1 < pixelGrid.length && (pixelGrid[row+1][col] == EMPT)
         let left = row+1 < pixelGrid.length && col-1 > -1 && (pixelGrid[row+1][col-1] == EMPT)

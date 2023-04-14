@@ -1,5 +1,9 @@
 let pixelGrid = []
 
+const gameData = {
+    pixelUpdateRate: 2500
+}
+
 function Init() {
     //Pixel Grid Initializing
     let rows = canvasData.height/canvasData.pixelSize
@@ -14,10 +18,8 @@ function Init() {
 }
 
 function Update() {
-    for(let r = 0; r < pixelGrid.length; r++) {
-        for(let c = 0; c < pixelGrid[r].length; c++) {
-            updatePixel(r,c)
-        }
+    for(let i = 0; i < gameData.pixelUpdateRate; i++) {
+        updatePixel()
     }
     
 }
