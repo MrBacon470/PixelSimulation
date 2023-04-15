@@ -1,9 +1,15 @@
+@font-face {
+    font-family: 'Source Code';
+    src: url('SourceCodePro-Regular.ttf');
+}
+
 :root {
-    --bg-color: #3b3a3a
+    --bg-color: #3b3a3a;
 }
 
 * {
     color:whitesmoke;
+    font-family: 'Source Code';
 }
 
 html {
@@ -29,4 +35,7 @@ html {
     right:45%;
     top:1em;
     margin-left: 12em;
+}
+#uiHolder button {
+    margin: .5vh 1vw .5vh 1vw;
 }
