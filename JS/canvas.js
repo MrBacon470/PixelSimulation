@@ -18,13 +18,13 @@ function updateCanvas() {
     }
 }
 
-let vars = null
+let mousePositions = null
 let mouseCol = null
 let mouseRow = null
 canvas.addEventListener('mousemove',(e) => { //Click Event
-    vars = getMousePos(e)
-    mouseCol = Math.floor(vars.x/canvasData.pixelSize)
-    mouseRow = Math.floor(vars.y/canvasData.pixelSize)
+    mousePositions = getMousePos(e)
+    mouseCol = Math.floor(mousePositions.x/canvasData.pixelSize)
+    mouseRow = Math.floor(mousePositions.y/canvasData.pixelSize)
 })
 
 canvas.addEventListener('mousedown',() => {isMouseDown = true})

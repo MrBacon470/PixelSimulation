@@ -36,7 +36,7 @@ function Init() {
         `
         htmlString = `<button id="elementButton${i}" class="${pixelTypes[i].abbr}Button">${pixelTypes[i].abbr}</button>`
         addHTML('elementButtonHolder',htmlString)
-        document.getElementById(`elementButton${i}`).addEventListener('click',() => {pixelSelectedIndex = i})
+        document.getElementById(`elementButton${i}`).addEventListener('click',() => {pixelSelectedIndex = i;document.getElementById('particleNameText').innerText=pixelTypes[i].name;document.getElementById('particleDescText').innerText=pixelTypes[i].desc})
     }
     style.innerHTML = styleString;
     document.getElementsByTagName('head')[0].appendChild(style);

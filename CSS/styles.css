@@ -31,11 +31,11 @@ html {
 }
 
 #uiHolder {
-    position: absolute;
-    right:45%;
-    top:1em;
-    margin-left: 12em;
+    display: grid;
+    gap: .25em;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(auto-fit, minmax(min-content, 1fr));
 }
 #uiHolder button {
-    margin: .5vh 1vw .5vh 1vw;
+    margin: .5vh .5vh;
 }
