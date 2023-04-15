@@ -1,5 +1,5 @@
 let pixelGrid = []
-
+let isMouseDown = false
 const gameData = {
     pixelUpdateRate: 2500
 }
@@ -47,7 +47,10 @@ function Update() {
     for(let i = 0; i < gameData.pixelUpdateRate; i++) {
         updatePixel()
     }
-    
+    if(isMouseDown) {
+        pixelGrid[mouseRow][mouseCol] = pixelSelectedIndex
+        drawPixel(mouseRow,mouseCol)
+    }
 }
 
 window.onload = function() {

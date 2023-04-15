@@ -18,15 +18,18 @@ function updateCanvas() {
     }
 }
 
-
-canvas.addEventListener('mousedown',function(e) { //Click Event
-    const vars = getMousePos(e)
-    let col = Math.floor(vars.x/canvasData.pixelSize)
-    let row = Math.floor(vars.y/canvasData.pixelSize)
-    pixelGrid[row][col] = pixelSelectedIndex
-    drawPixel(row,col)
-    updatePixel(row,col)
+let vars = null
+let mouseCol = null
+let mouseRow = null
+canvas.addEventListener('mousemove',(e) => { //Click Event
+    vars = getMousePos(e)
+    mouseCol = Math.floor(vars.x/canvasData.pixelSize)
+    mouseRow = Math.floor(vars.y/canvasData.pixelSize)
 })
+
+canvas.addEventListener('mousedown',() => {isMouseDown = true})
+canvas.addEventListener('mouseup',() => {isMouseDown = false})
+canvas.addEventListener('mouseleave',() => {isMouseDown = false})
 
 
 function getMousePos(evt) {
