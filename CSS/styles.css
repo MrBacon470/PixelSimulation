@@ -39,3 +39,7 @@ html {
 #uiHolder button {
     margin: .5vh .5vh;
 }
+#uiHolder div {
+    text-align: center;
+    width: 10em;
+}
