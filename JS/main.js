@@ -40,6 +40,8 @@ function Init() {
     }
     style.innerHTML = styleString;
     document.getElementsByTagName('head')[0].appendChild(style);
+    document.getElementById('particleNameText').innerText=pixelTypes[pixelSelectedIndex].name;
+    document.getElementById('particleDescText').innerText=pixelTypes[pixelSelectedIndex].desc
     updateCanvas()
 }
 

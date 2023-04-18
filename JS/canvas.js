@@ -9,7 +9,7 @@ canvas.setAttribute('height',`${canvasData.height}px`)
 canvas.setAttribute('width',`${canvasData.width}px`)
 
 let canvas2D = canvas.getContext('2d')
-let pixelSelectedIndex = 1
+let pixelSelectedIndex = 0
 function updateCanvas() {
     for(let r = 0; r < pixelGrid.length; r++) {
         for(let c = 0; c < pixelGrid[r].length; c++) {

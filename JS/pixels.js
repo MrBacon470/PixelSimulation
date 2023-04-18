@@ -180,7 +180,7 @@ function updatePixel() {
         let rand = getRandomInt(3);
         let temp = getPixelID(row,col)
         if(rand === 0 && row+1 < pixelGrid.length) {
-            if(pixelGrid[row+1][col] == EMPT || (pixelTypes[getPixelID(row+1,col)].isLiquid && pixelTypes[getPixelID(row+1,col)].mass < pixelTypes[getPixelID(row,col)].mass)) {
+            if(pixelGrid[row+1][col] == EMPT || (pixelTypes[getPixelID(row+1,col)].isLiquid && pixelTypes[getPixelID(row+1,col)].mass < pixelTypes[getPixelID(row,col)].mass) || pixelTypes[getPixelID(row+1,col)].isGas) {
                 pixelGrid[row][col] = pixelGrid[row+1][col]
                 pixelGrid[row+1][col] = temp
                 drawPixel(row,col)
@@ -188,7 +188,7 @@ function updatePixel() {
             }
         }
         else if(rand === 1 && col-1 > -1) {
-            if(pixelGrid[row][col-1] == EMPT || (pixelTypes[getPixelID(row,col-1)].isLiquid && pixelTypes[getPixelID(row,col-1)].mass < pixelTypes[getPixelID(row,col)].mass)) {
+            if(pixelGrid[row][col-1] == EMPT || (pixelTypes[getPixelID(row,col-1)].isLiquid && pixelTypes[getPixelID(row,col-1)].mass < pixelTypes[getPixelID(row,col)].mass) || pixelTypes[getPixelID(row,col-1)].isGas) {
                 pixelGrid[row][col] = pixelGrid[row][col-1]
                 pixelGrid[row][col-1] = temp
                 drawPixel(row,col)
@@ -196,7 +196,7 @@ function updatePixel() {
             }
         }
         else if(rand === 2 && col+1 < pixelGrid[row].length) {
-            if(pixelGrid[row][col+1] == EMPT || (pixelTypes[getPixelID(row,col+1)].isLiquid && pixelTypes[getPixelID(row,col+1)].mass < pixelTypes[getPixelID(row,col)].mass)) {
+            if(pixelGrid[row][col+1] == EMPT || (pixelTypes[getPixelID(row,col+1)].isLiquid && pixelTypes[getPixelID(row,col+1)].mass < pixelTypes[getPixelID(row,col)].mass) || pixelTypes[getPixelID(row,col+1)].isGas) {
                 pixelGrid[row][col] = pixelGrid[row][col+1]
                 pixelGrid[row][col+1] = temp
                 drawPixel(row,col)
