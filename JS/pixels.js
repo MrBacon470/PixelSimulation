@@ -95,6 +95,7 @@ const pixelTypes = [
         isGas: true,
         isPowder: false,
     },
+    /*
     {
         name: 'Spark',
         desc: 'Transfers its self to any other conductive surface',
@@ -106,7 +107,7 @@ const pixelTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
-    },
+    }*/
 ]
 /* 
     {
@@ -280,6 +281,8 @@ function updatePixel() {
         let left = col-1 > -1 && pixelTypes[getPixelID(row,col-1)].conductive
         let right = col+1 < pixelGrid[row].length && pixelTypes[getPixelID(row,col+1)].conductive
         let temp = new Array(4).fill(-1)
+        pixelGrid[row][col] = EMPT
+        drawPixel(row,col)
         if(up) {
             temp[0] = getPixelID(row-1,col)
             pixelGrid[row-1][col] = SPRK
