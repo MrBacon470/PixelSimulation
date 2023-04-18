@@ -94,7 +94,19 @@ const pixelTypes = [
         isLiquid: false,
         isGas: true,
         isPowder: false,
-    }
+    },
+    {
+        name: 'Spark',
+        desc: 'Transfers its self to any other conductive surface',
+        abbr: 'SPRK',
+        color: '#FFFF33',
+        flammable: false,
+        conductive: false,
+        mass: 0.0,
+        isLiquid: false,
+        isGas: false,
+        isPowder: false,
+    },
 ]
 /* 
     {
@@ -112,13 +124,11 @@ const pixelTypes = [
 */
 //Pixel Type IDs for easy remebering
 const EMPT = 0
-const SAND = 1
 const WATR = 2
-const METL = 3
 const FIRE = 4
 const WTVR = 5
-const WOOD = 6
 const SMKE = 7
+const SPRK = 8
 
 function setPixel(r,c,id) {
     if(r < 0 || r > pixelGrid.length) {
@@ -263,5 +273,52 @@ function updatePixel() {
         }
         pixelGrid[row][col] = SMKE
         drawPixel(row,col)
+    }
+    else if(pixelGrid[row][col] == SPRK) {
+        let up = row-1 > -1 && pixelTypes[getPixelID(row-1,col)].conductive
+        let down = row+1 < pixelGrid.length && pixelTypes[getPixelID(row+1,col)].conductive
+        let left = col-1 > -1 && pixelTypes[getPixelID(row,col-1)].conductive
+        let right = col+1 < pixelGrid[row].length && pixelTypes[getPixelID(row,col+1)].conductive
+        let temp = new Array(4).fill(-1)
+        if(up) {
+            temp[0] = getPixelID(row-1,col)
+            pixelGrid[row-1][col] = SPRK
+            drawPixel(row-1,col)
+        }
+        if(down) {
+            temp[1] = getPixelID(row+1,col)
+            pixelGrid[row+1][col] = SPRK
+            drawPixel(row+1,col)
+        }
+        if(left) {
+            temp[2] = getPixelID(row,col-1)
+            pixelGrid[row][col-1] = SPRK
+            drawPixel(row,col-1)
+        }
+        if(right) {
+            temp[3] = getPixelID(row,col+1)
+            pixelGrid[row][col+1] = SPRK
+            drawPixel(row,col+1)
+        }
+        let counter = 0.0
+        while(counter <= 5) {
+            counter += 0.01
+        }
+        if(temp[0] != -1) {
+            pixelGrid[row-1][col] = temp[0]
+            drawPixel(row-1,col)
+        }
+        if(temp[1] != -1) {
+            pixelGrid[row+1][col] = temp[1]
+            drawPixel(row+1,col)
+        }
+        if(temp[2] != -1) {
+            pixelGrid[row][col-1] = temp[2]
+            drawPixel(row,col-1)
+        }
+        if(temp[3] != -1) {
+            pixelGrid[row][col+1] = temp[3]
+            drawPixel(row,col+1)
+        }
     }
 }
