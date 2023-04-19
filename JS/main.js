@@ -48,6 +48,7 @@ function Init() {
 
 function Update() {
     fillEnabled = document.getElementById('bucketFillCheck').checked
+    
     if(isMouseDown) {
         if(!fillEnabled) {
             pixelGrid[mouseRow][mouseCol] = pixelSelectedIndex
