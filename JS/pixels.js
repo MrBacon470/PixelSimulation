@@ -147,11 +147,6 @@ function getPixelID(r,c) {
     return pixelGrid[r][c];
 }
 
-function drawPixel(r,c) {
-    canvas2D.fillStyle = pixelTypes[pixelGrid[r][c]].color
-    canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
-}
-
 function updatePixel() {
     let row = getRandomInt(pixelGrid.length)
     let col = getRandomInt(pixelGrid[row].length)

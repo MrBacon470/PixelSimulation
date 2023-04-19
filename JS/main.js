@@ -1,5 +1,6 @@
 let pixelGrid = []
 let isMouseDown = false
+let fillEnabled = false
 const gameData = {
     pixelUpdateRate: 2500
 }
@@ -46,12 +47,19 @@ function Init() {
 }
 
 function Update() {
+    fillEnabled = document.getElementById('bucketFillCheck').checked
+    if(isMouseDown) {
+        if(!fillEnabled) {
+            pixelGrid[mouseRow][mouseCol] = pixelSelectedIndex
+            drawPixel(mouseRow,mouseCol)
+        }
+        else {
+            floodFillPixels(mouseRow,mouseCol)
+            updateCanvas()
+        }
+    }
     for(let i = 0; i < gameData.pixelUpdateRate; i++) {
         updatePixel()
-    }
-    if(isMouseDown) {
-        pixelGrid[mouseRow][mouseCol] = pixelSelectedIndex
-        drawPixel(mouseRow,mouseCol)
     }
 }
 
