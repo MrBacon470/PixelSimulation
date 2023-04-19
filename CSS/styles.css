@@ -16,6 +16,12 @@ html {
   background-color: var(--bg-color);
 }
 
+input {
+    background-color: var(--bg-color);
+    border: 2px solid whitesmoke;
+    color: whitesmoke;
+}
+
 .flexCol {
     display: flex;
     flex-direction: column;
@@ -42,4 +48,5 @@ html {
 #uiHolder div {
     text-align: center;
     width: 10em;
+    margin-top: 1em;
 }
