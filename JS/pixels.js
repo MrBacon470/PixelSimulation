@@ -131,29 +131,13 @@ const WTVR = 5
 const SMKE = 7
 const SPRK = 8
 
-function setPixel(r,c,id) {
-    if(r < 0 || r > pixelGrid.length) {
-        console.error('r is outOfBounds in setPixel Function')
-        return
-    }
-    if(c < 0 || c > pixelGrid[r].length) {
-        console.error('c is outOfBounds in setPixel Function')
-        return
-    }
-    pixelGrid[r][c] = id
-}
-
-function getPixelID(r,c) {
-    return pixelGrid[r][c];
-}
-
 function updatePixel() {
     let row = getRandomInt(pixelGrid.length)
     let col = getRandomInt(pixelGrid[row].length)
-    if(pixelTypes[getPixelID(row,col)].isPowder) {
-        let down = row+1 < pixelGrid.length && (getPixelID(row+1,col) === EMPT || (pixelTypes[getPixelID(row+1,col)].isPowder && pixelTypes[getPixelID(row+1,col)].mass < pixelTypes[getPixelID(row,col)].mass) || pixelTypes[getPixelID(row+1,col)].isLiquid || pixelTypes[getPixelID(row+1,col)].isGas)
-        let left = row+1 < pixelGrid.length && col-1 > -1 && (getPixelID(row+1,col-1) === EMPT || (pixelTypes[getPixelID(row+1,col-1)].isPowder && pixelTypes[getPixelID(row+1,col-1)].mass < pixelTypes[getPixelID(row,col)].mass) || pixelTypes[getPixelID(row+1,col-1)].isLiquid || pixelTypes[getPixelID(row+1,col-1)].isGas)
-        let right = row+1 < pixelGrid.length && col+1 < pixelGrid[row+1].length && (getPixelID(row+1,col+1) === EMPT || (pixelTypes[getPixelID(row+1,col+1)].isPowder && pixelTypes[getPixelID(row+1,col+1)].mass < pixelTypes[getPixelID(row,col)].mass) || pixelTypes[getPixelID(row+1,col+1)].isLiquid || pixelTypes[getPixelID(row+1,col+1)].isGas)
+    if(pixelTypes[getPixel(row,col).id].isPowder) {
+        let down = row+1 < pixelGrid.length && (getPixel(row+1,col).id === EMPT || (pixelTypes[getPixel(row+1,col).id].isPowder && pixelTypes[getPixel(row+1,col).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row+1,col).id].isLiquid || pixelTypes[getPixel(row+1,col).id].isGas)
+        let left = row+1 < pixelGrid.length && col-1 > -1 && (getPixel(row+1,col-1).id === EMPT || (pixelTypes[getPixel(row+1,col-1).id].isPowder && pixelTypes[getPixel(row+1,col-1).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row+1,col-1).id].isLiquid || pixelTypes[getPixel(row+1,col-1).id].isGas)
+        let right = row+1 < pixelGrid.length && col+1 < pixelGrid[row+1].length && (getPixel(row+1,col+1).id === EMPT || (pixelTypes[getPixel(row+1,col+1).id].isPowder && pixelTypes[getPixel(row+1,col+1).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row+1,col+1).id].isLiquid || pixelTypes[getPixel(row+1,col+1).id].isGas)
         if(!down && !left && !right) return //If it can't move don't waste time
         if(left && right) {
             const rand = Math.random()
@@ -162,146 +146,146 @@ function updatePixel() {
             else
                 left = false
         }
-        let temp = getPixelID(row,col)
+        let temp = getPixel(row,col)
         if(down) {
-            setPixel(row,col,getPixelID(row+1,col))
-            setPixel(row+1,col,temp)
+            setPixelObj(row,col,getPixel(row+1,col))
+            setPixelObj(row+1,col,temp)
             drawPixel(row,col)
             drawPixel(row+1,col)
         }
         else if(left) {
-            pixelGrid[row][col] = pixelGrid[row+1][col-1]
-            pixelGrid[row+1][col-1] = temp
+            setPixelObj(row,col,getPixel(row+1,col-1))
+            setPixelObj(row+1,col-1,temp)
             drawPixel(row,col)
             drawPixel(row+1,col-1)
         }
         else if(right) {
-            pixelGrid[row][col] = pixelGrid[row+1][col+1]
-            pixelGrid[row+1][col+1] = temp
+            setPixelObj(row,col,getPixel(row+1,col+1))
+            setPixelObj(row+1,col+1,temp)
             drawPixel(row,col)
             drawPixel(row+1,col+1)
         }
     }
-    else if(pixelTypes[getPixelID(row,col)].isLiquid) {
+    else if(pixelTypes[getPixel(row,col).id].isLiquid) {
         let rand = getRandomInt(3);
-        let temp = getPixelID(row,col)
+        let temp = getPixel(row,col)
         if(rand === 0 && row+1 < pixelGrid.length) {
-            if(pixelGrid[row+1][col] == EMPT || (pixelTypes[getPixelID(row+1,col)].isLiquid && pixelTypes[getPixelID(row+1,col)].mass < pixelTypes[getPixelID(row,col)].mass) || pixelTypes[getPixelID(row+1,col)].isGas) {
-                pixelGrid[row][col] = pixelGrid[row+1][col]
-                pixelGrid[row+1][col] = temp
+            if(getPixel(row+1,col).id == EMPT || (pixelTypes[getPixel(row+1,col).id].isLiquid && pixelTypes[getPixel(row+1,col).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row+1,col).id].isGas) {
+                setPixelObj(row,col,getPixel(row+1,col)) 
+                setPixelObj(row+1,col,temp)
                 drawPixel(row,col)
                 drawPixel(row+1,col)
             }
         }
         else if(rand === 1 && col-1 > -1) {
-            if(pixelGrid[row][col-1] == EMPT || (pixelTypes[getPixelID(row,col-1)].isLiquid && pixelTypes[getPixelID(row,col-1)].mass < pixelTypes[getPixelID(row,col)].mass) || pixelTypes[getPixelID(row,col-1)].isGas) {
-                pixelGrid[row][col] = pixelGrid[row][col-1]
-                pixelGrid[row][col-1] = temp
+            if(getPixel(row,col-1).id == EMPT || (pixelTypes[getPixel(row,col-1).id].isLiquid && pixelTypes[getPixel(row,col-1).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row,col-1).id].isGas) {
+                setPixelObj(row,col,getPixel(row,col-1)) 
+                setPixelObj(row,col-1,temp)
                 drawPixel(row,col)
                 drawPixel(row,col-1)
             }
         }
         else if(rand === 2 && col+1 < pixelGrid[row].length) {
-            if(pixelGrid[row][col+1] == EMPT || (pixelTypes[getPixelID(row,col+1)].isLiquid && pixelTypes[getPixelID(row,col+1)].mass < pixelTypes[getPixelID(row,col)].mass) || pixelTypes[getPixelID(row,col+1)].isGas) {
-                pixelGrid[row][col] = pixelGrid[row][col+1]
-                pixelGrid[row][col+1] = temp
+            if(getPixel(row,col+1).id == EMPT || (pixelTypes[getPixel(row,col+1).id].isLiquid && pixelTypes[getPixel(row,col+1).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row,col+1).id].isGas) {
+                setPixelObj(row,col,getPixel(row,col+1)) 
+                setPixelObj(row,col+1,temp)
                 drawPixel(row,col)
                 drawPixel(row,col+1)
             }
         }
     }
-    else if(pixelTypes[getPixelID(row,col)].isGas) {
+    else if(pixelTypes[getPixel(row,col).id].isGas) {
         let rand = getRandomInt(3);
-        let temp = getPixelID(row,col)
+        let temp = getPixel(row,col)
         if(rand === 0 && row-1 > -1) {
-            if(pixelGrid[row-1][col] == EMPT || (pixelTypes[getPixelID(row-1,col)].isGas && pixelTypes[getPixelID(row-1,col)].mass > pixelTypes[getPixelID(row,col)].mass)) {
-                pixelGrid[row][col] = pixelGrid[row-1][col]
-                pixelGrid[row-1][col] = temp
+            if(getPixel(row-1,col).id == EMPT || (pixelTypes[getPixel(row-1,col).id].isGas && pixelTypes[getPixel(row-1,col).id].mass > pixelTypes[getPixel(row,col).id].mass)) {
+                setPixelObj(row,col,getPixel(row-1,col)) 
+                setPixelObj(row-1,col,temp)
                 drawPixel(row,col)
                 drawPixel(row-1,col)
             }
         }
         else if(rand === 1 && col-1 > -1) {
-            if(pixelGrid[row][col-1] == EMPT || (pixelTypes[getPixelID(row,col-1)].isGas && pixelTypes[getPixelID(row,col-1)].mass > pixelTypes[getPixelID(row,col)].mass)) {
-                pixelGrid[row][col] = pixelGrid[row][col-1]
-                pixelGrid[row][col-1] = temp
+            if(getPixel(row,col-1).id == EMPT || (pixelTypes[getPixel(row,col-1).id].isGas && pixelTypes[getPixel(row,col-1).id].mass > pixelTypes[getPixel(row,col).id].mass)) {
+                setPixelObj(row,col,getPixel(row,col-1)) 
+                setPixelObj(row,col-1,temp)
                 drawPixel(row,col)
                 drawPixel(row,col-1)
             }
         }
         else if(rand === 2 && col+1 < pixelGrid[row].length) {
-            if(pixelGrid[row][col+1] == EMPT || (pixelTypes[getPixelID(row,col+1)].isGas && pixelTypes[getPixelID(row,col+1)].mass > pixelTypes[getPixelID(row,col)].mass)) {
-                pixelGrid[row][col] = pixelGrid[row][col+1]
-                pixelGrid[row][col+1] = temp
+            if(getPixel(row,col+1).id == EMPT || (pixelTypes[getPixel(row,col+1).id].isGas && pixelTypes[getPixel(row,col+1).id].mass > pixelTypes[getPixel(row,col).id].mass)) {
+                setPixelObj(row,col,getPixel(row,col+1)) 
+                setPixelObj(row,col+1,temp)
                 drawPixel(row,col)
                 drawPixel(row,col+1)
             }
         }
     }
-    else if(pixelGrid[row][col] == FIRE) {
-        let up = row-1 > -1 && (pixelTypes[getPixelID(row-1,col)].flammable || getPixelID(row-1,col) == WATR)
-        let down = row+1 < pixelGrid.length && (pixelTypes[getPixelID(row+1,col)].flammable || getPixelID(row+1,col) == WATR)
-        let left = col-1 > -1 && (pixelTypes[getPixelID(row,col-1)].flammable || getPixelID(row,col-1) == WATR)
-        let right = col+1 < pixelGrid[row].length && (pixelTypes[getPixelID(row,col+1)].flammable || getPixelID(row,col+1) == WATR)
+    else if(getPixel(row,col).id == FIRE) {
+        let up = row-1 > -1 && (pixelTypes[getPixel(row-1,col).id].flammable || getPixel(row-1,col).id == WATR)
+        let down = row+1 < pixelGrid.length && (pixelTypes[getPixel(row+1,col).id].flammable || getPixel(row+1,col).id == WATR)
+        let left = col-1 > -1 && (pixelTypes[getPixel(row,col-1).id].flammable || getPixel(row,col-1).id == WATR)
+        let right = col+1 < pixelGrid[row].length && (pixelTypes[getPixel(row,col+1).id].flammable || getPixel(row,col+1).id == WATR)
         if(up) {
-            if(getPixelID(row-1,col) != WATR) 
-                pixelGrid[row-1][col] = FIRE
+            if(getPixel(row-1,col).id != WATR) 
+                setPixel(row-1,col,FIRE)
             else 
-                pixelGrid[row-1][col] = WTVR
+                setPixel(row-1,col,WTVR)
             drawPixel(row-1,col)
         } 
         if(down) {
-            if(getPixelID(row+1,col) != WATR) 
-                pixelGrid[row+1][col] = FIRE
+            if(getPixel(row+1,col).id != WATR) 
+                setPixel(row+1,col,FIRE)
             else 
-                pixelGrid[row+1][col] = WTVR
+                setPixel(row+1,col,WTVR)
             drawPixel(row+1,col)
         }
         if(left) {
-            if(getPixelID(row,col-1) != WATR) 
-                pixelGrid[row][col-1] = FIRE
+            if(getPixel(row,col-1).id != WATR) 
+                setPixel(row,col-1,FIRE)
             else 
-                pixelGrid[row][col-1] = WTVR
+                setPixel(row,col-1,WTVR)
             drawPixel(row,col-1)
         }
         if(right) {
-            if(getPixelID(row,col+1) != WATR) 
-                pixelGrid[row][col+1] = FIRE
+            if(getPixel(row,col+1).id != WATR) 
+                setPixel(row,col+1,FIRE)
             else 
-                pixelGrid[row][col+1] = WTVR
+                setPixel(row,col+1,WTVR)
             drawPixel(row,col+1)
         }
         setTimeout(() => {
-            pixelGrid[row][col] = SMKE
+            setPixel(row,col,SMKE)
             drawPixel(row,col)
         },200)
       
     }
     else if(pixelGrid[row][col] == SPRK) {
-        let up = row-1 > -1 && pixelTypes[getPixelID(row-1,col)].conductive
-        let down = row+1 < pixelGrid.length && pixelTypes[getPixelID(row+1,col)].conductive
-        let left = col-1 > -1 && pixelTypes[getPixelID(row,col-1)].conductive
-        let right = col+1 < pixelGrid[row].length && pixelTypes[getPixelID(row,col+1)].conductive
+        let up = row-1 > -1 && pixelTypes[getPixel(row-1,col)].conductive
+        let down = row+1 < pixelGrid.length && pixelTypes[getPixel(row+1,col)].conductive
+        let left = col-1 > -1 && pixelTypes[getPixel(row,col-1)].conductive
+        let right = col+1 < pixelGrid[row].length && pixelTypes[getPixel(row,col+1)].conductive
         let temp = new Array(4).fill(-1)
         pixelGrid[row][col] = EMPT
         drawPixel(row,col)
         if(up) {
-            temp[0] = getPixelID(row-1,col)
+            temp[0] = getPixel(row-1,col)
             pixelGrid[row-1][col] = SPRK
             drawPixel(row-1,col)
         }
         if(down) {
-            temp[1] = getPixelID(row+1,col)
+            temp[1] = getPixel(row+1,col)
             pixelGrid[row+1][col] = SPRK
             drawPixel(row+1,col)
         }
         if(left) {
-            temp[2] = getPixelID(row,col-1)
+            temp[2] = getPixel(row,col-1)
             pixelGrid[row][col-1] = SPRK
             drawPixel(row,col-1)
         }
         if(right) {
-            temp[3] = getPixelID(row,col+1)
+            temp[3] = getPixel(row,col+1)
             pixelGrid[row][col+1] = SPRK
             drawPixel(row,col+1)
         }

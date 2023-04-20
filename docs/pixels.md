@@ -42,13 +42,13 @@ Use the built in `setPixel(row,col,id) {}` function to update the pixels because
 function updatePixel() {
     let row = getRandomInt(pixelGrid.length) //Selects Pixel Row to Be Updated
     let col = getRandomInt(pixelGrid[row].length) //Selects Pixel Column to Be Updated
-    if(pixelTypes[getPixelID(row,col)].isPowder) {
+    if(pixelTypes[getPixel(row,col)].isPowder) {
         //Powders Update Here
     }
-    else if(pixelTypes[getPixelID(row,col)].isLiquid) {
+    else if(pixelTypes[getPixel(row,col)].isLiquid) {
         //Liquids Update Here
     }
-    else if(pixelTypes[getPixelID(row,col)].isGas) {
+    else if(pixelTypes[getPixel(row,col)].isGas) {
         //Gasses Update Here
     }
     else if(pixelGrid[row][col] == FIRE) {

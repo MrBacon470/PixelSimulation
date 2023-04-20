@@ -10,8 +10,14 @@ function Init() {
     let rows = canvasData.height/canvasData.pixelSize
     let cols = canvasData.width/canvasData.pixelSize
     pixelGrid = new Array(rows)
-    for(let i = 0; i < cols; i++) {
+    for(let i = 0; i < rows; i++) {
         pixelGrid[i] = new Array(cols).fill(0)
+        for(let j = 0; j < cols; j++) {
+            pixelGrid[i][j] = {
+                id: 0,
+                temp: 0.00,
+            }
+        }
     }
     console.log(`Pixel Grid Successfully Generated`)
     //Generate Button Styles
@@ -51,7 +57,7 @@ function Update() {
     
     if(isMouseDown) {
         if(!fillEnabled) {
-            pixelGrid[mouseRow][mouseCol] = pixelSelectedIndex
+            setPixel(mouseRow,mouseCol,pixelSelectedIndex)
             drawPixel(mouseRow,mouseCol)
         }
         else {

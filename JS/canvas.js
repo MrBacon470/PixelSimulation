@@ -43,12 +43,12 @@ function getMousePos(evt) {
 }
 
 function drawPixel(r,c) {
-    canvas2D.fillStyle = pixelTypes[pixelGrid[r][c]].color
+    canvas2D.fillStyle = pixelTypes[getPixel(r,c).id].color
     canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
 }
 //Flood Fill Runner
 function floodFillPixels(row,col) {
-    const current = getPixelID(row,col)
+    const current = getPixel(row,col)
 
     if(current === pixelSelectedIndex) 
         return
@@ -65,7 +65,7 @@ function fill(row,col,current) {
     if(pixelGrid[row][col] !== current)
         return
     //Rest of Algorithm
-    pixelGrid[row][col] = pixelSelectedIndex
+    setPixel(row,col,pixelSelectedIndex)
 
     fill(row+1,col,current)
     fill(row-1,col,current)
