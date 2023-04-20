@@ -4,8 +4,10 @@ let fillEnabled = false
 const gameData = {
     pixelUpdateRate: 2500
 }
-
+const faviconSquareColors = ['black','blue','brown','green','orange','purple','red']
 function Init() {
+    //Favicon Selection
+    document.getElementById('faviconLink').setAttribute('href',`Imgs/${faviconSquareColors[getRandomInt(faviconSquareColors.length)]}Square.png`)
     //Pixel Grid Initializing
     let rows = canvasData.height/canvasData.pixelSize
     let cols = canvasData.width/canvasData.pixelSize
@@ -56,7 +58,7 @@ function Update() {
     fillEnabled = document.getElementById('bucketFillCheck').checked
     
     if(isMouseDown) {
-        if(!fillEnabled) {
+        if(!fillEnabled && (getPixel(mouseRow,mouseCol).id === EMPT || pixelSelectedIndex === EMPT)) {
             setPixel(mouseRow,mouseCol,pixelSelectedIndex)
             drawPixel(mouseRow,mouseCol)
         }

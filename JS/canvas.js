@@ -50,7 +50,7 @@ function drawPixel(r,c) {
 function floodFillPixels(row,col) {
     const current = getPixel(row,col)
 
-    if(current === pixelSelectedIndex) 
+    if(current.id === pixelSelectedIndex) 
         return
     
     fill(row,col,current)
@@ -62,7 +62,7 @@ function fill(row,col,current) {
         return
     if(col < 0 || col >= pixelGrid[row].length)
         return
-    if(pixelGrid[row][col] !== current)
+    if(getPixel(row,col).id !== current.id)
         return
     //Rest of Algorithm
     setPixel(row,col,pixelSelectedIndex)
