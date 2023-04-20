@@ -33,6 +33,10 @@ A particle that is not a liquid, gas or powder is static by default<br>
 A particle can't act like a liquid or gas or powder at the same time, it must only be one of the types<br>
 Keep your particle abbreviations recognizable to what it is
 ***
+## Drawing & Setting Particles
+While you might think you should just set pixelGrid[row][col] to the value you need you shouldn't.<br>
+Use the built in `setPixel(row,col,id) {}` function to update the pixels because the game some built in systems that have to be updated as well such as temperature
+***
 ## How pixels update
 ```js
 function updatePixel() {

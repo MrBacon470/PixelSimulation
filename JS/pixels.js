@@ -169,8 +169,8 @@ function updatePixel() {
         }
         let temp = getPixelID(row,col)
         if(down) {
-            pixelGrid[row][col] = pixelGrid[row+1][col]
-            pixelGrid[row+1][col] = temp
+            setPixel(row,col,getPixelID(row+1,col))
+            setPixel(row+1,col,temp)
             drawPixel(row,col)
             drawPixel(row+1,col)
         }
