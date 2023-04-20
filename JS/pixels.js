@@ -147,11 +147,6 @@ function getPixelID(r,c) {
     return pixelGrid[r][c];
 }
 
-function drawPixel(r,c) {
-    canvas2D.fillStyle = pixelTypes[pixelGrid[r][c]].color
-    canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
-}
-
 function updatePixel() {
     let row = getRandomInt(pixelGrid.length)
     let col = getRandomInt(pixelGrid[row].length)
@@ -253,27 +248,34 @@ function updatePixel() {
                 pixelGrid[row-1][col] = FIRE
             else 
                 pixelGrid[row-1][col] = WTVR
+            drawPixel(row-1,col)
         } 
         if(down) {
             if(getPixelID(row+1,col) != WATR) 
                 pixelGrid[row+1][col] = FIRE
             else 
                 pixelGrid[row+1][col] = WTVR
+            drawPixel(row+1,col)
         }
         if(left) {
             if(getPixelID(row,col-1) != WATR) 
                 pixelGrid[row][col-1] = FIRE
             else 
                 pixelGrid[row][col-1] = WTVR
+            drawPixel(row,col-1)
         }
         if(right) {
             if(getPixelID(row,col+1) != WATR) 
                 pixelGrid[row][col+1] = FIRE
             else 
                 pixelGrid[row][col+1] = WTVR
+            drawPixel(row,col+1)
         }
-        pixelGrid[row][col] = SMKE
-        drawPixel(row,col)
+        setTimeout(() => {
+            pixelGrid[row][col] = SMKE
+            drawPixel(row,col)
+        },200)
+      
     }
     else if(pixelGrid[row][col] == SPRK) {
         let up = row-1 > -1 && pixelTypes[getPixelID(row-1,col)].conductive

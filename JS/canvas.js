@@ -40,4 +40,35 @@ function getMousePos(evt) {
       x: (evt.clientX - rect.left) * scaleX,   // scale mouse coordinates after they have
       y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
     }
-  }
+}
+
+function drawPixel(r,c) {
+    canvas2D.fillStyle = pixelTypes[pixelGrid[r][c]].color
+    canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
+}
+//Flood Fill Runner
+function floodFillPixels(row,col) {
+    const current = getPixelID(row,col)
+
+    if(current === pixelSelectedIndex) 
+        return
+    
+    fill(row,col,current)
+}
+//Recursive Flood Fill Algorithm
+function fill(row,col,current) {
+    //Base Cases
+    if(row < 0 || row >= pixelGrid.length)
+        return
+    if(col < 0 || col >= pixelGrid[row].length)
+        return
+    if(pixelGrid[row][col] !== current)
+        return
+    //Rest of Algorithm
+    pixelGrid[row][col] = pixelSelectedIndex
+
+    fill(row+1,col,current)
+    fill(row-1,col,current)
+    fill(row,col+1,current)
+    fill(row,col-1,current)
+}
