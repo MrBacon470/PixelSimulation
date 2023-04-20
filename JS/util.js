@@ -7,7 +7,7 @@ function addHTML(target,html) {
 }
 
 function getPixel(r,c) {
-    return pixelGrid[r][c];
+    return {id: pixelGrid[r][c].id, temp: pixelGrid[r][c].temp};
 }
 
 function setPixel(r,c,id) {
