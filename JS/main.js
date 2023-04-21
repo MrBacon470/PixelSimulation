@@ -58,7 +58,7 @@ function Update() {
     fillEnabled = document.getElementById('bucketFillCheck').checked
     
     if(isMouseDown) {
-        if(!fillEnabled && (getPixel(mouseRow,mouseCol).id === EMPT || pixelSelectedIndex === EMPT)) {
+        if(!fillEnabled && (getPixel(mouseRow,mouseCol).id === VACU || pixelSelectedIndex === VACU)) {
             setPixel(mouseRow,mouseCol,pixelSelectedIndex)
             drawPixel(mouseRow,mouseCol)
         }

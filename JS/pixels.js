@@ -1,12 +1,15 @@
 const pixelTypes = [
     {
-        name: 'Empty',
+        name: 'Vacuum',
         desc: 'Literally Nothing',
-        abbr: 'EMPT',
+        abbr: 'VACU',
         color: '#000000',
         flammable: false,
         conductive: false,
-        mass: 0.0,
+        density: 0.0, // g/cm3
+        heatConductivity: 0.0,
+        heatCapacity: 'Infinite',
+        defaultTemp: 72.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: false,
         isPowder: false,
@@ -18,7 +21,10 @@ const pixelTypes = [
         color: '#C2B280',
         flammable: false,
         conductive: false,
-        mass: 5.0,
+        density: 1.631, //g/cm3
+        heatConductivity: 2.05,
+        heatCapacity: 830, //In Joules per Kilogram
+        defaultTemp: 72.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: false,
         isPowder: true,
@@ -30,19 +36,25 @@ const pixelTypes = [
         color: '#1b95e0',
         flammable: false,
         conductive: true,
-        mass: 0.1,
+        density: 1.0, // g/cm3
+        heatConductivity: 0.598,
+        heatCapacity: 4184, //In Joules per Kilogram
+        defaultTemp: 72.0, // In farenheit lol not celsius
         isLiquid: true,
         isGas: false,
         isPowder: false,
     }, 
     {
-        name: 'Metal',
-        desc: 'Some kind of metallic substance idk what',
-        abbr: 'METL',
+        name: 'Steel',
+        desc: 'Iron + Carbon I think',
+        abbr: 'STEL',
         color: '#8D918D',
         flammable: false,
         conductive: true,
-        mass: 50.0,
+        density: 7.85, // g/cm3
+        heatConductivity: 45.0,
+        heatCapacity: 420, //In Joules per Kilogram
+        defaultTemp: 72.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: false,
         isPowder: false,
@@ -54,7 +66,10 @@ const pixelTypes = [
         color: '#e25822',
         flammable: false,
         conductive: false,
-        mass: 0.0,
+        density: 1.0, // g/cm3
+        heatConductivity: 10.0,
+        heatCapacity: 0.0, //In Joules per Kilogram
+        defaultTemp: 2000.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: false,
         isPowder: false,
@@ -66,7 +81,10 @@ const pixelTypes = [
         color: '#EBECE9',
         flammable: false,
         conductive: false,
-        mass: 0.1,
+        density: 5.98e-4, // g/cm3
+        heatConductivity: 0.598,
+        heatCapacity: 1900, //In Joules per Kilogram
+        defaultTemp: 212.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: true,
         isPowder: false,
@@ -78,7 +96,10 @@ const pixelTypes = [
         color: '#7C4700',
         flammable: true,
         conductive: false,
-        mass: 10.0,
+        density: 0.71, // g/cm3
+        heatConductivity: 0.1,
+        heatCapacity: 1.76, //In Joules per Kilogram
+        defaultTemp: 72.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: false,
         isPowder: false,
@@ -90,7 +111,10 @@ const pixelTypes = [
         color: '#848884',
         flammable: false,
         conductive: false,
-        mass: 5.0,
+        density: 1.4, // g/cm3
+        heatConductivity: 1000.0,
+        heatCapacity: 37.35, //In Joules per Kilogram
+        defaultTemp: 2000.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: true,
         isPowder: false,
@@ -103,7 +127,7 @@ const pixelTypes = [
         color: '#FFFF33',
         flammable: false,
         conductive: false,
-        mass: 0.0,
+        density: 0.0,
         isLiquid: false,
         isGas: false,
         isPowder: false,
@@ -117,14 +141,15 @@ const pixelTypes = [
         color: 'the particles hex color',
         flammable: false, //true or false lol
         conductive: false, //set to true or false for electrical conductivity
-        mass: 0.0, //Determines whether is floats or sinks if its heavier or lighter (ONLY MATTERS FOR GRAVITY AFFECTED PARTICLES)
+        density: 0.0, //Determines whether is floats or sinks if its heavier or lighter (ONLY MATTERS FOR GRAVITY AFFECTED PARTICLES)
+        heatConductivity: 0.0,
         isLiquid: false, //Allows for Liquid type movement
         isGas: false, //Allows for gas type movement
         isPowder: false, //Allows for sand-esque movement
     }
 */
 //Pixel Type IDs for easy remebering
-const EMPT = 0
+const VACU = 0
 const WATR = 2
 const FIRE = 4
 const WTVR = 5
@@ -135,9 +160,9 @@ function updatePixel() {
     let row = getRandomInt(pixelGrid.length)
     let col = getRandomInt(pixelGrid[row].length)
     if(pixelTypes[getPixel(row,col).id].isPowder) {
-        let down = row+1 < pixelGrid.length && (getPixel(row+1,col).id === EMPT || (pixelTypes[getPixel(row+1,col).id].isPowder && pixelTypes[getPixel(row+1,col).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row+1,col).id].isLiquid || pixelTypes[getPixel(row+1,col).id].isGas)
-        let left = row+1 < pixelGrid.length && col-1 > -1 && (getPixel(row+1,col-1).id === EMPT || (pixelTypes[getPixel(row+1,col-1).id].isPowder && pixelTypes[getPixel(row+1,col-1).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row+1,col-1).id].isLiquid || pixelTypes[getPixel(row+1,col-1).id].isGas)
-        let right = row+1 < pixelGrid.length && col+1 < pixelGrid[row+1].length && (getPixel(row+1,col+1).id === EMPT || (pixelTypes[getPixel(row+1,col+1).id].isPowder && pixelTypes[getPixel(row+1,col+1).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row+1,col+1).id].isLiquid || pixelTypes[getPixel(row+1,col+1).id].isGas)
+        let down = row+1 < pixelGrid.length && (getPixel(row+1,col).id === VACU || (pixelTypes[getPixel(row+1,col).id].isPowder && pixelTypes[getPixel(row+1,col).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row+1,col).id].isLiquid || pixelTypes[getPixel(row+1,col).id].isGas)
+        let left = row+1 < pixelGrid.length && col-1 > -1 && (getPixel(row+1,col-1).id === VACU || (pixelTypes[getPixel(row+1,col-1).id].isPowder && pixelTypes[getPixel(row+1,col-1).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row+1,col-1).id].isLiquid || pixelTypes[getPixel(row+1,col-1).id].isGas)
+        let right = row+1 < pixelGrid.length && col+1 < pixelGrid[row+1].length && (getPixel(row+1,col+1).id === VACU || (pixelTypes[getPixel(row+1,col+1).id].isPowder && pixelTypes[getPixel(row+1,col+1).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row+1,col+1).id].isLiquid || pixelTypes[getPixel(row+1,col+1).id].isGas)
         if(!down && !left && !right) return //If it can't move don't waste time
         if(left && right) {
             const rand = Math.random()
@@ -170,7 +195,7 @@ function updatePixel() {
         let rand = getRandomInt(3);
         let temp = getPixel(row,col)
         if(rand === 0 && row+1 < pixelGrid.length) {
-            if(getPixel(row+1,col).id == EMPT || (pixelTypes[getPixel(row+1,col).id].isLiquid && pixelTypes[getPixel(row+1,col).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row+1,col).id].isGas) {
+            if(getPixel(row+1,col).id == VACU || (pixelTypes[getPixel(row+1,col).id].isLiquid && pixelTypes[getPixel(row+1,col).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row+1,col).id].isGas) {
                 setPixelObj(row,col,getPixel(row+1,col)) 
                 setPixelObj(row+1,col,temp)
                 drawPixel(row,col)
@@ -178,7 +203,7 @@ function updatePixel() {
             }
         }
         else if(rand === 1 && col-1 > -1) {
-            if(getPixel(row,col-1).id == EMPT || (pixelTypes[getPixel(row,col-1).id].isLiquid && pixelTypes[getPixel(row,col-1).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row,col-1).id].isGas) {
+            if(getPixel(row,col-1).id == VACU || (pixelTypes[getPixel(row,col-1).id].isLiquid && pixelTypes[getPixel(row,col-1).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row,col-1).id].isGas) {
                 setPixelObj(row,col,getPixel(row,col-1)) 
                 setPixelObj(row,col-1,temp)
                 drawPixel(row,col)
@@ -186,7 +211,7 @@ function updatePixel() {
             }
         }
         else if(rand === 2 && col+1 < pixelGrid[row].length) {
-            if(getPixel(row,col+1).id == EMPT || (pixelTypes[getPixel(row,col+1).id].isLiquid && pixelTypes[getPixel(row,col+1).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row,col+1).id].isGas) {
+            if(getPixel(row,col+1).id == VACU || (pixelTypes[getPixel(row,col+1).id].isLiquid && pixelTypes[getPixel(row,col+1).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row,col+1).id].isGas) {
                 setPixelObj(row,col,getPixel(row,col+1)) 
                 setPixelObj(row,col+1,temp)
                 drawPixel(row,col)
@@ -198,7 +223,7 @@ function updatePixel() {
         let rand = getRandomInt(3);
         let temp = getPixel(row,col)
         if(rand === 0 && row-1 > -1) {
-            if(getPixel(row-1,col).id == EMPT || (pixelTypes[getPixel(row-1,col).id].isGas && pixelTypes[getPixel(row-1,col).id].mass > pixelTypes[getPixel(row,col).id].mass)) {
+            if(getPixel(row-1,col).id == VACU || (pixelTypes[getPixel(row-1,col).id].isGas && pixelTypes[getPixel(row-1,col).id].density > pixelTypes[getPixel(row,col).id].density)) {
                 setPixelObj(row,col,getPixel(row-1,col)) 
                 setPixelObj(row-1,col,temp)
                 drawPixel(row,col)
@@ -206,7 +231,7 @@ function updatePixel() {
             }
         }
         else if(rand === 1 && col-1 > -1) {
-            if(getPixel(row,col-1).id == EMPT || (pixelTypes[getPixel(row,col-1).id].isGas && pixelTypes[getPixel(row,col-1).id].mass > pixelTypes[getPixel(row,col).id].mass)) {
+            if(getPixel(row,col-1).id == VACU || (pixelTypes[getPixel(row,col-1).id].isGas && pixelTypes[getPixel(row,col-1).id].density > pixelTypes[getPixel(row,col).id].density)) {
                 setPixelObj(row,col,getPixel(row,col-1)) 
                 setPixelObj(row,col-1,temp)
                 drawPixel(row,col)
@@ -214,7 +239,7 @@ function updatePixel() {
             }
         }
         else if(rand === 2 && col+1 < pixelGrid[row].length) {
-            if(getPixel(row,col+1).id == EMPT || (pixelTypes[getPixel(row,col+1).id].isGas && pixelTypes[getPixel(row,col+1).id].mass > pixelTypes[getPixel(row,col).id].mass)) {
+            if(getPixel(row,col+1).id == VACU || (pixelTypes[getPixel(row,col+1).id].isGas && pixelTypes[getPixel(row,col+1).id].density > pixelTypes[getPixel(row,col).id].density)) {
                 setPixelObj(row,col,getPixel(row,col+1)) 
                 setPixelObj(row,col+1,temp)
                 drawPixel(row,col)
@@ -267,7 +292,7 @@ function updatePixel() {
         let left = col-1 > -1 && pixelTypes[getPixel(row,col-1)].conductive
         let right = col+1 < pixelGrid[row].length && pixelTypes[getPixel(row,col+1)].conductive
         let temp = new Array(4).fill(-1)
-        pixelGrid[row][col] = EMPT
+        pixelGrid[row][col] = VACU
         drawPixel(row,col)
         if(up) {
             temp[0] = getPixel(row-1,col)

@@ -10,7 +10,7 @@ const pixelTypes = [
         color: '#000000',
         flammable: false,
         conductive: false,
-        mass: 0.0,
+        density: 0.0,
         isLiquid: false,
         isGas: false,
         isPowder: false,
@@ -24,7 +24,7 @@ const pixelTypes = [
 `color:` - The hex color for the particle and its corresponding button<br>
 `flammable:` - True or False determines if a particle can be burn<br>
 `conductive:` - True or False determines if electrical current travels through a particle [WIP]<br>
-`mass:` - Only useful for non static particles determines whether they sink or float<br>
+`density:` - Only useful for non static particles determines whether they sink or float<br>
 `isLiquid:` - True or False allows for particle to move like a liquid<br>
 `isGas:` - True or False allows for particle to move like a gas<br>
 `isPowder:` - True of False allows for particle to move like a powder (Ex: Sand)<br>

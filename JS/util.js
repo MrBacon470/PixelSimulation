@@ -40,3 +40,10 @@ function setPixelObj(r,c,obj) {
     pixelGrid[r][c].temp = obj.temp
 }
 
+function celsiusToFarenheit(temperature) {
+    return (temperature * 9/5) + 32
+}
+
+function farenheitToCelsius(temperature) {
+    return (temperature - 32) * 5/9
+}
