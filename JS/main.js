@@ -1,6 +1,7 @@
 let pixelGrid = []
 let isMouseDown = false
 let fillEnabled = false
+let tempViewEnabled = true
 const gameData = {
     pixelUpdateRate: 2500
 }
@@ -17,7 +18,7 @@ function Init() {
         for(let j = 0; j < cols; j++) {
             pixelGrid[i][j] = {
                 id: 0,
-                temp: 0.00,
+                temp: pixelTypes[0].defaultTemp,
             }
         }
     }
@@ -56,6 +57,14 @@ function Init() {
 
 function Update() {
     fillEnabled = document.getElementById('bucketFillCheck').checked
+    if(!tempViewEnabled && document.getElementById('temperatureDisplay').checked) {
+        tempViewEnabled = true
+        updateCanvas()
+    }
+    else if(tempViewEnabled && !document.getElementById('temperatureDisplay').checked) {
+        tempViewEnabled = false
+        updateCanvas()
+    }
     
     if(isMouseDown) {
         if(!fillEnabled && (getPixel(mouseRow,mouseCol).id === VACU || pixelSelectedIndex === VACU)) {
@@ -70,6 +79,8 @@ function Update() {
     for(let i = 0; i < gameData.pixelUpdateRate; i++) {
         updatePixel()
     }
+    let currentPixel = getPixel(mouseRow,mouseCol)
+    document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: ${pixelTypes[currentPixel.id].name}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
 }
 
 window.onload = function() {

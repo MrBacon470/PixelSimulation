@@ -9,7 +9,7 @@ const pixelTypes = [
         density: 0.0, // g/cm3
         heatConductivity: 0.0,
         heatCapacity: 'Infinite',
-        defaultTemp: 72.0, // In farenheit lol not celsius
+        defaultTemp: 0.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: false,
         isPowder: false,
@@ -159,7 +159,10 @@ const SPRK = 8
 function updatePixel() {
     let row = getRandomInt(pixelGrid.length)
     let col = getRandomInt(pixelGrid[row].length)
-    if(pixelTypes[getPixel(row,col).id].isPowder) {
+    let currentPixel = getPixel(row,col)
+    heatTransfer(row,col)
+    updatePhase(row,col)
+    if(pixelTypes[currentPixel.id].isPowder) {
         let down = row+1 < pixelGrid.length && (getPixel(row+1,col).id === VACU || (pixelTypes[getPixel(row+1,col).id].isPowder && pixelTypes[getPixel(row+1,col).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row+1,col).id].isLiquid || pixelTypes[getPixel(row+1,col).id].isGas)
         let left = row+1 < pixelGrid.length && col-1 > -1 && (getPixel(row+1,col-1).id === VACU || (pixelTypes[getPixel(row+1,col-1).id].isPowder && pixelTypes[getPixel(row+1,col-1).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row+1,col-1).id].isLiquid || pixelTypes[getPixel(row+1,col-1).id].isGas)
         let right = row+1 < pixelGrid.length && col+1 < pixelGrid[row+1].length && (getPixel(row+1,col+1).id === VACU || (pixelTypes[getPixel(row+1,col+1).id].isPowder && pixelTypes[getPixel(row+1,col+1).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row+1,col+1).id].isLiquid || pixelTypes[getPixel(row+1,col+1).id].isGas)
@@ -191,13 +194,12 @@ function updatePixel() {
             drawPixel(row+1,col+1)
         }
     }
-    else if(pixelTypes[getPixel(row,col).id].isLiquid) {
+    else if(pixelTypes[currentPixel.id].isLiquid) {
         let rand = getRandomInt(3);
-        let temp = getPixel(row,col)
         if(rand === 0 && row+1 < pixelGrid.length) {
             if(getPixel(row+1,col).id == VACU || (pixelTypes[getPixel(row+1,col).id].isLiquid && pixelTypes[getPixel(row+1,col).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row+1,col).id].isGas) {
                 setPixelObj(row,col,getPixel(row+1,col)) 
-                setPixelObj(row+1,col,temp)
+                setPixelObj(row+1,col,currentPixel)
                 drawPixel(row,col)
                 drawPixel(row+1,col)
             }
@@ -205,7 +207,7 @@ function updatePixel() {
         else if(rand === 1 && col-1 > -1) {
             if(getPixel(row,col-1).id == VACU || (pixelTypes[getPixel(row,col-1).id].isLiquid && pixelTypes[getPixel(row,col-1).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row,col-1).id].isGas) {
                 setPixelObj(row,col,getPixel(row,col-1)) 
-                setPixelObj(row,col-1,temp)
+                setPixelObj(row,col-1,currentPixel)
                 drawPixel(row,col)
                 drawPixel(row,col-1)
             }
@@ -213,19 +215,18 @@ function updatePixel() {
         else if(rand === 2 && col+1 < pixelGrid[row].length) {
             if(getPixel(row,col+1).id == VACU || (pixelTypes[getPixel(row,col+1).id].isLiquid && pixelTypes[getPixel(row,col+1).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row,col+1).id].isGas) {
                 setPixelObj(row,col,getPixel(row,col+1)) 
-                setPixelObj(row,col+1,temp)
+                setPixelObj(row,col+1,currentPixel)
                 drawPixel(row,col)
                 drawPixel(row,col+1)
             }
         }
     }
-    else if(pixelTypes[getPixel(row,col).id].isGas) {
+    else if(pixelTypes[currentPixel.id].isGas) {
         let rand = getRandomInt(3);
-        let temp = getPixel(row,col)
         if(rand === 0 && row-1 > -1) {
             if(getPixel(row-1,col).id == VACU || (pixelTypes[getPixel(row-1,col).id].isGas && pixelTypes[getPixel(row-1,col).id].density > pixelTypes[getPixel(row,col).id].density)) {
                 setPixelObj(row,col,getPixel(row-1,col)) 
-                setPixelObj(row-1,col,temp)
+                setPixelObj(row-1,col,currentPixel)
                 drawPixel(row,col)
                 drawPixel(row-1,col)
             }
@@ -233,7 +234,7 @@ function updatePixel() {
         else if(rand === 1 && col-1 > -1) {
             if(getPixel(row,col-1).id == VACU || (pixelTypes[getPixel(row,col-1).id].isGas && pixelTypes[getPixel(row,col-1).id].density > pixelTypes[getPixel(row,col).id].density)) {
                 setPixelObj(row,col,getPixel(row,col-1)) 
-                setPixelObj(row,col-1,temp)
+                setPixelObj(row,col-1,currentPixel)
                 drawPixel(row,col)
                 drawPixel(row,col-1)
             }
@@ -241,13 +242,13 @@ function updatePixel() {
         else if(rand === 2 && col+1 < pixelGrid[row].length) {
             if(getPixel(row,col+1).id == VACU || (pixelTypes[getPixel(row,col+1).id].isGas && pixelTypes[getPixel(row,col+1).id].density > pixelTypes[getPixel(row,col).id].density)) {
                 setPixelObj(row,col,getPixel(row,col+1)) 
-                setPixelObj(row,col+1,temp)
+                setPixelObj(row,col+1,currentPixel)
                 drawPixel(row,col)
                 drawPixel(row,col+1)
             }
         }
     }
-    else if(getPixel(row,col).id == FIRE) {
+    else if(currentPixel.id == FIRE) {
         let up = row-1 > -1 && (pixelTypes[getPixel(row-1,col).id].flammable || getPixel(row-1,col).id == WATR)
         let down = row+1 < pixelGrid.length && (pixelTypes[getPixel(row+1,col).id].flammable || getPixel(row+1,col).id == WATR)
         let left = col-1 > -1 && (pixelTypes[getPixel(row,col-1).id].flammable || getPixel(row,col-1).id == WATR)
@@ -286,7 +287,7 @@ function updatePixel() {
         },200)
       
     }
-    else if(pixelGrid[row][col] == SPRK) {
+    else if(currentPixel.id == SPRK) {
         let up = row-1 > -1 && pixelTypes[getPixel(row-1,col)].conductive
         let down = row+1 < pixelGrid.length && pixelTypes[getPixel(row+1,col)].conductive
         let left = col-1 > -1 && pixelTypes[getPixel(row,col-1)].conductive

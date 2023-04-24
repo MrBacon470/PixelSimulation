@@ -19,8 +19,8 @@ function updateCanvas() {
 }
 
 let mousePositions = null
-let mouseCol = null
-let mouseRow = null
+let mouseCol = 0
+let mouseRow = 0
 canvas.addEventListener('mousemove',(e) => { //Click Event
     mousePositions = getMousePos(e)
     mouseCol = Math.floor(mousePositions.x/canvasData.pixelSize)
@@ -43,7 +43,10 @@ function getMousePos(evt) {
 }
 
 function drawPixel(r,c) {
-    canvas2D.fillStyle = pixelTypes[getPixel(r,c).id].color
+    if(!tempViewEnabled)
+        canvas2D.fillStyle = pixelTypes[getPixel(r,c).id].color
+    else
+        canvas2D.fillStyle = getPixelTempColor(r,c)
     canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
 }
 //Flood Fill Runner
