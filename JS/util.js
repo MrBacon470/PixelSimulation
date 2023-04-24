@@ -24,7 +24,7 @@ function setPixel(r,c,id) {
         return
     }
     pixelGrid[r][c].id = id
-    //pixelGrid[r][c].temp = pixelTypes[id].defaultTemp
+    pixelGrid[r][c].temp = pixelTypes[id].defaultTemp
 }
 
 function setPixelObj(r,c,obj) {
@@ -34,6 +34,10 @@ function setPixelObj(r,c,obj) {
     }
     if(c < 0 || c >= pixelGrid[r].length) {
         console.error('c is outOfBounds in setPixel Function')
+        return
+    }
+    if(obj === null || obj === undefined) {
+        console.error(`Particle Object Passed in is ${obj.typeOf()}`)
         return
     }
     pixelGrid[r][c].id = obj.id
