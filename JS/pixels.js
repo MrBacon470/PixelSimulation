@@ -6,9 +6,7 @@ const pixelTypes = [
         color: '#000000',
         flammable: false,
         conductive: false,
-        density: 0.0, // g/cm3
-        heatConductivity: 0.0,
-        heatCapacity: 'Infinite',
+        heatConductivity: 0,
         defaultTemp: 0.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: false,
@@ -21,9 +19,7 @@ const pixelTypes = [
         color: '#C2B280',
         flammable: false,
         conductive: false,
-        density: 1.631, //g/cm3
-        heatConductivity: 2.05,
-        heatCapacity: 830, //In Joules per Kilogram
+        heatConductivity: 150,
         defaultTemp: 72.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: false,
@@ -36,9 +32,7 @@ const pixelTypes = [
         color: '#1b95e0',
         flammable: false,
         conductive: true,
-        density: 1.0, // g/cm3
-        heatConductivity: 0.598,
-        heatCapacity: 4184, //In Joules per Kilogram
+        heatConductivity: 29,
         defaultTemp: 72.0, // In farenheit lol not celsius
         isLiquid: true,
         isGas: false,
@@ -51,9 +45,7 @@ const pixelTypes = [
         color: '#8D918D',
         flammable: false,
         conductive: true,
-        density: 7.85, // g/cm3
-        heatConductivity: 45.0,
-        heatCapacity: 420, //In Joules per Kilogram
+        heatConductivity: 251,
         defaultTemp: 72.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: false,
@@ -66,9 +58,7 @@ const pixelTypes = [
         color: '#e25822',
         flammable: false,
         conductive: false,
-        density: 1.0, // g/cm3
-        heatConductivity: 10.0,
-        heatCapacity: 0.0, //In Joules per Kilogram
+        heatConductivity: 88,
         defaultTemp: 2000.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: false,
@@ -81,9 +71,7 @@ const pixelTypes = [
         color: '#EBECE9',
         flammable: false,
         conductive: false,
-        density: 5.98e-4, // g/cm3
-        heatConductivity: 0.598,
-        heatCapacity: 1900, //In Joules per Kilogram
+        heatConductivity: 48,
         defaultTemp: 212.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: true,
@@ -96,9 +84,7 @@ const pixelTypes = [
         color: '#7C4700',
         flammable: true,
         conductive: false,
-        density: 0.71, // g/cm3
         heatConductivity: 0.1,
-        heatCapacity: 1.76, //In Joules per Kilogram
         defaultTemp: 72.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: false,
@@ -111,9 +97,7 @@ const pixelTypes = [
         color: '#848884',
         flammable: false,
         conductive: false,
-        density: 1.4, // g/cm3
-        heatConductivity: 1000.0,
-        heatCapacity: 37.35, //In Joules per Kilogram
+        heatConductivity: 88,
         defaultTemp: 2000.0, // In farenheit lol not celsius
         isLiquid: false,
         isGas: true,

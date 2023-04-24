@@ -1,118 +1,59 @@
 function heatTransfer(r,c) {
-    //Heat Transfers in 4 directions
-    /*
-                [r-1,c]
-        [r,c-1]  [r,c]  [r,c+1]
-                [r+1,c]
-    */
-   let pixel = getPixel(r,c)
-   if(pixel.id === VACU) {
+    
+    let pixel = getPixel(r,c)
+    if(pixel.id === VACU && pixel.temp > 0) {
         setPixel(r,c,0)
         return
-   }
-   if(pixel.temp > 10000) {
-        setPixelObj(r,c,{id:pixel.id,temp:10000})
-        return
-   }
-   if(pixel.temp < -10000) {
-        setPixelObj(r,c,{id:pixel.id,temp:-10000})
-        return
-   }
-   let currentPixel = null
-   let k = pixelTypes[pixel.id].heatConductivity
-   if(r-1 > -1 && getPixel(r-1,c).temp < pixel.temp) {
-        currentPixel = getPixel(r-1,c)
-        let Q = 0
-        if(currentPixel.id !== VACU)
-            Q = (k*1*(pixel.temp - currentPixel.temp))
-        else
-            Q = 5.67e-8 * (pixel.temp - currentPixel.temp) * 1
-        //We have Q now but how do we get how much the temperature changed
-        let tempChange = 0
-        if(pixelTypes[currentPixel.id].heatCapacity !== 'Infinite')
-            tempChange = celsiusToFarenheit(Q/pixelTypes[currentPixel.id].heatCapacity)
-        else
-            tempChange = Q
-        //console.log(`[${r-1},${c}] Q Val - ${Q}\ntempChange ${tempChange}`)
-        //Convert Celsius to Farenheit and add to particle's temp
-        currentPixel.temp += tempChange
-        setPixelObj(r-1,c,currentPixel)
-        pixel.temp -= tempChange
-        setPixelObj(r,c,pixel)
-        if(tempViewEnabled) {
-            drawPixel(r-1,c)
-            drawPixel(r,c)
-        }
-   }
-   if(r+1 < pixelGrid.length && getPixel(r+1,c).temp < pixel.temp) {
-        currentPixel = getPixel(r+1,c)
-        let Q = 0
-        if(currentPixel.id !== VACU)
-            Q = (k*1*(pixel.temp - currentPixel.temp))
-        else
-            Q = 5.67e-8 * (pixel.temp - currentPixel.temp) * 1
-        //We have Q now but how do we get how much the temperature changed
-        let tempChange = 0
-        if(pixelTypes[currentPixel.id].heatCapacity !== 'Infinite')
-            tempChange = celsiusToFarenheit(Q/pixelTypes[currentPixel.id].heatCapacity)
-        else
-            tempChange = Q
-        //Convert Celsius to Farenheit and add to particle's temp
-        currentPixel.temp += tempChange
-        setPixelObj(r+1,c,currentPixel)
-        pixel.temp -= tempChange
-        setPixelObj(r,c,pixel)
-        if(tempViewEnabled) {
-            drawPixel(r+1,c)
-            drawPixel(r,c)
-        }
-   }
-   if(c-1 > -1 && getPixel(r,c-1).temp < pixel.temp) {
-        currentPixel = getPixel(r,c-1)
-        let Q = 0
-        if(currentPixel.id !== VACU)
-            Q = (k*1*(pixel.temp - currentPixel.temp))
-        else
-            Q = 5.67e-8 * (pixel.temp - currentPixel.temp) * 1
-        //We have Q now but how do we get how much the temperature changed
-        let tempChange = 0
-        if(pixelTypes[currentPixel.id].heatCapacity !== 'Infinite')
-            tempChange = celsiusToFarenheit(Q/pixelTypes[currentPixel.id].heatCapacity)
-        else
-            tempChange = Q
-        //Convert Celsius to Farenheit and add to particle's temp
-        currentPixel.temp += tempChange
-        setPixelObj(r,c-1,currentPixel)
-        pixel.temp -= tempChange
-        setPixelObj(r,c,pixel)
-        if(tempViewEnabled) {
-            drawPixel(r,c-1)
-            drawPixel(r,c)
-        }
     }
-    if(c+1 < pixelGrid[r].length && getPixel(r,c+1).temp < pixel.temp) {
-        currentPixel = getPixel(r,c+1)
-        let Q = 0
-        if(currentPixel.id !== VACU)
-            Q = (k*1*(pixel.temp - currentPixel.temp))
-        else
-            Q = 5.67e-8 * (pixel.temp - currentPixel.temp) * 1
-        //We have Q now but how do we get how much the temperature changed
-        let tempChange = 0
-        if(pixelTypes[currentPixel.id].heatCapacity !== 'Infinite')
-            tempChange = celsiusToFarenheit(Q/pixelTypes[currentPixel.id].heatCapacity)
-        else
-            tempChange = Q
-        //Convert Celsius to Farenheit and add to particle's temp
-        currentPixel.temp += tempChange
-        setPixelObj(r,c+1,currentPixel)
-        pixel.temp -= tempChange
+    if(pixel.temp > 1000) {
+        pixel.temp = 1000
         setPixelObj(r,c,pixel)
-        if(tempViewEnabled) {
-            drawPixel(r,c+1)
-            drawPixel(r,c)
-        }
-   }
+    }
+    if(pixel.temp < -100) {
+        pixel.temp = -100
+        setPixelObj(r,c,pixel)
+    }
+    //The actual stuff
+    let conductivityRate = pixelTypes[pixel.id].heatConductivity / 255
+    let tempChange = pixel.temp * conductivityRate
+    let count = 0
+    let pixelToBeChanged = null
+    if(r-1 > -1 && getPixel(r-1,c).temp < pixel.temp && getPixel(r-1,c).id !== VACU) {
+        pixelToBeChanged = getPixel(r-1,c)
+        pixelToBeChanged.temp += tempChange
+        setPixelObj(r-1,c,pixelToBeChanged)
+        if(tempViewEnabled)
+        drawPixel(r-1,c)
+        count++
+    }
+    if(r+1 < pixelGrid.length && getPixel(r+1,c).temp < pixel.temp && getPixel(r+1,c).id !== VACU) {
+        pixelToBeChanged = getPixel(r+1,c)
+        pixelToBeChanged.temp += tempChange
+        setPixelObj(r+1,c,pixelToBeChanged)
+        if(tempViewEnabled)
+        drawPixel(r+1,c)
+        count++
+    }
+    if(c-1 > -1 && getPixel(r,c-1).temp < pixel.temp && getPixel(r,c-1).id !== VACU) {
+        pixelToBeChanged = getPixel(r,c-1)
+        pixelToBeChanged.temp += tempChange
+        setPixelObj(r,c-1,pixelToBeChanged)
+        if(tempViewEnabled)
+        drawPixel(r,c-1)
+        count++
+    }
+    if(c+1 < pixelGrid[r].length && getPixel(r,c+1).temp < pixel.temp && getPixel(r,c+1).id !== VACU) {
+        pixelToBeChanged = getPixel(r,c+1)
+        pixelToBeChanged.temp += tempChange
+        setPixelObj(r,c+1,pixelToBeChanged)
+        if(tempViewEnabled)
+        drawPixel(r,c+1)
+        count++
+    }
+    pixel.temp -= tempChange * count
+    setPixelObj(r,c,pixel)
+    if(tempViewEnabled)
+        drawPixel(r,c)
 }
 
 function updatePhase(r,c) {
