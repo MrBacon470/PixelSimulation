@@ -51,6 +51,13 @@ function celsiusToFarenheit(temperature) {
 function farenheitToCelsius(temperature) {
     return (temperature - 32) * 5/9
 }
+
+function isInBounds(r,c) {
+    if(r > -1 && r < pixelGrid.length && c > -1 && c < pixelGrid[r].length) 
+        return true
+    return false
+}
+
 const tempColors = [
     {r:0,g:21,b:255},
     {r:0,g:217,b:255},
@@ -72,7 +79,7 @@ function getPixelTempColor(r,c) {
         return 'rgb(255,255,255)'
     }
     if(temp <= -100) return `rgb(${tempColors[0].r},${tempColors[0].g},${tempColors[0].b})`
-    if(temp >= 1000) return `rgb(${tempColors[tempColors.length-1].r},${tempColors[tempColors.length-1].g},${tempColors[tempColors.length-1].b})`
+    if(temp >= 1000.0) return `rgb(${tempColors[tempColors.length-1].r},${tempColors[tempColors.length-1].g},${tempColors[tempColors.length-1].b})`
     //-100 -> 57
     for(let i = 0; i < tempColors.length-1; i++) {
         
@@ -90,4 +97,5 @@ function getPixelTempColor(r,c) {
             return `rgb(${r},${g},${b})`
         }
     }
+    return `rgb(${tempColors[tempColors.length-1].r},${tempColors[tempColors.length-1].g},${tempColors[tempColors.length-1].b})`
 }

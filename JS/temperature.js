@@ -16,44 +16,9 @@ function heatTransfer(r,c) {
     }
     //The actual stuff
     let conductivityRate = pixelTypes[pixel.id].heatConductivity / 255
-    let tempChange = pixel.temp * conductivityRate
-    let pixelToBeChanged = null
-    if(r-1 > -1 && getPixel(r-1,c).temp < pixel.temp && getPixel(r-1,c).id !== VACU) {
-        pixelToBeChanged = getPixel(r-1,c)
-        pixelToBeChanged.temp += tempChange
-        setPixelObj(r-1,c,pixelToBeChanged)
-        if(tempViewEnabled)
-        drawPixel(r-1,c)
-        pixel.temp -= tempChange
-        setPixelObj(r,c,pixel)
-    }
-    if(r+1 < pixelGrid.length && getPixel(r+1,c).temp < pixel.temp && getPixel(r+1,c).id !== VACU) {
-        pixelToBeChanged = getPixel(r+1,c)
-        pixelToBeChanged.temp += tempChange
-        setPixelObj(r+1,c,pixelToBeChanged)
-        if(tempViewEnabled)
-        drawPixel(r+1,c)
-        pixel.temp -= tempChange
-        setPixelObj(r,c,pixel)
-    }
-    if(c-1 > -1 && getPixel(r,c-1).temp < pixel.temp && getPixel(r,c-1).id !== VACU) {
-        pixelToBeChanged = getPixel(r,c-1)
-        pixelToBeChanged.temp += tempChange
-        setPixelObj(r,c-1,pixelToBeChanged)
-        if(tempViewEnabled)
-        drawPixel(r,c-1)
-        pixel.temp -= tempChange
-        setPixelObj(r,c,pixel)
-    }
-    if(c+1 < pixelGrid[r].length && getPixel(r,c+1).temp < pixel.temp && getPixel(r,c+1).id !== VACU) {
-        pixelToBeChanged = getPixel(r,c+1)
-        pixelToBeChanged.temp += tempChange
-        setPixelObj(r,c+1,pixelToBeChanged)
-        if(tempViewEnabled)
-        drawPixel(r,c+1)
-        pixel.temp -= tempChange
-        setPixelObj(r,c,pixel)
-    }
+    let tempSum = pixel.temp
+    let count = 1
+
     if(tempViewEnabled)
         drawPixel(r,c)
 }
