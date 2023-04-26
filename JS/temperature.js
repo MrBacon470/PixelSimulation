@@ -17,9 +17,8 @@ function heatTransfer(r,c) {
     //The actual stuff
     let conductivityRate = pixelTypes[pixel.id].heatConductivity / 255
     let tempChange = pixel.temp * conductivityRate
-    let index = getRandomInt(4)
     let pixelToBeChanged = null
-    if(index === 0 && r-1 > -1 && getPixel(r-1,c).temp < pixel.temp && getPixel(r-1,c).id !== VACU) {
+    if(r-1 > -1 && getPixel(r-1,c).temp < pixel.temp && getPixel(r-1,c).id !== VACU) {
         pixelToBeChanged = getPixel(r-1,c)
         pixelToBeChanged.temp += tempChange
         setPixelObj(r-1,c,pixelToBeChanged)
@@ -28,7 +27,7 @@ function heatTransfer(r,c) {
         pixel.temp -= tempChange
         setPixelObj(r,c,pixel)
     }
-    if(index === 1 && r+1 < pixelGrid.length && getPixel(r+1,c).temp < pixel.temp && getPixel(r+1,c).id !== VACU) {
+    if(r+1 < pixelGrid.length && getPixel(r+1,c).temp < pixel.temp && getPixel(r+1,c).id !== VACU) {
         pixelToBeChanged = getPixel(r+1,c)
         pixelToBeChanged.temp += tempChange
         setPixelObj(r+1,c,pixelToBeChanged)
@@ -37,7 +36,7 @@ function heatTransfer(r,c) {
         pixel.temp -= tempChange
         setPixelObj(r,c,pixel)
     }
-    if(index === 2 && c-1 > -1 && getPixel(r,c-1).temp < pixel.temp && getPixel(r,c-1).id !== VACU) {
+    if(c-1 > -1 && getPixel(r,c-1).temp < pixel.temp && getPixel(r,c-1).id !== VACU) {
         pixelToBeChanged = getPixel(r,c-1)
         pixelToBeChanged.temp += tempChange
         setPixelObj(r,c-1,pixelToBeChanged)
@@ -46,7 +45,7 @@ function heatTransfer(r,c) {
         pixel.temp -= tempChange
         setPixelObj(r,c,pixel)
     }
-    if(index === 3 && c+1 < pixelGrid[r].length && getPixel(r,c+1).temp < pixel.temp && getPixel(r,c+1).id !== VACU) {
+    if(c+1 < pixelGrid[r].length && getPixel(r,c+1).temp < pixel.temp && getPixel(r,c+1).id !== VACU) {
         pixelToBeChanged = getPixel(r,c+1)
         pixelToBeChanged.temp += tempChange
         setPixelObj(r,c+1,pixelToBeChanged)

@@ -11,6 +11,7 @@ canvas.setAttribute('width',`${canvasData.width}px`)
 let canvas2D = canvas.getContext('2d')
 let pixelSelectedIndex = 0
 function updateCanvas() {
+    canvas2D.clearRect(0,0,canvasData.width,canvasData.height)
     for(let r = 0; r < pixelGrid.length; r++) {
         for(let c = 0; c < pixelGrid[r].length; c++) {
             drawPixel(r,c)
@@ -45,8 +46,11 @@ function getMousePos(evt) {
 function drawPixel(r,c) {
     if(!tempViewEnabled)
         canvas2D.fillStyle = pixelTypes[getPixel(r,c).id].color
-    else
+    else {
         canvas2D.fillStyle = getPixelTempColor(r,c)
+        //console.log(getPixelTempColor(getPixel(r,c).temp))
+    }
+        
     canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
 }
 //Flood Fill Runner

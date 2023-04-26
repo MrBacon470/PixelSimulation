@@ -62,8 +62,9 @@ const tempColors = [
 ]
 //-100()F -> +1000()F
 //Range is 157.142857143 per color
-const colorRange = 157.142857143
+let colorRange = 157.142857143
 function getPixelTempColor(r,c) {
+    if(getPixel(r,c).id === VACU) return `#000000`
     let temp = getPixel(r,c).temp
     let mult = 0.0
     if(temp === Infinity || temp === NaN || temp === -Infinity) {
@@ -74,7 +75,8 @@ function getPixelTempColor(r,c) {
     if(temp >= 1000) return `rgb(${tempColors[tempColors.length-1].r},${tempColors[tempColors.length-1].g},${tempColors[tempColors.length-1].b})`
     //-100 -> 57
     for(let i = 0; i < tempColors.length-1; i++) {
-        if(temp >= -100.0 + colorRange * i && temp <= -100 + colorRange * i+1) {
+        
+        if(temp >= (-100.0 + (colorRange * i)) && temp <= (-100 + (colorRange * (i+1)))) {
             mult = (temp - (-100.0 + colorRange * i)) / ((-100 + colorRange * i+1) - (-100.0 + colorRange * i))
             let r = Math.floor(tempColors[i].r + (tempColors[i+1].r - tempColors[i].r) * mult)
             if(r < 0) r = 0
