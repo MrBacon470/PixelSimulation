@@ -19,6 +19,11 @@ function heatTransfer(r,c) {
     let tempSum = pixel.temp
     let count = 1
 
+    if(pixel.temp > 72.0) {
+        pixel.temp -= 1 * conductivityRate
+        setPixelObj(r,c,pixel)
+    }
+
     if(tempViewEnabled)
         drawPixel(r,c)
 }
