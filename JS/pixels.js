@@ -6,6 +6,7 @@ const pixelTypes = [
         color: '#000000',
         flammable: false,
         conductive: false,
+        mass: 0,
         heatConductivity: 0,
         defaultTemp: 0.0, // In farenheit lol not celsius
         isLiquid: false,
@@ -19,6 +20,7 @@ const pixelTypes = [
         color: '#C2B280',
         flammable: false,
         conductive: false,
+        mass: 5,
         heatConductivity: 150,
         defaultTemp: 72.0, // In farenheit lol not celsius
         isLiquid: false,
@@ -32,6 +34,7 @@ const pixelTypes = [
         color: '#1b95e0',
         flammable: false,
         conductive: true,
+        mass: 1,
         heatConductivity: 29,
         defaultTemp: 72.0, // In farenheit lol not celsius
         isLiquid: true,
@@ -45,6 +48,7 @@ const pixelTypes = [
         color: '#8D918D',
         flammable: false,
         conductive: true,
+        mass: 100,
         heatConductivity: 251,
         defaultTemp: 72.0, // In farenheit lol not celsius
         isLiquid: false,
@@ -58,6 +62,7 @@ const pixelTypes = [
         color: '#e25822',
         flammable: false,
         conductive: false,
+        mass: 0,
         heatConductivity: 88,
         defaultTemp: 2000.0, // In farenheit lol not celsius
         isLiquid: false,
@@ -71,6 +76,7 @@ const pixelTypes = [
         color: '#EBECE9',
         flammable: false,
         conductive: false,
+        mass: 1,
         heatConductivity: 48,
         defaultTemp: 212.0, // In farenheit lol not celsius
         isLiquid: false,
@@ -84,6 +90,7 @@ const pixelTypes = [
         color: '#7C4700',
         flammable: true,
         conductive: false,
+        mass: 10,
         heatConductivity: 0.1,
         defaultTemp: 72.0, // In farenheit lol not celsius
         isLiquid: false,
@@ -97,6 +104,7 @@ const pixelTypes = [
         color: '#848884',
         flammable: false,
         conductive: false,
+        mass: 20,
         heatConductivity: 88,
         defaultTemp: 2000.0, // In farenheit lol not celsius
         isLiquid: false,
@@ -111,7 +119,7 @@ const pixelTypes = [
         color: '#FFFF33',
         flammable: false,
         conductive: false,
-        density: 0.0,
+        mass: 0.0,
         isLiquid: false,
         isGas: false,
         isPowder: false,
@@ -125,7 +133,7 @@ const pixelTypes = [
         color: 'the particles hex color',
         flammable: false, //true or false lol
         conductive: false, //set to true or false for electrical conductivity
-        density: 0.0, //Determines whether is floats or sinks if its heavier or lighter (ONLY MATTERS FOR GRAVITY AFFECTED PARTICLES)
+        mass: 0.0, //Determines whether is floats or sinks if its heavier or lighter (ONLY MATTERS FOR GRAVITY AFFECTED PARTICLES)
         heatConductivity: 0.0,
         isLiquid: false, //Allows for Liquid type movement
         isGas: false, //Allows for gas type movement
@@ -147,9 +155,9 @@ function updatePixel() {
     heatTransfer(row,col)
     updatePhase(row,col)
     if(pixelTypes[currentPixel.id].isPowder) {
-        let down = row+1 < pixelGrid.length && (getPixel(row+1,col).id === VACU || (pixelTypes[getPixel(row+1,col).id].isPowder && pixelTypes[getPixel(row+1,col).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row+1,col).id].isLiquid || pixelTypes[getPixel(row+1,col).id].isGas)
-        let left = row+1 < pixelGrid.length && col-1 > -1 && (getPixel(row+1,col-1).id === VACU || (pixelTypes[getPixel(row+1,col-1).id].isPowder && pixelTypes[getPixel(row+1,col-1).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row+1,col-1).id].isLiquid || pixelTypes[getPixel(row+1,col-1).id].isGas)
-        let right = row+1 < pixelGrid.length && col+1 < pixelGrid[row+1].length && (getPixel(row+1,col+1).id === VACU || (pixelTypes[getPixel(row+1,col+1).id].isPowder && pixelTypes[getPixel(row+1,col+1).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row+1,col+1).id].isLiquid || pixelTypes[getPixel(row+1,col+1).id].isGas)
+        let down = row+1 < pixelGrid.length && (getPixel(row+1,col).id === VACU || (pixelTypes[getPixel(row+1,col).id].isPowder && pixelTypes[getPixel(row+1,col).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row+1,col).id].isLiquid || pixelTypes[getPixel(row+1,col).id].isGas)
+        let left = row+1 < pixelGrid.length && col-1 > -1 && (getPixel(row+1,col-1).id === VACU || (pixelTypes[getPixel(row+1,col-1).id].isPowder && pixelTypes[getPixel(row+1,col-1).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row+1,col-1).id].isLiquid || pixelTypes[getPixel(row+1,col-1).id].isGas)
+        let right = row+1 < pixelGrid.length && col+1 < pixelGrid[row+1].length && (getPixel(row+1,col+1).id === VACU || (pixelTypes[getPixel(row+1,col+1).id].isPowder && pixelTypes[getPixel(row+1,col+1).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row+1,col+1).id].isLiquid || pixelTypes[getPixel(row+1,col+1).id].isGas)
         if(!down && !left && !right) return //If it can't move don't waste time
         if(left && right) {
             const rand = Math.random()
@@ -181,7 +189,7 @@ function updatePixel() {
     else if(pixelTypes[currentPixel.id].isLiquid) {
         let rand = getRandomInt(3);
         if(rand === 0 && row+1 < pixelGrid.length) {
-            if(getPixel(row+1,col).id == VACU || (pixelTypes[getPixel(row+1,col).id].isLiquid && pixelTypes[getPixel(row+1,col).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row+1,col).id].isGas) {
+            if(getPixel(row+1,col).id == VACU || (pixelTypes[getPixel(row+1,col).id].isLiquid && pixelTypes[getPixel(row+1,col).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row+1,col).id].isGas) {
                 setPixelObj(row,col,getPixel(row+1,col)) 
                 setPixelObj(row+1,col,currentPixel)
                 drawPixel(row,col)
@@ -189,7 +197,7 @@ function updatePixel() {
             }
         }
         else if(rand === 1 && col-1 > -1) {
-            if(getPixel(row,col-1).id == VACU || (pixelTypes[getPixel(row,col-1).id].isLiquid && pixelTypes[getPixel(row,col-1).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row,col-1).id].isGas) {
+            if(getPixel(row,col-1).id == VACU || (pixelTypes[getPixel(row,col-1).id].isLiquid && pixelTypes[getPixel(row,col-1).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row,col-1).id].isGas) {
                 setPixelObj(row,col,getPixel(row,col-1)) 
                 setPixelObj(row,col-1,currentPixel)
                 drawPixel(row,col)
@@ -197,7 +205,7 @@ function updatePixel() {
             }
         }
         else if(rand === 2 && col+1 < pixelGrid[row].length) {
-            if(getPixel(row,col+1).id == VACU || (pixelTypes[getPixel(row,col+1).id].isLiquid && pixelTypes[getPixel(row,col+1).id].density < pixelTypes[getPixel(row,col).id].density) || pixelTypes[getPixel(row,col+1).id].isGas) {
+            if(getPixel(row,col+1).id == VACU || (pixelTypes[getPixel(row,col+1).id].isLiquid && pixelTypes[getPixel(row,col+1).id].mass < pixelTypes[getPixel(row,col).id].mass) || pixelTypes[getPixel(row,col+1).id].isGas) {
                 setPixelObj(row,col,getPixel(row,col+1)) 
                 setPixelObj(row,col+1,currentPixel)
                 drawPixel(row,col)
@@ -208,7 +216,7 @@ function updatePixel() {
     else if(pixelTypes[currentPixel.id].isGas) {
         let rand = getRandomInt(3);
         if(rand === 0 && row-1 > -1) {
-            if(getPixel(row-1,col).id == VACU || (pixelTypes[getPixel(row-1,col).id].isGas && pixelTypes[getPixel(row-1,col).id].density > pixelTypes[getPixel(row,col).id].density)) {
+            if(getPixel(row-1,col).id == VACU || (pixelTypes[getPixel(row-1,col).id].isGas && pixelTypes[getPixel(row-1,col).id].mass > pixelTypes[getPixel(row,col).id].mass)) {
                 setPixelObj(row,col,getPixel(row-1,col)) 
                 setPixelObj(row-1,col,currentPixel)
                 drawPixel(row,col)
@@ -216,7 +224,7 @@ function updatePixel() {
             }
         }
         else if(rand === 1 && col-1 > -1) {
-            if(getPixel(row,col-1).id == VACU || (pixelTypes[getPixel(row,col-1).id].isGas && pixelTypes[getPixel(row,col-1).id].density > pixelTypes[getPixel(row,col).id].density)) {
+            if(getPixel(row,col-1).id == VACU || (pixelTypes[getPixel(row,col-1).id].isGas && pixelTypes[getPixel(row,col-1).id].mass > pixelTypes[getPixel(row,col).id].mass)) {
                 setPixelObj(row,col,getPixel(row,col-1)) 
                 setPixelObj(row,col-1,currentPixel)
                 drawPixel(row,col)
@@ -224,7 +232,7 @@ function updatePixel() {
             }
         }
         else if(rand === 2 && col+1 < pixelGrid[row].length) {
-            if(getPixel(row,col+1).id == VACU || (pixelTypes[getPixel(row,col+1).id].isGas && pixelTypes[getPixel(row,col+1).id].density > pixelTypes[getPixel(row,col).id].density)) {
+            if(getPixel(row,col+1).id == VACU || (pixelTypes[getPixel(row,col+1).id].isGas && pixelTypes[getPixel(row,col+1).id].mass > pixelTypes[getPixel(row,col).id].mass)) {
                 setPixelObj(row,col,getPixel(row,col+1)) 
                 setPixelObj(row,col+1,currentPixel)
                 drawPixel(row,col)
@@ -237,33 +245,66 @@ function updatePixel() {
         let down = row+1 < pixelGrid.length && (pixelTypes[getPixel(row+1,col).id].flammable || getPixel(row+1,col).id == WATR)
         let left = col-1 > -1 && (pixelTypes[getPixel(row,col-1).id].flammable || getPixel(row,col-1).id == WATR)
         let right = col+1 < pixelGrid[row].length && (pixelTypes[getPixel(row,col+1).id].flammable || getPixel(row,col+1).id == WATR)
-        if(up) {
-            if(getPixel(row-1,col).id != WATR) 
+        const index = getRandomInt(4)
+        if(up && index === 0) {
+            if(getPixel(row-1,col).id != WATR) {
                 setPixel(row-1,col,FIRE)
-            else 
+                drawPixel(row-1,col)
+            }
+            else {
                 setPixel(row-1,col,WTVR)
-            drawPixel(row-1,col)
+                setPixel(row,col,SMKE)
+                setTimeout(() => {
+                    drawPixel(row-1,col)
+                    drawPixel(row,col)
+                },200)
+                return
+            }
         } 
-        if(down) {
-            if(getPixel(row+1,col).id != WATR) 
+        if(down && index === 1) {
+            if(getPixel(row+1,col).id != WATR) {
                 setPixel(row+1,col,FIRE)
-            else 
+                drawPixel(row+1,col)
+            }
+            else {
                 setPixel(row+1,col,WTVR)
-            drawPixel(row+1,col)
+                setPixel(row,col,SMKE)
+                setTimeout(() => {
+                    drawPixel(row+1,col)
+                    drawPixel(row,col)
+                },200)
+                return
+            }
         }
-        if(left) {
-            if(getPixel(row,col-1).id != WATR) 
+        if(left && index === 2) {
+            if(getPixel(row,col-1).id != WATR) {
                 setPixel(row,col-1,FIRE)
-            else 
+                drawPixel(row,col-1)
+            }
+            else {
                 setPixel(row,col-1,WTVR)
-            drawPixel(row,col-1)
+                setPixel(row,col,SMKE)
+                setTimeout(() => {
+                    drawPixel(row,col-1)
+                    drawPixel(row,col)
+                },200)
+                return
+            }
         }
-        if(right) {
-            if(getPixel(row,col+1).id != WATR) 
+        if(right && index === 3) {
+            if(getPixel(row,col+1).id != WATR) {
                 setPixel(row,col+1,FIRE)
-            else 
+                drawPixel(row,col+1)
+            }
+            else {
                 setPixel(row,col+1,WTVR)
-            drawPixel(row,col+1)
+                setPixel(row,col,SMKE)
+                setTimeout(() => {
+                    drawPixel(row,col+1)
+                    drawPixel(row,col)
+                },200)
+                return
+            }
         }
         setTimeout(() => {
             setPixel(row,col,SMKE)

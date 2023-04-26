@@ -70,8 +70,8 @@ function getPixelTempColor(r,c) {
         console.error('Temperature Passed in is Infinity or NaN')
         return 'rgb(255,255,255)'
     }
-    if(temp < -100) return `rgb(${tempColors[0].r},${tempColors[0].g},${tempColors[0].b})`
-    if(temp > 1000) return `rgb(${tempColors[tempColors.length-1].r},${tempColors[tempColors.length-1].g},${tempColors[tempColors.length-1].b})`
+    if(temp <= -100) return `rgb(${tempColors[0].r},${tempColors[0].g},${tempColors[0].b})`
+    if(temp >= 1000) return `rgb(${tempColors[tempColors.length-1].r},${tempColors[tempColors.length-1].g},${tempColors[tempColors.length-1].b})`
     //-100 -> 57
     for(let i = 0; i < tempColors.length-1; i++) {
         if(temp >= -100.0 + colorRange * i && temp <= -100 + colorRange * i+1) {

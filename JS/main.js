@@ -56,7 +56,6 @@ function Init() {
 }
 
 function Update() {
-    fillEnabled = document.getElementById('bucketFillCheck').checked
     if(!tempViewEnabled && document.getElementById('temperatureDisplay').checked) {
         tempViewEnabled = true
         updateCanvas()
@@ -65,13 +64,14 @@ function Update() {
         tempViewEnabled = false
         updateCanvas()
     }
-    
     if(isMouseDown) {
-        if(!fillEnabled && (getPixel(mouseRow,mouseCol).id === VACU || pixelSelectedIndex === VACU)) {
+        
+        fillEnabled = document.getElementById('bucketFillCheck').checked
+        if(fillEnabled === false && (getPixel(mouseRow,mouseCol).id === VACU || pixelSelectedIndex === VACU)) {
             setPixel(mouseRow,mouseCol,pixelSelectedIndex)
             drawPixel(mouseRow,mouseCol)
         }
-        else {
+        else if(fillEnabled === true) {
             floodFillPixels(mouseRow,mouseCol)
             updateCanvas()
         }
