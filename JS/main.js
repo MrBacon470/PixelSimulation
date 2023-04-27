@@ -20,6 +20,7 @@ function Init() {
             pixelGrid[i][j] = {
                 id: 0,
                 temp: pixelTypes[0].defaultTemp,
+                type: 'Solid'
             }
         }
     }

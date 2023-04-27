@@ -9,9 +9,9 @@ function addHTML(target,html) {
 function getPixel(r,c) {
     if(!isInBounds(r,c)) {
         console.error(`r or c is outOfBounds in getPixel()`)
-        return {id: -1, temp: -1}
+        return {id: -1, temp: -1, type: 'None'}
     }
-    return {id: pixelGrid[r][c].id, temp: pixelGrid[r][c].temp};
+    return {id: pixelGrid[r][c].id, temp: pixelGrid[r][c].temp, type: pixelGrid[r][c].type};
 }
 
 function setPixel(r,c,id) {
@@ -23,8 +23,39 @@ function setPixel(r,c,id) {
         console.error('id is outOfBounds in setPixel function')
         return
     }
+    const pixelType = pixelTypes[id]
     pixelGrid[r][c].id = id
-    pixelGrid[r][c].temp = pixelTypes[id].defaultTemp
+    pixelGrid[r][c].temp = pixelType.defaultTemp
+    if(pixelType.isGas)
+        pixelGrid[r][c].type = 'Gas'
+    else if(pixelType.isLiquid)
+        pixelGrid[r][c].type = 'Liquid'
+    else if(pixelType.isPowder)
+        pixelGrid[r][c].type = 'Powder'
+    else
+        pixelGrid[r][c].type = 'Solid'
+    drawPixel(r,c)
+}
+
+function setPixelId(r,c,id) {
+    if(!isInBounds(r,c)) {
+        console.error(`r or c is outOfBounds in setPixel()`)
+        return
+    }
+    if(id < 0 || id >= pixelTypes.length) {
+        console.error('id is outOfBounds in setPixel function')
+        return
+    }
+    pixelGrid[r][c].id = id
+    const pixelType = pixelTypes[id]
+    if(pixelType.isGas)
+        pixelGrid[r][c].type = 'Gas'
+    else if(pixelType.isLiquid)
+        pixelGrid[r][c].type = 'Liquid'
+    else if(pixelType.isPowder)
+        pixelGrid[r][c].type = 'Powder'
+    else
+        pixelGrid[r][c].type = 'Solid'
     drawPixel(r,c)
 }
 
@@ -33,7 +64,7 @@ function setPixelType(r,c,type) {
         console.error(`r or c is outOfBounds in setPixelType()`)
         return
     }
-    pixelGrid[r][c].id = type
+    pixelGrid[r][c].type = type
     drawPixel(r,c)
 }
 
@@ -48,6 +79,7 @@ function setPixelObj(r,c,obj) {
     }
     pixelGrid[r][c].id = obj.id
     pixelGrid[r][c].temp = obj.temp
+    pixelGrid[r][c].type = obj.type
     drawPixel(r,c)
 }
 
@@ -99,13 +131,13 @@ function getPixelTempColor(r,c) {
         console.error('Temperature Passed in is Infinity or NaN')
         return 'rgb(255,255,255)'
     }
-    if(temp <= -100) return `rgb(${tempColors[0].r},${tempColors[0].g},${tempColors[0].b})`
-    if(temp >= 1000.0) return `rgb(${tempColors[tempColors.length-1].r},${tempColors[tempColors.length-1].g},${tempColors[tempColors.length-1].b})`
+    if(temp <= MIN_TEMP) return `rgb(${tempColors[0].r},${tempColors[0].g},${tempColors[0].b})`
+    if(temp >= MAX_TEMP) return `rgb(${tempColors[tempColors.length-1].r},${tempColors[tempColors.length-1].g},${tempColors[tempColors.length-1].b})`
     //-100 -> 57
     for(let i = 0; i < tempColors.length-1; i++) {
         
-        if(temp >= (-100.0 + (colorRange * i)) && temp <= (-100 + (colorRange * (i+1)))) {
-            mult = (temp - (-100.0 + colorRange * i)) / ((-100 + colorRange * i+1) - (-100.0 + colorRange * i))
+        if(temp >= (MIN_TEMP + (colorRange * i)) && temp <= (MIN_TEMP + (colorRange * (i+1)))) {
+            mult = (temp - (MIN_TEMP + colorRange * i)) / ((MIN_TEMP + colorRange * i+1) - (MIN_TEMP + colorRange * i))
             let r = Math.floor(tempColors[i].r + (tempColors[i+1].r - tempColors[i].r) * mult)
             if(r < 0) r = 0
             else if(r > 255) r = 255

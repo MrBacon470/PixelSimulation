@@ -1,5 +1,5 @@
-const MAX_TEMP = 10000
-const MIN_TEMP = -10000
+const MAX_TEMP = 5000
+const MIN_TEMP = -1*MAX_TEMP
 
 function heatTransfer(r,c) {
     let pixel = getPixel(r,c)
@@ -49,15 +49,8 @@ function heatTransfer(r,c) {
 function updatePhase(r,c) {
     let currentPixel = getPixel(r,c)
     let pixelAttrs = pixelTypes[currentPixel.id]
-    if(pixelAttrs.highTemperatureChange.temp !== -1 && pixelAttrs.highTemperatureChange.type !== -1) {
-        if(currentPixel.temp >= pixelAttrs.highTemperatureChange.temp) {
-            setPixelType(r,c,pixelAttrs.highTemperatureChange.type)
-        }
-    }
-    else if(pixelAttrs.lowTemperatureChange.temp !== -1 && pixelAttrs.lowTemperatureChange.type !== -1) {
-        if(currentPixel.temp <= pixelAttrs.lowTemperatureChange.temp) {
-            setPixelType(r,c,pixelAttrs.lowTemperatureChange.type)
-        }
+    if(pixelAttrs.highTemperatureChange.temp !== -1) {
+
     }
 }
 
