@@ -7,16 +7,16 @@ function addHTML(target,html) {
 }
 
 function getPixel(r,c) {
+    if(!isInBounds(r,c)) {
+        console.error(`r or c is outOfBounds in getPixel()`)
+        return {id: -1, temp: -1}
+    }
     return {id: pixelGrid[r][c].id, temp: pixelGrid[r][c].temp};
 }
 
 function setPixel(r,c,id) {
-    if(r < 0 || r >= pixelGrid.length) {
-        console.error('r is outOfBounds in setPixel Function')
-        return
-    }
-    if(c < 0 || c >= pixelGrid[r].length) {
-        console.error('c is outOfBounds in setPixel Function')
+    if(!isInBounds(r,c)) {
+        console.error(`r or c is outOfBounds in setPixel()`)
         return
     }
     if(id < 0 || id >= pixelTypes.length) {
@@ -25,15 +25,21 @@ function setPixel(r,c,id) {
     }
     pixelGrid[r][c].id = id
     pixelGrid[r][c].temp = pixelTypes[id].defaultTemp
+    drawPixel(r,c)
+}
+
+function setPixelType(r,c,type) {
+    if(!isInBounds(r,c)) {
+        console.error(`r or c is outOfBounds in setPixelType()`)
+        return
+    }
+    pixelGrid[r][c].id = type
+    drawPixel(r,c)
 }
 
 function setPixelObj(r,c,obj) {
-    if(r < 0 || r >= pixelGrid.length) {
-        console.error('r is outOfBounds in setPixel Function')
-        return
-    }
-    if(c < 0 || c >= pixelGrid[r].length) {
-        console.error('c is outOfBounds in setPixel Function')
+    if(!isInBounds(r,c)) {
+        console.error(`r or c is outOfBounds in setPixelObj()`)
         return
     }
     if(obj === null || obj === undefined) {
@@ -42,6 +48,7 @@ function setPixelObj(r,c,obj) {
     }
     pixelGrid[r][c].id = obj.id
     pixelGrid[r][c].temp = obj.temp
+    drawPixel(r,c)
 }
 
 function celsiusToFarenheit(temperature) {
@@ -58,6 +65,13 @@ function isInBounds(r,c) {
     return false
 }
 
+function restrictNum(num,max,min) {
+    if(num === NaN) return 0
+    if(num > max) return max
+    if(num < min) return min
+    return num
+}
+
 const tempColors = [
     {r:0,g:21,b:255},
     {r:0,g:217,b:255},
@@ -69,7 +83,7 @@ const tempColors = [
 ]
 //-100()F -> +1000()F
 //Range is 157.142857143 per color
-let colorRange = 157.142857143
+let colorRange = 2857.14285714
 function getPixelTempColor(r,c) {
     if(getPixel(r,c).id === VACU) return `#000000`
     let temp = getPixel(r,c).temp

@@ -1,9 +1,10 @@
 let pixelGrid = []
 let isMouseDown = false
+let isMouseInCanvas = false
 let fillEnabled = false
 let tempViewEnabled = true
 const gameData = {
-    pixelUpdateRate: 2500
+    pixelUpdateRate: 1250
 }
 const faviconSquareColors = ['black','blue','brown','green','orange','purple','red']
 function Init() {
@@ -64,7 +65,7 @@ function Update() {
         tempViewEnabled = false
         updateCanvas()
     }
-    if(isMouseDown) {
+    if(isMouseDown && isMouseInCanvas) {
         
         fillEnabled = document.getElementById('bucketFillCheck').checked
         if(fillEnabled === false && (getPixel(mouseRow,mouseCol).id === VACU || pixelSelectedIndex === VACU)) {

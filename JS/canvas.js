@@ -30,7 +30,8 @@ canvas.addEventListener('mousemove',(e) => { //Click Event
 
 canvas.addEventListener('mousedown',() => {isMouseDown = true})
 canvas.addEventListener('mouseup',() => {isMouseDown = false})
-canvas.addEventListener('mouseleave',() => {isMouseDown = false})
+canvas.addEventListener('mouseenter',()=>{isMouseInCanvas = true})
+canvas.addEventListener('mouseleave',() => {isMouseInCanvas = false})
 
 
 function getMousePos(evt) {
