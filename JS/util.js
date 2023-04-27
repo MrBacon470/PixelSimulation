@@ -73,19 +73,26 @@ function restrictNum(num,max,min) {
 }
 
 const tempColors = [
+    {r:111,g:0,b:255},
     {r:0,g:21,b:255},
+    {r:0,g:81,b:255},
+    {r:0,g:162,b:255},
     {r:0,g:217,b:255},
+    {r:0,g:255,b:98},
     {r:0,g:255,b:47},
     {r:229,g:255,b:0},
+    {r:238,g:255,b:0},
+    {r:255,g:204,b:0},
     {r:255,g:191,b:0},
+    {r:255,g:81,b:0},
     {r:255,g:0,b:0},
     {r:255,g:0,b:251}
 ]
 //-100()F -> +1000()F
 //Range is 157.142857143 per color
-let colorRange = 2857.14285714
 function getPixelTempColor(r,c) {
     if(getPixel(r,c).id === VACU) return `#000000`
+    let colorRange = (MAX_TEMP-MIN_TEMP)/tempColors.length
     let temp = getPixel(r,c).temp
     let mult = 0.0
     if(temp === Infinity || temp === NaN || temp === -Infinity) {
