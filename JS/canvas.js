@@ -49,8 +49,10 @@ function drawPixel(r,c) {
         canvas2D.fillStyle = pixelTypes[getPixel(r,c).id].color
     else {
         canvas2D.fillStyle = getPixelTempColor(r,c)
-        //console.log(getPixelTempColor(getPixel(r,c).temp))
     }
+
+    if(pixelTypes[getPixel(r,c).id].abbr === 'STEL' && getPixel(r,c).type === 'Liquid')
+        canvas2D.fillStyle = '#f9f37c'
         
     canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
 }

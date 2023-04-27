@@ -136,7 +136,7 @@ const pixelTypes = [
         conductive: false,
         weight: 0,
         heatConductivity: 88,
-        defaultTemp: -100.0,
+        defaultTemp: -500.0,
         highTemperatureChange: {temp:-1,type:-1}, //-1 Indicates no change
         lowTemperatureChange: {temp:-1,type:-1},
         isLiquid: false,
@@ -252,8 +252,8 @@ function updatePixel() {
             if(getPixel(row-1,col).id != WATR)
                 setPixel(row-1,col,FIRE)
             else {
-                pixelGrid[row-1][col] = {id:WTVR,temp:pixelTypes[WTVR].defaultTemp}
-                pixelGrid[row][col] = {id:SMKE,temp:pixelTypes[SMKE].defaultTemp}
+                pixelGrid[row-1][col] = {id:WTVR,temp:pixelTypes[WTVR].defaultTemp,type:'Gas'}
+                pixelGrid[row][col] = {id:SMKE,temp:pixelTypes[SMKE].defaultTemp,type:'Gas'}
                 setTimeout(() => {
                     drawPixel(row-1,col)
                     drawPixel(row,col)
@@ -265,8 +265,8 @@ function updatePixel() {
             if(getPixel(row+1,col).id != WATR) 
                 setPixel(row+1,col,FIRE)
             else {
-                pixelGrid[row+1][col] = {id:WTVR,temp:pixelTypes[WTVR].defaultTemp}
-                pixelGrid[row][col] = {id:SMKE,temp:pixelTypes[SMKE].defaultTemp}
+                pixelGrid[row+1][col] = {id:WTVR,temp:pixelTypes[WTVR].defaultTemp,type:'Gas'}
+                pixelGrid[row][col] = {id:SMKE,temp:pixelTypes[SMKE].defaultTemp,type:'Gas'}
                 setTimeout(() => {
                     drawPixel(row+1,col)
                     drawPixel(row,col)
@@ -278,8 +278,8 @@ function updatePixel() {
             if(getPixel(row,col-1).id != WATR)
                 setPixel(row,col-1,FIRE)
             else {
-                pixelGrid[row][col-1] = {id:WTVR,temp:pixelTypes[WTVR].defaultTemp}
-                pixelGrid[row][col] = {id:SMKE,temp:pixelTypes[SMKE].defaultTemp}
+                pixelGrid[row][col-1] = {id:WTVR,temp:pixelTypes[WTVR].defaultTemp,type:'Gas'}
+                pixelGrid[row][col] = {id:SMKE,temp:pixelTypes[SMKE].defaultTemp,type:'Gas'}
                 setTimeout(() => {
                     drawPixel(row,col-1)
                     drawPixel(row,col)
@@ -291,8 +291,8 @@ function updatePixel() {
             if(getPixel(row,col+1).id != WATR)
                 setPixel(row,col+1,FIRE)
             else {
-                pixelGrid[row][col+1] = {id:WTVR,temp:pixelTypes[WTVR].defaultTemp}
-                pixelGrid[row][col] = {id:SMKE,temp:pixelTypes[SMKE].defaultTemp}
+                pixelGrid[row][col+1] = {id:WTVR,temp:pixelTypes[WTVR].defaultTemp,type:'Gas'}
+                pixelGrid[row][col] = {id:SMKE,temp:pixelTypes[SMKE].defaultTemp,type:'Gas'}
                 setTimeout(() => {
                     drawPixel(row,col+1)
                     drawPixel(row,col)

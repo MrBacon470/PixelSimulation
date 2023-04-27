@@ -1,5 +1,5 @@
 const MAX_TEMP = 5000
-const MIN_TEMP = -1*MAX_TEMP
+const MIN_TEMP = -500
 
 function heatTransfer(r,c) {
     let pixel = getPixel(r,c)
@@ -49,9 +49,38 @@ function heatTransfer(r,c) {
 function updatePhase(r,c) {
     let currentPixel = getPixel(r,c)
     let pixelAttrs = pixelTypes[currentPixel.id]
-    if(pixelAttrs.highTemperatureChange.temp !== -1) {
+    if(pixelAttrs.highTemperatureChange.temp !== -1 && currentPixel.temp >= pixelAttrs.highTemperatureChange.temp) {
+        if(pixelAttrs.highTemperatureChange.type !== -1) {
+            setPixelId(r,c,pixelAttrs.highTemperatureChange.type)
+        }
+        else {
+            if(currentPixel.type === 'Solid')
+                setPixelType(r,c,'Liquid')
+            else if(currentPixel.type === 'Liquid' && currentPixel.temp < MAX_TEMP)
+                setPixelType(r,c,'Gas')
+            else if(currentPixel.type === 'Liquid' && currentPixel.temp >= MAX_TEMP) {
 
+            }
+        }
     }
+    else if(pixelAttrs.highTemperatureChange.temp !== -1 && currentPixel.temp < pixelAttrs.highTemperatureChange.temp) {
+        if(currentPixel.type === 'Liquid' && !pixelAttrs.isLiquid)
+            setPixelType(r,c,'Solid')
+        if(currentPixel.type === 'Gas' && !pixelAttrs.isGas)
+            setPixelType(r,c,'Liquid')
+    }
+    else if(pixelAttrs.lowTemperatureChange.temp !== -1 && currentPixel.temp <= pixelAttrs.lowTemperatureChange.temp) {
+        if(pixelAttrs.lowTemperatureChange.type !== -1) {
+            setPixelId(r,c,pixelAttrs.lowTemperatureChange.type)
+        }
+        else {
+            if(currentPixel.type === 'Gas')
+                setPixelType(r,c,'Liquid')
+            else if(currentPixel.type === 'Liquid')
+                setPixelType(r,c,'Solid')
+        }
+    }
+    
 }
 
 function getSurroundingParticles(r,c) {

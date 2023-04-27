@@ -138,13 +138,13 @@ function getPixelTempColor(r,c) {
         
         if(temp >= (MIN_TEMP + (colorRange * i)) && temp <= (MIN_TEMP + (colorRange * (i+1)))) {
             mult = (temp - (MIN_TEMP + colorRange * i)) / ((MIN_TEMP + colorRange * i+1) - (MIN_TEMP + colorRange * i))
-            let r = Math.floor(tempColors[i].r + (tempColors[i+1].r - tempColors[i].r) * mult)
+            let r = (tempColors[i].r + (tempColors[i+1].r - tempColors[i].r) * mult)
             if(r < 0) r = 0
             else if(r > 255) r = 255
-            let g = Math.floor(tempColors[i].g + (tempColors[i+1].g - tempColors[i].g) * mult)
+            let g = (tempColors[i].g + (tempColors[i+1].g - tempColors[i].g) * mult)
             if(g < 0) g = 0
             else if(g > 255) g = 255
-            let b = Math.floor(tempColors[i].b + (tempColors[i+1].b - tempColors[i].b) * mult)
+            let b = (tempColors[i].b + (tempColors[i+1].b - tempColors[i].b) * mult)
             if(b < 0) b = 0
             else if(b > 255) b = 255
             return `rgb(${r},${g},${b})`

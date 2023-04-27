@@ -82,7 +82,10 @@ function Update() {
         updatePixel()
     }
     let currentPixel = getPixel(mouseRow,mouseCol)
-    document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: ${pixelTypes[currentPixel.id].name}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
+    if(currentPixel.type === 'Liquid' && !pixelTypes[currentPixel.id].isLiquid)
+    document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: Molten ${pixelTypes[currentPixel.id].name}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
+    else
+        document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: ${pixelTypes[currentPixel.id].name}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
 }
 
 window.onload = function() {
