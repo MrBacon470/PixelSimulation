@@ -11,16 +11,17 @@ canvas.setAttribute('width',`${canvasData.width}px`)
 let canvas2D = canvas.getContext('2d')
 let pixelSelectedIndex = 0
 function updateCanvas() {
-    for(let r = 0; r < pixelGrid.length; r++) {
-        for(let c = 0; c < pixelGrid[r].length; c++) {
+    canvas2D.clearRect(0,0,canvasData.width,canvasData.height)
+    for(let r = 0; r < particleGrid.length; r++) {
+        for(let c = 0; c < particleGrid[r].length; c++) {
             drawPixel(r,c)
         }
     }
 }
 
 let mousePositions = null
-let mouseCol = null
-let mouseRow = null
+let mouseCol = 0
+let mouseRow = 0
 canvas.addEventListener('mousemove',(e) => { //Click Event
     mousePositions = getMousePos(e)
     mouseCol = Math.floor(mousePositions.x/canvasData.pixelSize)
@@ -29,7 +30,8 @@ canvas.addEventListener('mousemove',(e) => { //Click Event
 
 canvas.addEventListener('mousedown',() => {isMouseDown = true})
 canvas.addEventListener('mouseup',() => {isMouseDown = false})
-canvas.addEventListener('mouseleave',() => {isMouseDown = false})
+canvas.addEventListener('mouseenter',()=>{isMouseInCanvas = true})
+canvas.addEventListener('mouseleave',() => {isMouseInCanvas = false})
 
 
 function getMousePos(evt) {
@@ -43,12 +45,20 @@ function getMousePos(evt) {
 }
 
 function drawPixel(r,c) {
-    canvas2D.fillStyle = pixelTypes[pixelGrid[r][c]].color
+    if(!tempViewEnabled)
+        canvas2D.fillStyle = pixelTypes[getParticle(r,c).id].color
+    else {
+        canvas2D.fillStyle = getPixelTempColor(r,c)
+    }
+
+    if((pixelTypes[getParticle(r,c).id].isPowder || (!pixelTypes[getParticle(r,c).id].isLiquid && !pixelTypes[getParticle(r,c).id].isGas)) && getParticle(r,c).type === 'Liquid')
+        canvas2D.fillStyle = '#f9f37c'
+        
     canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
 }
 //Flood Fill Runner
 function floodFillPixels(row,col) {
-    const current = getPixelID(row,col)
+    const current = getParticle(row,col).id
 
     if(current === pixelSelectedIndex) 
         return
@@ -58,14 +68,14 @@ function floodFillPixels(row,col) {
 //Recursive Flood Fill Algorithm
 function fill(row,col,current) {
     //Base Cases
-    if(row < 0 || row >= pixelGrid.length)
+    if(row < 0 || row >= particleGrid.length)
         return
-    if(col < 0 || col >= pixelGrid[row].length)
+    if(col < 0 || col >= particleGrid[row].length)
         return
-    if(pixelGrid[row][col] !== current)
+    if(getParticle(row,col).id !== current)
         return
     //Rest of Algorithm
-    pixelGrid[row][col] = pixelSelectedIndex
+    setParticle(row,col,pixelSelectedIndex)
 
     fill(row+1,col,current)
     fill(row-1,col,current)
