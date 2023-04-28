@@ -45,14 +45,28 @@ function getMousePos(evt) {
 }
 
 function drawPixel(r,c) {
-    if(!tempViewEnabled)
-        canvas2D.fillStyle = pixelTypes[getParticle(r,c).id].color
+    if(!tempViewEnabled) {
+        canvas2D.fillStyle = particleTypes[getParticle(r,c).id].color
+        if((particleTypes[getParticle(r,c).id].isPowder || (!particleTypes[getParticle(r,c).id].isLiquid && !particleTypes[getParticle(r,c).id].isGas)) && getParticle(r,c).type === 'Liquid') {
+            canvas2D.fillStyle = '#f9f37c'
+        }
+        else if(getParticle(r,c).type === 'Solid' && getParticle(r,c).id === 3) {
+            const particle = getParticle(r,c)
+            const startRGB = hexToRgb(particleTypes[getParticle(r,c).id].color)
+            const endRGB = hexToRgb('#f9f37c')
+            const mult = Math.abs(particle.temp - (particleTypes[particle.id].defaultTemp)) / particleTypes[particle.id].highTemperatureChange.temp
+            const lerpedColor = lerpRGB(startRGB.r,startRGB.g,startRGB.b,endRGB.r,endRGB.g,endRGB.b,mult)
+            const fillColor = `rgb(${lerpedColor.r},${lerpedColor.g},${lerpedColor.b})`
+            canvas2D.fillStyle = fillColor
+        }
+    }
     else {
         canvas2D.fillStyle = getPixelTempColor(r,c)
     }
 
-    if((pixelTypes[getParticle(r,c).id].isPowder || (!pixelTypes[getParticle(r,c).id].isLiquid && !pixelTypes[getParticle(r,c).id].isGas)) && getParticle(r,c).type === 'Liquid')
-        canvas2D.fillStyle = '#f9f37c'
+    
+    /*
+     */
         
     canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
 }

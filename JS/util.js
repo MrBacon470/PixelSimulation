@@ -8,7 +8,7 @@ function addHTML(target,html) {
 
 function getParticle(r,c) {
     if(!isInBounds(r,c)) {
-        console.error(`r or c is outOfBounds in getParticle()`)
+        //console.error(`r: ${r} or c: ${c} is outOfBounds in getParticle()`)
         return {id: -1, temp: -1, type: 'None'}
     }
     return {id: particleGrid[r][c].id, temp: particleGrid[r][c].temp, type: particleGrid[r][c].type};
@@ -16,14 +16,14 @@ function getParticle(r,c) {
 
 function setParticle(r,c,id) {
     if(!isInBounds(r,c)) {
-        console.error(`r or c is outOfBounds in setParticle()`)
+        //console.error(`r: ${r} or c: ${c} is outOfBounds in setParticle()`)
         return
     }
-    if(id < 0 || id >= pixelTypes.length) {
+    if(id < 0 || id >= particleTypes.length) {
         console.error('id is outOfBounds in setParticle function')
         return
     }
-    const pixelType = pixelTypes[id]
+    const pixelType = particleTypes[id]
     particleGrid[r][c].id = id
     particleGrid[r][c].temp = pixelType.defaultTemp
     if(pixelType.isGas)
@@ -39,15 +39,15 @@ function setParticle(r,c,id) {
 
 function setParticleId(r,c,id) {
     if(!isInBounds(r,c)) {
-        console.error(`r or c is outOfBounds in setParticle()`)
+        //console.error(`r or c is outOfBounds in setParticle()`)
         return
     }
-    if(id < 0 || id >= pixelTypes.length) {
-        console.error('id is outOfBounds in setParticle function')
+    if(id < 0 || id >= particleTypes.length) {
+        //console.error('id is outOfBounds in setParticle function')
         return
     }
     particleGrid[r][c].id = id
-    const pixelType = pixelTypes[id]
+    const pixelType = particleTypes[id]
     if(pixelType.isGas)
         particleGrid[r][c].type = 'Gas'
     else if(pixelType.isLiquid)
@@ -61,7 +61,7 @@ function setParticleId(r,c,id) {
 
 function setParticleType(r,c,type) {
     if(!isInBounds(r,c)) {
-        console.error(`r or c is outOfBounds in setParticleType()`)
+        //console.error(`r or c is outOfBounds in setParticleType()`)
         return
     }
     particleGrid[r][c].type = type
@@ -70,7 +70,7 @@ function setParticleType(r,c,type) {
 
 function setParticleObj(r,c,obj) {
     if(!isInBounds(r,c)) {
-        console.error(`r or c is outOfBounds in setParticleObj()`)
+        //console.error(`r or c is outOfBounds in setParticleObj()`)
         return
     }
     if(obj === null || obj === undefined) {
@@ -146,12 +146,29 @@ function getPixelTempColor(r,c) {
     if(temp >= MAX_TEMP) return `rgb(${tempColors[tempColors.length-1].r},${tempColors[tempColors.length-1].g},${tempColors[tempColors.length-1].b})`
     //-100 -> 57
     for(let i = 0; i < tempColors.length-1; i++) {
-        
         if(temp >= (MIN_TEMP + (colorRange * i)) && temp <= (MIN_TEMP + (colorRange * (i+1)))) {
-            mult = (temp - (MIN_TEMP + colorRange * i)) / ((MIN_TEMP + colorRange * i+1) - (MIN_TEMP + colorRange * i))
+            mult = Math.abs(temp - (MIN_TEMP + (colorRange * i))) / Math.abs((MIN_TEMP + (colorRange * (i+1))) - (MIN_TEMP + (colorRange * i)))
             const lerpedColor = lerpRGB(tempColors[i].r,tempColors[i].g,tempColors[i].b,tempColors[i+1].r,tempColors[i+1].g,tempColors[i+1].b,mult)
             return `rgb(${lerpedColor.r},${lerpedColor.g},${lerpedColor.b})`
         }
     }
     return `rgb(${tempColors[tempColors.length-1].r},${tempColors[tempColors.length-1].g},${tempColors[tempColors.length-1].b})`
 }
+
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+  
+function rgbToHex(r, g, b) {
+    return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function hexToRgb(hex) {
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }

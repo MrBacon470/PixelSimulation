@@ -31,14 +31,14 @@ function heatTransfer(r,c) {
     }
     tempAvg = tempSum/tempCount
     if(tempAvg-Particle.temp !== 0) {
-        Particle.temp += (tempAvg-Particle.temp)*(pixelTypes[Particle.id].heatConductivity/255)
+        Particle.temp += (tempAvg-Particle.temp)*(particleTypes[Particle.id].heatConductivity/255)
     }
     Particle.temp = restrictNum(Particle.temp,MAX_TEMP,MIN_TEMP)
 
     for(let i = 0; i < 8; i++) {
         if(surroundingParticles[i] !== -1 && surroundingParticles[i].id !== VACU) {
             if(tempAvg-surroundingParticles[i].temp !== 0)
-            surroundingParticles[i].temp += (tempAvg-surroundingParticles[i].temp)*(pixelTypes[Particle.id].heatConductivity/255)
+            surroundingParticles[i].temp += (tempAvg-surroundingParticles[i].temp)*(particleTypes[Particle.id].heatConductivity/255)
             surroundingParticles[i].temp = restrictNum(surroundingParticles[i].temp,MAX_TEMP,MIN_TEMP)
         }
     }
@@ -48,7 +48,7 @@ function heatTransfer(r,c) {
 
 function updatePhase(r,c) {
     const currentParticle = getParticle(r,c)
-    const particleType = pixelTypes[currentParticle.id]
+    const particleType = particleTypes[currentParticle.id]
     const highTemp = particleType.highTemperatureChange
     const lowTemp = particleType.lowTemperatureChange
     if(highTemp.temp === -1 && lowTemp.temp === -1) {

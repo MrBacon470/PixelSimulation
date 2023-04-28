@@ -19,7 +19,7 @@ function Init() {
         for(let j = 0; j < cols; j++) {
             particleGrid[i][j] = {
                 id: 0,
-                temp: pixelTypes[0].defaultTemp,
+                temp: particleTypes[0].defaultTemp,
                 type: 'Solid'
             }
         }
@@ -29,32 +29,32 @@ function Init() {
     let style = document.createElement('style');
     let styleString = ''
     let htmlString = ''
-    for(let i = 0; i < pixelTypes.length; i++) {
+    for(let i = 0; i < particleTypes.length; i++) {
         let hoverColor = i===0 ? '#FFFFFF' : '#000000'
         styleString += `
-            .${pixelTypes[i].abbr}Button {
+            .${particleTypes[i].abbr}Button {
                 background-color: var(--bg-color);
-                border: 2px solid ${pixelTypes[i].color};
+                border: 2px solid ${particleTypes[i].color};
                 color: #FFFFFF;
                 font-size: 1em;
                 transition-duration: 0.5s;
             }
-            .${pixelTypes[i].abbr}Button:hover {
-                background-color: ${pixelTypes[i].color};
-                border: 2px solid ${pixelTypes[i].color};
+            .${particleTypes[i].abbr}Button:hover {
+                background-color: ${particleTypes[i].color};
+                border: 2px solid ${particleTypes[i].color};
                 color: ${hoverColor};
                 font-size: 1em;
                 transition-duration: 0.5s;
             }
         `
-        htmlString = `<button id="elementButton${i}" class="${pixelTypes[i].abbr}Button">${pixelTypes[i].abbr}</button>`
+        htmlString = `<button id="elementButton${i}" class="${particleTypes[i].abbr}Button">${particleTypes[i].abbr}</button>`
         addHTML('elementButtonHolder',htmlString)
-        document.getElementById(`elementButton${i}`).addEventListener('click',() => {pixelSelectedIndex = i;document.getElementById('particleNameText').innerText=pixelTypes[i].name;document.getElementById('particleDescText').innerText=pixelTypes[i].desc})
+        document.getElementById(`elementButton${i}`).addEventListener('click',() => {pixelSelectedIndex = i;document.getElementById('particleNameText').innerText=particleTypes[i].name;document.getElementById('particleDescText').innerText=particleTypes[i].desc})
     }
     style.innerHTML = styleString;
     document.getElementsByTagName('head')[0].appendChild(style);
-    document.getElementById('particleNameText').innerText=pixelTypes[pixelSelectedIndex].name;
-    document.getElementById('particleDescText').innerText=pixelTypes[pixelSelectedIndex].desc
+    document.getElementById('particleNameText').innerText=particleTypes[pixelSelectedIndex].name;
+    document.getElementById('particleDescText').innerText=particleTypes[pixelSelectedIndex].desc
     updateCanvas()
 }
 
@@ -80,13 +80,13 @@ function Update() {
         }
     }
     for(let i = 0; i < gameData.pixelUpdateRate; i++) {
-        updatePixel()
+        updateParticle()
     }
     let currentPixel = getParticle(mouseRow,mouseCol)
-    if(currentPixel.type === 'Liquid' && ((!pixelTypes[currentPixel.id].isLiquid && !pixelTypes[currentPixel.id].isGas) || pixelTypes[currentPixel.id].isPowder))
-    document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: Molten ${pixelTypes[currentPixel.id].name}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
+    if(currentPixel.type === 'Liquid' && ((!particleTypes[currentPixel.id].isLiquid && !particleTypes[currentPixel.id].isGas) || particleTypes[currentPixel.id].isPowder))
+    document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: Molten ${particleTypes[currentPixel.id].name}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
     else
-        document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: ${pixelTypes[currentPixel.id].name}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
+        document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: ${particleTypes[currentPixel.id].name}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
 }
 
 window.onload = function() {
