@@ -54,7 +54,7 @@ function updatePhase(r,c) {
             setPixelId(r,c,pixelAttrs.highTemperatureChange.type)
         }
         else {
-            if(currentPixel.type === 'Solid')
+            if(currentPixel.type === 'Solid' || currentPixel.type === 'Powder')
                 setPixelType(r,c,'Liquid')
             else if(currentPixel.type === 'Liquid' && currentPixel.temp < MAX_TEMP)
                 setPixelType(r,c,'Gas')
@@ -64,9 +64,9 @@ function updatePhase(r,c) {
         }
     }
     else if(pixelAttrs.highTemperatureChange.temp !== -1 && currentPixel.temp < pixelAttrs.highTemperatureChange.temp) {
-        if(currentPixel.type === 'Liquid' && !pixelAttrs.isLiquid)
-            setPixelType(r,c,'Solid')
-        if(currentPixel.type === 'Gas' && !pixelAttrs.isGas)
+        if(currentPixel.type === 'Liquid' && !pixelAttrs.isLiquid && !pixelAttrs.isGas)
+            setPixelType(r,c, pixelAttrs.isPowder ? 'Powder' : 'Solid')
+        if(currentPixel.type === 'Gas' && !pixelAttrs.isGas && pixelAttrs.isLiquid)
             setPixelType(r,c,'Liquid')
     }
     else if(pixelAttrs.lowTemperatureChange.temp !== -1 && currentPixel.temp <= pixelAttrs.lowTemperatureChange.temp) {
