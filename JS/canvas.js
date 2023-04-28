@@ -12,8 +12,8 @@ let canvas2D = canvas.getContext('2d')
 let pixelSelectedIndex = 0
 function updateCanvas() {
     canvas2D.clearRect(0,0,canvasData.width,canvasData.height)
-    for(let r = 0; r < pixelGrid.length; r++) {
-        for(let c = 0; c < pixelGrid[r].length; c++) {
+    for(let r = 0; r < particleGrid.length; r++) {
+        for(let c = 0; c < particleGrid[r].length; c++) {
             drawPixel(r,c)
         }
     }
@@ -46,19 +46,19 @@ function getMousePos(evt) {
 
 function drawPixel(r,c) {
     if(!tempViewEnabled)
-        canvas2D.fillStyle = pixelTypes[getPixel(r,c).id].color
+        canvas2D.fillStyle = pixelTypes[getParticle(r,c).id].color
     else {
         canvas2D.fillStyle = getPixelTempColor(r,c)
     }
 
-    if(pixelTypes[getPixel(r,c).id].abbr === 'STEL' && getPixel(r,c).type === 'Liquid')
+    if((pixelTypes[getParticle(r,c).id].isPowder || (!pixelTypes[getParticle(r,c).id].isLiquid && !pixelTypes[getParticle(r,c).id].isGas)) && getParticle(r,c).type === 'Liquid')
         canvas2D.fillStyle = '#f9f37c'
         
     canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
 }
 //Flood Fill Runner
 function floodFillPixels(row,col) {
-    const current = getPixel(row,col).id
+    const current = getParticle(row,col).id
 
     if(current === pixelSelectedIndex) 
         return
@@ -68,14 +68,14 @@ function floodFillPixels(row,col) {
 //Recursive Flood Fill Algorithm
 function fill(row,col,current) {
     //Base Cases
-    if(row < 0 || row >= pixelGrid.length)
+    if(row < 0 || row >= particleGrid.length)
         return
-    if(col < 0 || col >= pixelGrid[row].length)
+    if(col < 0 || col >= particleGrid[row].length)
         return
-    if(getPixel(row,col).id !== current)
+    if(getParticle(row,col).id !== current)
         return
     //Rest of Algorithm
-    setPixel(row,col,pixelSelectedIndex)
+    setParticle(row,col,pixelSelectedIndex)
 
     fill(row+1,col,current)
     fill(row-1,col,current)

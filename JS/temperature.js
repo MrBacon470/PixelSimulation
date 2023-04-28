@@ -2,25 +2,25 @@ const MAX_TEMP = 5000
 const MIN_TEMP = -500
 
 function heatTransfer(r,c) {
-    let pixel = getPixel(r,c)
+    let Particle = getParticle(r,c)
     
-    if(pixel.id === VACU && pixel.temp > 0) {
-        setPixel(r,c,0)
+    if(Particle.id === VACU && Particle.temp > 0) {
+        setParticle(r,c,0)
         return
     }
-    if(pixel.temp > MAX_TEMP) {
-        pixel.temp = MAX_TEMP
-        setPixelObj(r,c,pixel)
+    if(Particle.temp > MAX_TEMP) {
+        Particle.temp = MAX_TEMP
+        setParticleObj(r,c,Particle)
         return
     }
-    if(pixel.temp < MIN_TEMP) {
-        pixel.temp = MIN_TEMP
-        setPixelObj(r,c,pixel)
+    if(Particle.temp < MIN_TEMP) {
+        Particle.temp = MIN_TEMP
+        setParticleObj(r,c,Particle)
         return
     }
     //The actual stuff
     let surroundingParticles = getSurroundingParticles(r,c)
-    let tempSum = pixel.temp
+    let tempSum = Particle.temp
     let tempCount = 1
     let tempAvg = 0
     for(let i = 0; i < 8; i++) {
@@ -30,69 +30,81 @@ function heatTransfer(r,c) {
         }
     }
     tempAvg = tempSum/tempCount
-    if(tempAvg-pixel.temp !== 0) {
-        pixel.temp += (tempAvg-pixel.temp)*(pixelTypes[pixel.id].heatConductivity/255)
+    if(tempAvg-Particle.temp !== 0) {
+        Particle.temp += (tempAvg-Particle.temp)*(pixelTypes[Particle.id].heatConductivity/255)
     }
-    pixel.temp = restrictNum(pixel.temp,MAX_TEMP,MIN_TEMP)
+    Particle.temp = restrictNum(Particle.temp,MAX_TEMP,MIN_TEMP)
 
     for(let i = 0; i < 8; i++) {
         if(surroundingParticles[i] !== -1 && surroundingParticles[i].id !== VACU) {
             if(tempAvg-surroundingParticles[i].temp !== 0)
-            surroundingParticles[i].temp += (tempAvg-surroundingParticles[i].temp)*(pixelTypes[pixel.id].heatConductivity/255)
+            surroundingParticles[i].temp += (tempAvg-surroundingParticles[i].temp)*(pixelTypes[Particle.id].heatConductivity/255)
             surroundingParticles[i].temp = restrictNum(surroundingParticles[i].temp,MAX_TEMP,MIN_TEMP)
         }
     }
     setSurroundingParticles(r,c,surroundingParticles)
-    setPixelObj(r,c,pixel)
+    setParticleObj(r,c,Particle)
 }
 
 function updatePhase(r,c) {
-    let currentPixel = getPixel(r,c)
-    let pixelAttrs = pixelTypes[currentPixel.id]
-    if(pixelAttrs.highTemperatureChange.temp !== -1 && currentPixel.temp >= pixelAttrs.highTemperatureChange.temp) {
-        if(pixelAttrs.highTemperatureChange.type !== -1) {
-            setPixelId(r,c,pixelAttrs.highTemperatureChange.type)
-        }
-        else {
-            if(currentPixel.type === 'Solid' || currentPixel.type === 'Powder')
-                setPixelType(r,c,'Liquid')
-            else if(currentPixel.type === 'Liquid' && currentPixel.temp < MAX_TEMP)
-                setPixelType(r,c,'Gas')
-            else if(currentPixel.type === 'Liquid' && currentPixel.temp >= MAX_TEMP) {
-
-            }
+    const currentParticle = getParticle(r,c)
+    const particleType = pixelTypes[currentParticle.id]
+    const highTemp = particleType.highTemperatureChange
+    const lowTemp = particleType.lowTemperatureChange
+    if(highTemp.temp === -1 && lowTemp.temp === -1) {
+        return
+    }
+    else if(highTemp.temp !== -1 && currentParticle.temp >= highTemp.temp) {
+        switch(highTemp.type) {
+            case -1:
+                if((currentParticle.type === 'Solid' || currentParticle.type === 'Powder') && (particleType.isPowder || (!particleType.isLiquid && !particleType.isGas)))
+                    setParticleType(r,c,'Liquid')
+                else if(currentParticle.type === 'Liquid' && particleType.isLiquid)
+                    setParticleType(r,c,'Gas')
+                break
+            default:
+                    setParticleId(r,c,highTemp.type)
+                break
         }
     }
-    else if(pixelAttrs.highTemperatureChange.temp !== -1 && currentPixel.temp < pixelAttrs.highTemperatureChange.temp) {
-        if(currentPixel.type === 'Liquid' && !pixelAttrs.isLiquid && !pixelAttrs.isGas)
-            setPixelType(r,c, pixelAttrs.isPowder ? 'Powder' : 'Solid')
-        if(currentPixel.type === 'Gas' && !pixelAttrs.isGas && pixelAttrs.isLiquid)
-            setPixelType(r,c,'Liquid')
+    else if(highTemp.temp !== -1 && currentParticle.temp < highTemp.temp) {
+        if(currentParticle.type === 'Liquid' && (particleType.isPowder || (!particleType.isLiquid && !particleType.isGas)))
+            setParticleType(r,c, particleType.isPowder ? 'Powder' : 'Solid')
+        if(currentParticle.type === 'Gas' && particleType.isLiquid)
+            setParticleType(r,c,'Liquid')
     }
-    else if(pixelAttrs.lowTemperatureChange.temp !== -1 && currentPixel.temp <= pixelAttrs.lowTemperatureChange.temp) {
-        if(pixelAttrs.lowTemperatureChange.type !== -1) {
-            setPixelId(r,c,pixelAttrs.lowTemperatureChange.type)
+    if(lowTemp.temp !== -1 && currentParticle.temp <= lowTemp.temp) {
+        switch(lowTemp.type) {
+            case -1:
+                if(currentParticle.type === 'Liquid' && particleType.isLiquid)
+                    setParticleType(r,c,'Solid')
+                if(currentParticle.type === 'Gas' && particleType.isGas)
+                    setParticleType(r,c,'Liquid')
+                break
+            default:
+                setParticleId(r,c,lowTemp.type)
+                break
         }
-        else {
-            if(currentPixel.type === 'Gas')
-                setPixelType(r,c,'Liquid')
-            else if(currentPixel.type === 'Liquid')
-                setPixelType(r,c,'Solid')
-        }
+    }
+    else if(lowTemp.temp !== -1 && currentParticle.temp > lowTemp.temp) {
+        if(currentParticle.type === 'Solid' && particleType.isLiquid)
+                setParticleType(r,c,'Liquid')
+        if(currentParticle.type === 'Liquid' && particleType.isGas)
+                setParticleType(r,c,'Gas')
     }
     
 }
 
 function getSurroundingParticles(r,c) {
     let pixels = new Array(8).fill(-1)
-    if(isInBounds(r-1,c-1)) pixels[0] = getPixel(r-1,c-1)
-    if(isInBounds(r-1,c)) pixels[1] = getPixel(r-1,c)
-    if(isInBounds(r-1,c+1)) pixels[2] = getPixel(r-1,c+1)
-    if(isInBounds(r,c-1)) pixels[3] = getPixel(r,c-1)
-    if(isInBounds(r,c+1)) pixels[4] = getPixel(r,c+1)
-    if(isInBounds(r+1,c-1)) pixels[5] = getPixel(r+1,c-1)
-    if(isInBounds(r+1,c)) pixels[6] = getPixel(r+1,c)
-    if(isInBounds(r+1,c+1)) pixels[7] = getPixel(r+1,c+1)
+    if(isInBounds(r-1,c-1)) pixels[0] = getParticle(r-1,c-1)
+    if(isInBounds(r-1,c)) pixels[1] = getParticle(r-1,c)
+    if(isInBounds(r-1,c+1)) pixels[2] = getParticle(r-1,c+1)
+    if(isInBounds(r,c-1)) pixels[3] = getParticle(r,c-1)
+    if(isInBounds(r,c+1)) pixels[4] = getParticle(r,c+1)
+    if(isInBounds(r+1,c-1)) pixels[5] = getParticle(r+1,c-1)
+    if(isInBounds(r+1,c)) pixels[6] = getParticle(r+1,c)
+    if(isInBounds(r+1,c+1)) pixels[7] = getParticle(r+1,c+1)
     return pixels
 }
 
@@ -101,28 +113,28 @@ function setSurroundingParticles(r,c,arr) {
         if(arr[i] !== -1 && arr[i].id !== VACU) {
             switch(i) {
                 case 0:
-                    setPixelObj(r-1,c-1,arr[i])
+                    setParticleObj(r-1,c-1,arr[i])
                     break
                 case 1:
-                    setPixelObj(r-1,c,arr[i])
+                    setParticleObj(r-1,c,arr[i])
                     break
                 case 2:
-                    setPixelObj(r-1,c+1,arr[i])
+                    setParticleObj(r-1,c+1,arr[i])
                     break
                 case 3:
-                    setPixelObj(r,c-1,arr[i])
+                    setParticleObj(r,c-1,arr[i])
                     break
                 case 4:
-                    setPixelObj(r,c+1,arr[i])
+                    setParticleObj(r,c+1,arr[i])
                     break
                 case 5:
-                    setPixelObj(r+1,c-1,arr[i])
+                    setParticleObj(r+1,c-1,arr[i])
                     break
                 case 6:
-                    setPixelObj(r+1,c,arr[i])
+                    setParticleObj(r+1,c,arr[i])
                     break
                 case 7:
-                    setPixelObj(r+1,c+1,arr[i])
+                    setParticleObj(r+1,c+1,arr[i])
             }
         }
     }
@@ -133,7 +145,7 @@ function setSurroundingParticles(r,c,arr) {
 
     Q = (k*A*deltaT)/d
         k = thermal conductivity
-        A = Area of material (will always be 1 pixel so yeah)
+        A = Area of material (will always be 1 Particle so yeah)
         deltaT = T(hot)-T(cold)
         d = thickness of material (2d material so i guess 1 lol)
 

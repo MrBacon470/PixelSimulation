@@ -6,80 +6,80 @@ function addHTML(target,html) {
     document.getElementById(target).insertAdjacentHTML('beforeend',html)
 }
 
-function getPixel(r,c) {
+function getParticle(r,c) {
     if(!isInBounds(r,c)) {
-        console.error(`r or c is outOfBounds in getPixel()`)
+        console.error(`r or c is outOfBounds in getParticle()`)
         return {id: -1, temp: -1, type: 'None'}
     }
-    return {id: pixelGrid[r][c].id, temp: pixelGrid[r][c].temp, type: pixelGrid[r][c].type};
+    return {id: particleGrid[r][c].id, temp: particleGrid[r][c].temp, type: particleGrid[r][c].type};
 }
 
-function setPixel(r,c,id) {
+function setParticle(r,c,id) {
     if(!isInBounds(r,c)) {
-        console.error(`r or c is outOfBounds in setPixel()`)
+        console.error(`r or c is outOfBounds in setParticle()`)
         return
     }
     if(id < 0 || id >= pixelTypes.length) {
-        console.error('id is outOfBounds in setPixel function')
+        console.error('id is outOfBounds in setParticle function')
         return
     }
     const pixelType = pixelTypes[id]
-    pixelGrid[r][c].id = id
-    pixelGrid[r][c].temp = pixelType.defaultTemp
+    particleGrid[r][c].id = id
+    particleGrid[r][c].temp = pixelType.defaultTemp
     if(pixelType.isGas)
-        pixelGrid[r][c].type = 'Gas'
+        particleGrid[r][c].type = 'Gas'
     else if(pixelType.isLiquid)
-        pixelGrid[r][c].type = 'Liquid'
+        particleGrid[r][c].type = 'Liquid'
     else if(pixelType.isPowder)
-        pixelGrid[r][c].type = 'Powder'
+        particleGrid[r][c].type = 'Powder'
     else
-        pixelGrid[r][c].type = 'Solid'
+        particleGrid[r][c].type = 'Solid'
     drawPixel(r,c)
 }
 
-function setPixelId(r,c,id) {
+function setParticleId(r,c,id) {
     if(!isInBounds(r,c)) {
-        console.error(`r or c is outOfBounds in setPixel()`)
+        console.error(`r or c is outOfBounds in setParticle()`)
         return
     }
     if(id < 0 || id >= pixelTypes.length) {
-        console.error('id is outOfBounds in setPixel function')
+        console.error('id is outOfBounds in setParticle function')
         return
     }
-    pixelGrid[r][c].id = id
+    particleGrid[r][c].id = id
     const pixelType = pixelTypes[id]
     if(pixelType.isGas)
-        pixelGrid[r][c].type = 'Gas'
+        particleGrid[r][c].type = 'Gas'
     else if(pixelType.isLiquid)
-        pixelGrid[r][c].type = 'Liquid'
+        particleGrid[r][c].type = 'Liquid'
     else if(pixelType.isPowder)
-        pixelGrid[r][c].type = 'Powder'
+        particleGrid[r][c].type = 'Powder'
     else
-        pixelGrid[r][c].type = 'Solid'
+        particleGrid[r][c].type = 'Solid'
     drawPixel(r,c)
 }
 
-function setPixelType(r,c,type) {
+function setParticleType(r,c,type) {
     if(!isInBounds(r,c)) {
-        console.error(`r or c is outOfBounds in setPixelType()`)
+        console.error(`r or c is outOfBounds in setParticleType()`)
         return
     }
-    pixelGrid[r][c].type = type
+    particleGrid[r][c].type = type
     drawPixel(r,c)
 }
 
-function setPixelObj(r,c,obj) {
+function setParticleObj(r,c,obj) {
     if(!isInBounds(r,c)) {
-        console.error(`r or c is outOfBounds in setPixelObj()`)
+        console.error(`r or c is outOfBounds in setParticleObj()`)
         return
     }
     if(obj === null || obj === undefined) {
         console.error(`Particle Object Passed in is ${obj.typeOf()}`)
         return
     }
-    pixelGrid[r][c].id = obj.id
-    pixelGrid[r][c].temp = obj.temp
-    pixelGrid[r][c].type = obj.type
+    particleGrid[r][c].id = obj.id
+    particleGrid[r][c].temp = obj.temp
+    particleGrid[r][c].type = obj.type
     drawPixel(r,c)
 }
 
@@ -92,7 +92,7 @@ function farenheitToCelsius(temperature) {
 }
 
 function isInBounds(r,c) {
-    if(r > -1 && r < pixelGrid.length && c > -1 && c < pixelGrid[r].length) 
+    if(r > -1 && r < particleGrid.length && c > -1 && c < particleGrid[r].length) 
         return true
     return false
 }
@@ -102,6 +102,17 @@ function restrictNum(num,max,min) {
     if(num > max) return max
     if(num < min) return min
     return num
+}
+
+function lerpRGB(r1,g1,b1,r2,g2,b2,scale) {
+    const r = r1 + ((r2 - r1) * scale)
+    const g = g1 + ((g2 - g1) * scale)
+    const b = b1 + ((b2 - b1) * scale)
+    return {
+        r: restrictNum(r,255,0),
+        g: restrictNum(g,255,0),
+        b: restrictNum(b,255,0)
+    }
 }
 
 const tempColors = [
@@ -123,9 +134,9 @@ const tempColors = [
 //-100()F -> +1000()F
 //Range is 157.142857143 per color
 function getPixelTempColor(r,c) {
-    if(getPixel(r,c).id === VACU) return `#000000`
+    if(getParticle(r,c).id === VACU) return `#000000`
     let colorRange = (MAX_TEMP-MIN_TEMP)/tempColors.length
-    let temp = getPixel(r,c).temp
+    let temp = getParticle(r,c).temp
     let mult = 0.0
     if(temp === Infinity || temp === NaN || temp === -Infinity) {
         console.error('Temperature Passed in is Infinity or NaN')
@@ -138,16 +149,8 @@ function getPixelTempColor(r,c) {
         
         if(temp >= (MIN_TEMP + (colorRange * i)) && temp <= (MIN_TEMP + (colorRange * (i+1)))) {
             mult = (temp - (MIN_TEMP + colorRange * i)) / ((MIN_TEMP + colorRange * i+1) - (MIN_TEMP + colorRange * i))
-            let r = (tempColors[i].r + (tempColors[i+1].r - tempColors[i].r) * mult)
-            if(r < 0) r = 0
-            else if(r > 255) r = 255
-            let g = (tempColors[i].g + (tempColors[i+1].g - tempColors[i].g) * mult)
-            if(g < 0) g = 0
-            else if(g > 255) g = 255
-            let b = (tempColors[i].b + (tempColors[i+1].b - tempColors[i].b) * mult)
-            if(b < 0) b = 0
-            else if(b > 255) b = 255
-            return `rgb(${r},${g},${b})`
+            const lerpedColor = lerpRGB(tempColors[i].r,tempColors[i].g,tempColors[i].b,tempColors[i+1].r,tempColors[i+1].g,tempColors[i+1].b,mult)
+            return `rgb(${lerpedColor.r},${lerpedColor.g},${lerpedColor.b})`
         }
     }
     return `rgb(${tempColors[tempColors.length-1].r},${tempColors[tempColors.length-1].g},${tempColors[tempColors.length-1].b})`

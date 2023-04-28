@@ -11,14 +11,14 @@ function importData() {
         return
     }
     let dataObj = Object.assign(dataObject,JSON.parse(atob(importedData)))
-    pixelGrid = dataObj.matrix
+    particleGrid = dataObj.matrix
     updateCanvas()
 }
 
 function exportData() {
-    dataObject.rows = pixelGrid.length
-    dataObject.cols = pixelGrid[0].length
-    dataObject.matrix = pixelGrid
+    dataObject.rows = particleGrid.length
+    dataObject.cols = particleGrid[0].length
+    dataObject.matrix = particleGrid
     let exportedData = JSON.stringify(dataObject);
     const exportedDataText = document.createElement("textarea");
     exportedDataText.value = exportedData;
