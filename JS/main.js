@@ -26,35 +26,7 @@ function Init() {
     }
     console.log(`Particle Grid Successfully Generated`)
     //Generate Button Styles
-    let style = document.createElement('style');
-    let styleString = ''
-    let htmlString = ''
-    for(let i = 0; i < particleTypes.length; i++) {
-        let hoverColor = i===0 ? '#FFFFFF' : '#000000'
-        styleString += `
-            .${particleTypes[i].abbr}Button {
-                background-color: var(--bg-color);
-                border: 2px solid ${particleTypes[i].color};
-                color: #FFFFFF;
-                font-size: 1em;
-                transition-duration: 0.5s;
-            }
-            .${particleTypes[i].abbr}Button:hover {
-                background-color: ${particleTypes[i].color};
-                border: 2px solid ${particleTypes[i].color};
-                color: ${hoverColor};
-                font-size: 1em;
-                transition-duration: 0.5s;
-            }
-        `
-        htmlString = `<button id="elementButton${i}" class="${particleTypes[i].abbr}Button">${particleTypes[i].abbr}</button>`
-        addHTML('elementButtonHolder',htmlString)
-        document.getElementById(`elementButton${i}`).addEventListener('click',() => {pixelSelectedIndex = i;document.getElementById('particleNameText').innerText=particleTypes[i].name;document.getElementById('particleDescText').innerText=particleTypes[i].desc})
-    }
-    style.innerHTML = styleString;
-    document.getElementsByTagName('head')[0].appendChild(style);
-    document.getElementById('particleNameText').innerText=particleTypes[pixelSelectedIndex].name;
-    document.getElementById('particleDescText').innerText=particleTypes[pixelSelectedIndex].desc
+    generateUI()
     updateCanvas()
 }
 
@@ -87,6 +59,54 @@ function Update() {
     document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: Molten ${particleTypes[currentPixel.id].name}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
     else
         document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: ${particleTypes[currentPixel.id].name}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
+}
+
+function generateUI() {
+    let style = document.createElement('style');
+    let styleString = ''
+    let htmlString = ''
+    for(let i = 0; i < particleTypes.length; i++) {
+        let hoverColor = i===0 ? '#FFFFFF' : '#000000'
+        styleString += `
+            .${particleTypes[i].abbr}Button {
+                background-color: var(--bg-color);
+                border: 2px solid ${particleTypes[i].color};
+                color: #FFFFFF;
+                font-size: 1em;
+                transition-duration: 0.5s;
+            }
+            .${particleTypes[i].abbr}Button:hover {
+                background-color: ${particleTypes[i].color};
+                border: 2px solid ${particleTypes[i].color};
+                color: ${hoverColor};
+                font-size: 1em;
+                transition-duration: 0.5s;
+            }
+        `
+    }
+    for(let i = 0; i < particleCategories.length; i++) {
+        htmlString = `<button id="particleCategoryButton${i}" class="whiteButton">${particleCategories[i]}</button>`
+        addHTML('elementButtonHolder',htmlString)
+        document.getElementById(`particleCategoryButton${i}`).addEventListener('click',()=>showParticleCategory(i))
+        htmlString = `<div id="${particleCategories[i]}Holder" class="flexCol"></div>`
+        addHTML('elementButtonHolder',htmlString)
+    }
+    for(let i = 0; i < particleTypes.length; i++) {
+        htmlString = `<button id="elementButton${i}" class="${particleTypes[i].abbr}Button">${particleTypes[i].abbr}</button>`
+        if(particleCategories.indexOf(particleTypes[i].uiCategory) === -1) {
+            addHTML(`MiscHolder`,htmlString)
+        }
+        else {
+            addHTML(`${particleTypes[i].uiCategory}Holder`,htmlString)
+        }
+        document.getElementById(`elementButton${i}`).addEventListener('click',() => {pixelSelectedIndex = i;document.getElementById('particleNameText').innerText=particleTypes[i].name;document.getElementById('particleDescText').innerText=particleTypes[i].desc})
+    }
+    style.innerHTML = styleString;
+    document.getElementsByTagName('head')[0].appendChild(style);
+    document.getElementById('particleNameText').innerText=particleTypes[pixelSelectedIndex].name
+    document.getElementById('particleDescText').innerText=particleTypes[pixelSelectedIndex].desc 
+    showParticleCategory(0)
+    console.log('UI Generated')
 }
 
 window.onload = function() {

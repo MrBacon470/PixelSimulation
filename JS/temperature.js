@@ -18,6 +18,20 @@ function heatTransfer(r,c) {
         setParticleObj(r,c,Particle)
         return
     }
+    if((r === 0 || c === 0 || r === particleGrid.length-1 || c === particleGrid[r].length-1) && Particle.id !== VACU) {
+        if(Particle.temp > 72.0) {
+            let change = Math.random()*((1)*(particleTypes[Particle.id].heatConductivity/255))
+            Particle.temp -= change
+            setParticleObj(r,c,Particle)
+            return
+        }
+        else if(Particle.temp < 72.0) {
+            let change = Math.random()*(Math.abs(1)*(particleTypes[Particle.id].heatConductivity/255))
+            Particle.temp += change
+            setParticleObj(r,c,Particle)
+            return
+        }
+    }
     //The actual stuff
     let surroundingParticles = getSurroundingParticles(r,c)
     let tempSum = Particle.temp
@@ -30,16 +44,19 @@ function heatTransfer(r,c) {
         }
     }
     tempAvg = tempSum/tempCount
-    if(tempAvg-Particle.temp !== 0) {
+    if(tempAvg-Particle.temp !== 0 && Particle.id !== FIRE && Particle.id !== SFLM) {
         Particle.temp += (tempAvg-Particle.temp)*(particleTypes[Particle.id].heatConductivity/255)
     }
+    if(Particle.id !== FIRE && Particle.id !== SFLM)
     Particle.temp = restrictNum(Particle.temp,MAX_TEMP,MIN_TEMP)
 
     for(let i = 0; i < 8; i++) {
         if(surroundingParticles[i] !== -1 && surroundingParticles[i].id !== VACU) {
-            if(tempAvg-surroundingParticles[i].temp !== 0)
-            surroundingParticles[i].temp += (tempAvg-surroundingParticles[i].temp)*(particleTypes[Particle.id].heatConductivity/255)
-            surroundingParticles[i].temp = restrictNum(surroundingParticles[i].temp,MAX_TEMP,MIN_TEMP)
+            if(tempAvg-surroundingParticles[i].temp !== 0) {
+                surroundingParticles[i].temp += (tempAvg-surroundingParticles[i].temp)*(particleTypes[Particle.id].heatConductivity/255)
+                surroundingParticles[i].temp = restrictNum(surroundingParticles[i].temp,MAX_TEMP,MIN_TEMP)
+            }
+            
         }
     }
     setSurroundingParticles(r,c,surroundingParticles)

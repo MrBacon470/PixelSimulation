@@ -32,6 +32,30 @@ input {
     flex-direction: row;
 }
 
+.whiteButton {
+    border: 2px solid whitesmoke;
+    background-color: var(--bg-color);
+    color: whitesmoke;
+    transition-duration: 0.5s;
+    font-size: 1em;
+}
+
+.whiteButton:hover {
+    border: 2px solid whitesmoke;
+    background-color: whitesmoke;
+    color: black;
+    transition-duration: 0.5s;
+    font-size: 1em;
+}
+
+.whiteButtonActive {
+    border: 2px solid whitesmoke;
+    background-color: whitesmoke;
+    color: black;
+    transition-duration: 0.5s;
+    font-size: 1em;
+}
+
 #simulationCanvas {
     border: 2px solid white;
 }

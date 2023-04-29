@@ -17,6 +17,7 @@
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        uiCategory: '',
     },
 ```
 This is just an example particle (yes the vacuum particle is in game though). Particle Types are housed in the **const particleTypes = []** array inside the pixels.js script, To add your own just add an object just like the one you see above to the end of the array. Now I'm going to explain every particle attribute and how they work.
@@ -39,6 +40,7 @@ This is just an example particle (yes the vacuum particle is in game though). Pa
 `isGas:` Determines if a particle by default moves like a gas and is the gas type.<br>
 `isPowder:` Determines if a particle by default moves like a powder and is the type powder.<br>
 ### Note: If a particle has the isLiquid, isGas and isPowder attributes false is will be of type Solid which is static. Also a particle can only have one of those attributes set to true
+`uiCategory:` The string here determines which section of the UI the particle's button is placed in if it's not a defined category in the `particleCategories` array then it will be put in the Misc section. Accepted categories by default are: **'Solids','Powders','Liquids','Gases','Explosives','Special','Misc','Tools'**.
 ## Particle Objects in the particleGrid matrix
 ```js
 //Example Particle (VACU)

@@ -1,3 +1,5 @@
+const particleCategories = ['Solids','Powders','Liquids','Gases','Explosives','Special','Misc','Tools']
+
 const particleTypes = [
     {
         name: 'Vacuum',
@@ -14,6 +16,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        uiCategory: 'Special'
     },
     {
         name: 'Sand',
@@ -30,6 +33,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: true,
+        uiCategory: 'Powders'
     },
     {
         name: 'Water',
@@ -46,6 +50,7 @@ const particleTypes = [
         isLiquid: true,
         isGas: false,
         isPowder: false,
+        uiCategory: 'Liquids'
     }, 
     {
         name: 'Metal',
@@ -62,6 +67,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        uiCategory: 'Solids'
     },
     {
         name: 'Fire',
@@ -78,6 +84,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        uiCategory: 'Special'
     },
     {
         name: 'Water Vapor',
@@ -94,6 +101,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: true,
         isPowder: false,
+        uiCategory: 'Gases'
     }, 
     {
         name: 'Wood',
@@ -110,6 +118,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        uiCategory: 'Solids'
     },
     {
         name: 'Smoke',
@@ -126,6 +135,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: true,
         isPowder: false,
+        uiCategory: 'Gases'
     },
     {
         name: 'Sub Zero Flame',
@@ -142,6 +152,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        uiCategory: 'Special'
     },
     {
         name: 'Glass',
@@ -158,6 +169,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        uiCategory: 'Solids'
     },
     {
         name: 'Ice',
@@ -174,6 +186,7 @@ const particleTypes = [
         isLiquid: false,
         isGas:false,
         isPowder:false,
+        uiCategory: 'Solids'
     },
     {
         name: 'Thermite',
@@ -190,6 +203,7 @@ const particleTypes = [
         isLiquid: false,
         isGas:false,
         isPowder:true,
+        uiCategory: 'Explosives'
     }
 ]
 //Particle Type IDs for easy remebering

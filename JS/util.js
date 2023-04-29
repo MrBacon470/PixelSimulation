@@ -171,4 +171,11 @@ function hexToRgb(hex) {
       g: parseInt(result[2], 16),
       b: parseInt(result[3], 16)
     } : null;
-  }
+}
+
+function showParticleCategory(index) {
+    for(let i = 0; i < particleCategories.length; i++) {
+        document.getElementById(`${particleCategories[i]}Holder`).style.display = index === i ? 'flex' : 'none'
+        document.getElementById(`particleCategoryButton${i}`).classList = index === i ? 'whiteButtonActive' : 'whiteButton'
+    }
+}

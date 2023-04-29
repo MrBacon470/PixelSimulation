@@ -54,7 +54,8 @@ function drawPixel(r,c) {
             const particle = getParticle(r,c)
             const startRGB = hexToRgb(particleTypes[getParticle(r,c).id].color)
             const endRGB = hexToRgb('#f9f37c')
-            const mult = Math.abs(particle.temp - (particleTypes[particle.id].defaultTemp)) / particleTypes[particle.id].highTemperatureChange.temp
+            let mult = (particle.temp - (particleTypes[particle.id].defaultTemp)) / particleTypes[particle.id].highTemperatureChange.temp
+            mult = restrictNum(mult,1,0)
             const lerpedColor = lerpRGB(startRGB.r,startRGB.g,startRGB.b,endRGB.r,endRGB.g,endRGB.b,mult)
             const fillColor = `rgb(${lerpedColor.r},${lerpedColor.g},${lerpedColor.b})`
             canvas2D.fillStyle = fillColor
