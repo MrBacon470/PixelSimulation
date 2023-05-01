@@ -23,13 +23,11 @@ function heatTransfer(r,c) {
             let change = Math.random()*((1)*(particleTypes[Particle.id].heatConductivity/255))
             Particle.temp -= change
             setParticleObj(r,c,Particle)
-            return
         }
         else if(Particle.temp < 72.0) {
             let change = Math.random()*(Math.abs(1)*(particleTypes[Particle.id].heatConductivity/255))
             Particle.temp += change
             setParticleObj(r,c,Particle)
-            return
         }
     }
     //The actual stuff

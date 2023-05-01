@@ -294,8 +294,8 @@ function updateParticle() {
         let down = row+1 < particleGrid.length && (particleTypes[getParticle(row+1,col).id].flammable || getParticle(row+1,col).id == WATR)
         let left = col-1 > -1 && (particleTypes[getParticle(row,col-1).id].flammable || getParticle(row,col-1).id == WATR)
         let right = col+1 < particleGrid[row].length && (particleTypes[getParticle(row,col+1).id].flammable || getParticle(row,col+1).id == WATR)
-        const index = getRandomInt(4)
-        if(up && index === 0) {
+        
+        if(up) {
             if(getParticle(row-1,col).id != WATR)
                 setParticle(row-1,col,FIRE)
             else {
@@ -308,7 +308,7 @@ function updateParticle() {
                 return
             }
         } 
-        if(down && index === 1) {
+        if(down) {
             if(getParticle(row+1,col).id != WATR) 
                 setParticle(row+1,col,FIRE)
             else {
@@ -321,7 +321,7 @@ function updateParticle() {
                 return
             }
         }
-        if(left && index === 2) {
+        if(left) {
             if(getParticle(row,col-1).id != WATR)
                 setParticle(row,col-1,FIRE)
             else {
@@ -334,7 +334,7 @@ function updateParticle() {
                 return
             }
         }
-        if(right && index === 3) {
+        if(right) {
             if(getParticle(row,col+1).id != WATR)
                 setParticle(row,col+1,FIRE)
             else {
@@ -351,16 +351,6 @@ function updateParticle() {
             setParticle(row,col,SMKE)
         },200)
       
-    }
-    else if(currentPixel.id == SMKE) {
-        for(let i = 0; i < 3; i++) {
-            let rand = Math.random()*4
-            if(rand >= 1) {
-                setParticle(row,col,0)
-                break
-            }
-        }
-
     }
     else if(currentPixel.id == SFLM) {
         setTimeout(()=>{
