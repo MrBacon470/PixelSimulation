@@ -14,7 +14,7 @@ function updateCanvas() {
     canvas2D.clearRect(0,0,canvasData.width,canvasData.height)
     for(let r = 0; r < particleGrid.length; r++) {
         for(let c = 0; c < particleGrid[r].length; c++) {
-            drawPixel(r,c)
+            drawParticle(r,c)
         }
     }
 }
@@ -44,10 +44,13 @@ function getMousePos(evt) {
     }
 }
 
-function drawPixel(r,c) {
+function drawParticle(r,c) {
     if(!tempViewEnabled) {
         canvas2D.fillStyle = particleTypes[getParticle(r,c).id].color
-        if((particleTypes[getParticle(r,c).id].isPowder || (!particleTypes[getParticle(r,c).id].isLiquid && !particleTypes[getParticle(r,c).id].isGas)) && getParticle(r,c).type === 'Liquid') {
+        if(getParticle(r,c).sparked) {
+            canvas2D.fillStyle = particleTypes[SPRK].color
+        }
+        else if((particleTypes[getParticle(r,c).id].isPowder || (!particleTypes[getParticle(r,c).id].isLiquid && !particleTypes[getParticle(r,c).id].isGas)) && getParticle(r,c).type === 'Liquid') {
             canvas2D.fillStyle = '#f9f37c'
         }
         else if(getParticle(r,c).type === 'Solid' && getParticle(r,c).id === 3) {
@@ -64,8 +67,6 @@ function drawPixel(r,c) {
     else {
         canvas2D.fillStyle = getPixelTempColor(r,c)
     }
-
-    
     /*
      */
         

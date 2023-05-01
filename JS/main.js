@@ -20,7 +20,8 @@ function Init() {
             particleGrid[i][j] = {
                 id: 0,
                 temp: particleTypes[0].defaultTemp,
-                type: 'Solid'
+                type: 'Solid',
+                sparked: false,
             }
         }
     }
@@ -31,6 +32,7 @@ function Init() {
 }
 
 function Update() {
+    fillEnabled = document.getElementById('bucketFillCheck').checked
     if(!tempViewEnabled && document.getElementById('temperatureDisplay').checked) {
         tempViewEnabled = true
         updateCanvas()
@@ -40,13 +42,14 @@ function Update() {
         updateCanvas()
     }
     if(isMouseDown && isMouseInCanvas) {
-        
-        fillEnabled = document.getElementById('bucketFillCheck').checked
-        if(fillEnabled === false && (getParticle(mouseRow,mouseCol).id === VACU || pixelSelectedIndex === VACU)) {
-            setParticle(mouseRow,mouseCol,pixelSelectedIndex)
-            drawPixel(mouseRow,mouseCol)
+        if(pixelSelectedIndex === SPRK && getParticleType(mouseRow,mouseCol).conductive) {
+            particleGrid[mouseRow][mouseCol].sparked = true
         }
-        else if(fillEnabled === true) {
+        else if(fillEnabled === false && (getParticle(mouseRow,mouseCol).id === VACU || pixelSelectedIndex === VACU) && pixelSelectedIndex !== SPRK) {
+            setParticle(mouseRow,mouseCol,pixelSelectedIndex)
+            drawParticle(mouseRow,mouseCol)
+        }
+        else if(fillEnabled === true && pixelSelectedIndex !== SPRK) {
             floodFillPixels(mouseRow,mouseCol)
             updateCanvas()
         }
@@ -56,9 +59,9 @@ function Update() {
     }
     let currentPixel = getParticle(mouseRow,mouseCol)
     if(currentPixel.type === 'Liquid' && ((!particleTypes[currentPixel.id].isLiquid && !particleTypes[currentPixel.id].isGas) || particleTypes[currentPixel.id].isPowder))
-    document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: Molten ${particleTypes[currentPixel.id].name}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
+    document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: Molten ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
     else
-        document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: ${particleTypes[currentPixel.id].name}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
+        document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle: ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
 }
 
 function generateUI() {

@@ -204,6 +204,23 @@ const particleTypes = [
         isGas:false,
         isPowder:true,
         uiCategory: 'Explosives'
+    },
+    {
+        name: 'Spark',
+        desc: 'Electrifying!',
+        abbr: 'SPRK',
+        color: '#FFFF80',
+        flammable: false,
+        conductive: false,
+        weight: 0,
+        heatConductivity: 0,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:-1,type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        isLiquid: false,
+        isGas:false,
+        isPowder:false,
+        uiCategory: 'Electronics'
     }
 ]
 //Particle Type IDs for easy remebering
@@ -213,6 +230,7 @@ const FIRE = 4
 const WTRV = 5
 const SMKE = 7
 const SFLM = 8
+const SPRK = 12
 
 function updateParticle() {
     let row = getRandomInt(particleGrid.length)
@@ -221,6 +239,7 @@ function updateParticle() {
     particleConversions(row,col)
     heatTransfer(row,col)
     updatePhase(row,col)
+    updateSPRK(row,col)
     if(currentPixel.type === 'Powder') {
         let down = isInBounds(row+1,col) && (getParticle(row+1,col).id === VACU || (getParticle(row+1,col).type === 'Powder' && particleTypes[getParticle(row+1,col).id].weight < particleTypes[getParticle(row,col).id].weight) || getParticle(row+1,col).type === 'Liquid' || getParticle(row+1,col).type === 'Gas')
         let left = isInBounds(row+1,col-1) && (getParticle(row+1,col-1).id === VACU || (getParticle(row+1,col-1).type === 'Powder' && particleTypes[getParticle(row+1,col-1).id].weight < particleTypes[getParticle(row,col).id].weight) || getParticle(row+1,col-1).type === 'Liquid' || getParticle(row+1,col-1).type === 'Gas')
@@ -302,8 +321,8 @@ function updateParticle() {
                 particleGrid[row-1][col] = {id:WTRV,temp:particleTypes[WTRV].defaultTemp,type:'Gas'}
                 particleGrid[row][col] = {id:SMKE,temp:particleTypes[SMKE].defaultTemp,type:'Gas'}
                 setTimeout(() => {
-                    drawPixel(row-1,col)
-                    drawPixel(row,col)
+                    drawParticle(row-1,col)
+                    drawParticle(row,col)
                 },200)
                 return
             }
@@ -315,8 +334,8 @@ function updateParticle() {
                 particleGrid[row+1][col] = {id:WTRV,temp:particleTypes[WTRV].defaultTemp,type:'Gas'}
                 particleGrid[row][col] = {id:SMKE,temp:particleTypes[SMKE].defaultTemp,type:'Gas'}
                 setTimeout(() => {
-                    drawPixel(row+1,col)
-                    drawPixel(row,col)
+                    drawParticle(row+1,col)
+                    drawParticle(row,col)
                 },200)
                 return
             }
@@ -328,8 +347,8 @@ function updateParticle() {
                 particleGrid[row][col-1] = {id:WTRV,temp:particleTypes[WTRV].defaultTemp,type:'Gas'}
                 particleGrid[row][col] = {id:SMKE,temp:particleTypes[SMKE].defaultTemp,type:'Gas'}
                 setTimeout(() => {
-                    drawPixel(row,col-1)
-                    drawPixel(row,col)
+                    drawParticle(row,col-1)
+                    drawParticle(row,col)
                 },200)
                 return
             }
@@ -341,8 +360,8 @@ function updateParticle() {
                 particleGrid[row][col+1] = {id:WTRV,temp:particleTypes[WTRV].defaultTemp,type:'Gas'}
                 particleGrid[row][col] = {id:SMKE,temp:particleTypes[SMKE].defaultTemp,type:'Gas'}
                 setTimeout(() => {
-                    drawPixel(row,col+1)
-                    drawPixel(row,col)
+                    drawParticle(row,col+1)
+                    drawParticle(row,col)
                 },200)
                 return
             }
@@ -358,6 +377,7 @@ function updateParticle() {
         },200)
             
     }
+    
 }
 
 function particleConversions(r,c) {
