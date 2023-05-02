@@ -60,7 +60,7 @@ The first 3 functions called are: `particleConversions(row,col)`, `heatTransfer(
 2. `heatTransfer(row,col)` - Heat Transfer is responsible for temperature changes and movement of temperature through particles, it and the next function are explained in better detail in the temperature documentation.
 3. `updatePhase(row,col)` - updatePhase will change the phase of the particle based on its current temperature and type.<br><br>
 ### The default If Statements Explained
-The first if statements you see in this function are the `if(currentPixel.type === 'Type')` ifs. These are the default movement of gravity affected particles which are Powders, Liquids and Gasses. The next ifs are for different random particles such as Fire and Sub zero flame and this is where you can add your own custom particle updates just remeber the particle type has to be Solid to be updated here!
+The first if statements you see in this function are the `if(currentParticle.type === 'Type')` ifs. These are the default movement of gravity affected particles which are Powders, Liquids and Gasses. The next ifs are for different random particles such as Fire and Sub zero flame and this is where you can add your own custom particle updates just remeber the particle type has to be Solid to be updated here!
 ## particleConversions(r,c)
 This function is pretty simple this is where you do custom non phase change particle conversions for the particle like this is where the conversion for thermite into molten metal occurs!
 ### **If you have any issues with this documentation or feel like it needs more don't be afraid to open issues on this repo or add your own changes to it!**

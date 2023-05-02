@@ -4,7 +4,7 @@ let isMouseInCanvas = false
 let fillEnabled = false
 let tempViewEnabled = true
 const gameData = {
-    pixelUpdateRate: 1250
+    pixelUpdateRate: 2500
 }
 const faviconSquareColors = ['black','blue','brown','green','orange','purple','red']
 function Init() {
@@ -22,6 +22,7 @@ function Init() {
                 temp: particleTypes[0].defaultTemp,
                 type: 'Solid',
                 sparked: false,
+                tmp: null,
             }
         }
     }
@@ -59,11 +60,11 @@ function Update() {
     for(let i = 0; i < gameData.pixelUpdateRate; i++) {
         updateParticle()
     }
-    let currentPixel = getParticle(mouseRow,mouseCol)
-    if(currentPixel.type === 'Liquid' && ((!particleTypes[currentPixel.id].isLiquid && !particleTypes[currentPixel.id].isGas) || particleTypes[currentPixel.id].isPowder))
-    document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: Molten ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
+    let currentParticle = getParticle(mouseRow,mouseCol)
+    if(currentParticle.type === 'Liquid' && ((!particleTypes[currentParticle.id].isLiquid && !particleTypes[currentParticle.id].isGas) || particleTypes[currentParticle.id].isPowder))
+    document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: Molten ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentParticle.temp.toFixed(2)} ºF`
     else
-        document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle: ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentPixel.temp.toFixed(2)} ºF`
+        document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle: ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentParticle.temp.toFixed(2)} ºF`
 }
 
 function generateUI() {
@@ -111,6 +112,9 @@ function generateUI() {
     document.getElementById('particleNameText').innerText=particleTypes[pixelSelectedIndex].name
     document.getElementById('particleDescText').innerText=particleTypes[pixelSelectedIndex].desc 
     showParticleCategory(0)
+    document.getElementById('clearSimButton').addEventListener('click',()=>clearSimulation())
+    document.getElementById('exportSimButton').addEventListener('click',()=>exportData())
+    document.getElementById('importSimButton').addEventListener('click',()=>importData())
     console.log('UI Generated')
 }
 
