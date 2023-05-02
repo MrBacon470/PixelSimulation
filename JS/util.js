@@ -190,9 +190,19 @@ function hexToRgb(hex) {
 }
 
 function showParticleCategory(index) {
-    for(let i = 0; i < particleCategories.length; i++) {
-        document.getElementById(`${particleCategories[i]}Holder`).style.display = index === i ? 'flex' : 'none'
-        document.getElementById(`particleCategoryButton${i}`).classList = index === i ? 'whiteButtonActive' : 'whiteButton'
+    if(index === -1) {
+        for(let i = 0; i < particleCategories.length; i++) {
+            document.getElementById(`particleCategoryButton${i}`).style.display = 'block'
+            document.getElementById(`particleCategoryButton${i}`).classList = 'whiteButton'
+            document.getElementById(`${particleCategories[i]}Holder`).style.display = 'none'
+        }
+    }
+    else {
+        for(let i = 0; i < particleCategories.length; i++) {
+            document.getElementById(`${particleCategories[i]}Holder`).style.display = index === i ? 'flex' : 'none'
+            document.getElementById(`particleCategoryButton${i}`).classList = index === i ? 'whiteButtonActive' : 'whiteButton'
+            document.getElementById(`particleCategoryButton${i}`).style.display = index === i ? 'block' : 'none'
+        }
     }
 }
 

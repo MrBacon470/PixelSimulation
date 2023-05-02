@@ -96,6 +96,8 @@ function generateUI() {
         document.getElementById(`particleCategoryButton${i}`).addEventListener('click',()=>showParticleCategory(i))
         htmlString = `<div id="${particleCategories[i]}Holder" class="flexCol"></div>`
         addHTML('elementButtonHolder',htmlString)
+        htmlString = `<button class="whiteButton" onclick="showParticleCategory(-1)">Go Back</button>`
+        addHTML(`${particleCategories[i]}Holder`,htmlString)
     }
     for(let i = 0; i < particleTypes.length; i++) {
         htmlString = `<button id="elementButton${i}" class="${particleTypes[i].abbr}Button">${particleTypes[i].abbr}</button>`
