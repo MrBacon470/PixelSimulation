@@ -8,6 +8,10 @@ function heatTransfer(r,c) {
         setParticle(r,c,0)
         return
     }
+    if(Particle.id === 26 && (Particle.temp > 72 || Particle.temp < 72)) {
+        setParticle(r,c,26)
+        return
+    }
     if(Particle.temp > MAX_TEMP) {
         Particle.temp = MAX_TEMP
         setParticleObj(r,c,Particle)
@@ -36,7 +40,7 @@ function heatTransfer(r,c) {
     let tempCount = 1
     let tempAvg = 0
     for(let i = 0; i < 8; i++) {
-        if(surroundingParticles[i] !== -1 && surroundingParticles[i].id !== VACU) {
+        if(surroundingParticles[i] !== -1 && surroundingParticles[i].id !== VACU && surroundingParticles[i].id !== 26) {
             tempSum += surroundingParticles[i].temp
             tempCount += 1
         }
@@ -49,7 +53,7 @@ function heatTransfer(r,c) {
     Particle.temp = restrictNum(Particle.temp,MAX_TEMP,MIN_TEMP)
 
     for(let i = 0; i < 8; i++) {
-        if(surroundingParticles[i] !== -1 && surroundingParticles[i].id !== VACU) {
+        if(surroundingParticles[i] !== -1 && surroundingParticles[i].id !== VACU && surroundingParticles[i].id !== 26) {
             if(tempAvg-surroundingParticles[i].temp !== 0) {
                 surroundingParticles[i].temp += (tempAvg-surroundingParticles[i].temp)*(particleTypes[Particle.id].heatConductivity/255)
                 surroundingParticles[i].temp = restrictNum(surroundingParticles[i].temp,MAX_TEMP,MIN_TEMP)

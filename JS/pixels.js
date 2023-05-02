@@ -443,6 +443,23 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Solids'
     },
+    {
+        name: 'Insulation',
+        desc: 'Opposite of HEAC, Behaves sorta like VACU',
+        abbr: 'INSL',
+        color: '#9EA3B6',
+        flammable: true,
+        conductive: false,
+        weight: 100,
+        heatConductivity: 0,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:-1,type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Solids'
+    }
 ]
 //Particle Type IDs for easy remebering
 const VACU = 0
