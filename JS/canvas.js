@@ -53,7 +53,7 @@ function drawParticle(r,c) {
         else if((particleTypes[getParticle(r,c).id].isPowder || (!particleTypes[getParticle(r,c).id].isLiquid && !particleTypes[getParticle(r,c).id].isGas)) && getParticle(r,c).type === 'Liquid') {
             canvas2D.fillStyle = '#f9f37c'
         }
-        else if(getParticle(r,c).type === 'Solid' && (getParticle(r,c).id === 3 || getParticle(r,c).id === 15)) {
+        else if((getParticle(r,c).id === 3 || getParticle(r,c).id === 15 || getParticle(r,c).id === 1 || getParticle(r,c).id === 28)) {
             const particle = getParticle(r,c)
             const startRGB = hexToRgb(particleTypes[getParticle(r,c).id].color)
             const endRGB = hexToRgb('#f9f37c')

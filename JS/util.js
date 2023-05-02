@@ -30,6 +30,7 @@ function setParticle(r,c,id) {
     const pixelType = particleTypes[id]
     particleGrid[r][c].id = id
     particleGrid[r][c].temp = pixelType.defaultTemp
+    particleGrid[r][c].tmp = null
     if(pixelType.isGas)
         particleGrid[r][c].type = 'Gas'
     else if(pixelType.isLiquid)

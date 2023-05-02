@@ -459,7 +459,41 @@ const particleTypes = [
         isGas: false,
         isPowder: false,
         uiCategory: 'Solids'
-    }
+    },
+    {
+        name: 'Quartz',
+        desc: 'A powdered crystalline material, grows with SLTW',
+        abbr: 'QRTZ',
+        color: '#AADDDD',
+        flammable: false,
+        conductive: true,
+        weight: 100,
+        heatConductivity: 3,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:2573,type:24},
+        lowTemperatureChange: {temp:-1,type:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: true,
+        uiCategory: 'Powders'
+    },
+    {
+        name: 'Silicon',
+        desc: 'Can be used to create electronic things',
+        abbr: 'SLCN',
+        color: '#BCCDDF',
+        flammable: false,
+        conductive: true,
+        weight: 90,
+        heatConductivity: 100,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:3538.15,type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: true,
+        uiCategory: 'Powders'
+    },
 ]
 //Particle Type IDs for easy remebering
 const VACU = 0
@@ -711,6 +745,20 @@ function particleConversions(r,c) {
                     setParticleId(r,c,22)
                 else
                     setParticleId(r,c,5)
+            }
+            break
+        case 'QRTZ':
+            if(isInBounds(r-1,c) && getParticle(r-1,c).id === 23) {
+                setParticleId(r-1,c,27)
+            }
+            if(isInBounds(r+1,c) && getParticle(r+1,c).id === 23) {
+                setParticleId(r+1,c,27)
+            }
+            if(isInBounds(r,c-1) && getParticle(r,c-1).id === 23) {
+                setParticleId(r,c-1,27)
+            }
+            if(isInBounds(r,c+1) && getParticle(r,c+1).id === 23) {
+                setParticleId(r,c+1,27)
             }
             break
         default:
