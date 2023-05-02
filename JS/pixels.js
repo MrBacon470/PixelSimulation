@@ -494,6 +494,23 @@ const particleTypes = [
         isPowder: true,
         uiCategory: 'Powders'
     },
+    {
+        name: 'Diesel',
+        desc: 'Truck Food or smthn idk',
+        abbr: 'DESL',
+        color: '#440000',
+        flammable: true,
+        conductive: false,
+        weight: 15,
+        heatConductivity: 42,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:335.0,type:4},
+        lowTemperatureChange: {temp:-1,type:-1},
+        isLiquid: true,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Liquids'
+    },
 ]
 //Particle Type IDs for easy remebering
 const VACU = 0

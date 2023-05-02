@@ -50,10 +50,10 @@ function drawParticle(r,c) {
         if(getParticle(r,c).sparked) {
             canvas2D.fillStyle = particleTypes[SPRK].color
         }
-        else if((particleTypes[getParticle(r,c).id].isPowder || (!particleTypes[getParticle(r,c).id].isLiquid && !particleTypes[getParticle(r,c).id].isGas)) && getParticle(r,c).type === 'Liquid') {
+        else if((particleTypes[getParticle(r,c).id].isPowder || (!particleTypes[getParticle(r,c).id].isPowder && !particleTypes[getParticle(r,c).id].isLiquid && !particleTypes[getParticle(r,c).id].isGas)) && getParticle(r,c).type === 'Liquid') {
             canvas2D.fillStyle = '#f9f37c'
         }
-        else if((getParticle(r,c).id === 3 || getParticle(r,c).id === 15 || getParticle(r,c).id === 1 || getParticle(r,c).id === 28)) {
+        else if((getParticleType(r,c).isPowder || (!getParticleType(r,c).isPowder && !getParticleType(r,c).isGas && !getParticleType(r,c).isLiquid)) &&(getParticle(r,c).id === 3 || getParticle(r,c).id === 15 || getParticle(r,c).id === 1 || getParticle(r,c).id === 28)) {
             const particle = getParticle(r,c)
             const startRGB = hexToRgb(particleTypes[getParticle(r,c).id].color)
             const endRGB = hexToRgb('#f9f37c')
