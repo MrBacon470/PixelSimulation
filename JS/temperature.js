@@ -62,11 +62,16 @@ function heatTransfer(r,c) {
 }
 
 function updatePhase(r,c) {
-    const currentParticle = getParticle(r,c)
+    let currentParticle = getParticle(r,c)
     const particleType = particleTypes[currentParticle.id]
     const highTemp = particleType.highTemperatureChange
     const lowTemp = particleType.lowTemperatureChange
-    if(highTemp.temp === -1 && lowTemp.temp === -1) {
+    if(currentParticle.type === 'Gas' && currentParticle.temp >= MAX_TEMP-500) {
+        currentParticle.id = 18
+        setParticleObj(r,c,currentParticle)
+        return
+    }
+    else if(highTemp.temp === -1 && lowTemp.temp === -1) {
         return
     }
     else if(highTemp.temp !== -1 && currentParticle.temp >= highTemp.temp) {

@@ -29,6 +29,8 @@ Converts a css rgb color string to a hexadecimal color string and a hexadecimal 
 ### getParticle(r,c)
 Will get the particle object at the position **(r,c)**:
 r is the row and c is the column. It will return nothing if either parameter is OutOfBounds. Otherwise it returns an particle object that looks like this **{id: particleID, temp: particleTemperature, type: howTheParticleMoves}**
+### getParticleType(r,c)
+Returns the Particle Type Object Based on the id parameter of the particle at r,c
 ### setParticle(r,c,id)
 This setParticle function will set the particle at **(r,c)** to the default version of the particle defined in the particleTypes array at **id**. If r or c is OutOfBounds or id is OutOfBounds it will return and do nothing.
 ### setParticleId(r,c,id)

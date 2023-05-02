@@ -9,9 +9,13 @@ function addHTML(target,html) {
 function getParticle(r,c) {
     if(!isInBounds(r,c)) {
         //console.error(`r: ${r} or c: ${c} is outOfBounds in getParticle()`)
-        return {id: -1, temp: -1, type: 'None'}
+        return {id: -1, temp: -1, type: 'None', sparked: false, tmp: null,}
     }
-    return {id: particleGrid[r][c].id, temp: particleGrid[r][c].temp, type: particleGrid[r][c].type};
+    return {id: particleGrid[r][c].id, 
+        temp: particleGrid[r][c].temp, 
+        type: particleGrid[r][c].type, 
+        sparked: particleGrid[r][c].sparked, 
+        tmp: particleGrid[r][c].tmp};
 }
 
 function setParticle(r,c,id) {
@@ -34,7 +38,7 @@ function setParticle(r,c,id) {
         particleGrid[r][c].type = 'Powder'
     else
         particleGrid[r][c].type = 'Solid'
-    drawPixel(r,c)
+    drawParticle(r,c)
 }
 
 function setParticleId(r,c,id) {
@@ -56,7 +60,7 @@ function setParticleId(r,c,id) {
         particleGrid[r][c].type = 'Powder'
     else
         particleGrid[r][c].type = 'Solid'
-    drawPixel(r,c)
+    drawParticle(r,c)
 }
 
 function setParticleType(r,c,type) {
@@ -65,7 +69,7 @@ function setParticleType(r,c,type) {
         return
     }
     particleGrid[r][c].type = type
-    drawPixel(r,c)
+    drawParticle(r,c)
 }
 
 function setParticleObj(r,c,obj) {
@@ -74,13 +78,25 @@ function setParticleObj(r,c,obj) {
         return
     }
     if(obj === null || obj === undefined) {
-        console.error(`Particle Object Passed in is ${obj.typeOf()}`)
+        console.error(`Particle Object Passed in is ${typeof obj}`)
         return
     }
     particleGrid[r][c].id = obj.id
     particleGrid[r][c].temp = obj.temp
     particleGrid[r][c].type = obj.type
-    drawPixel(r,c)
+    drawParticle(r,c)
+}
+
+function setParticleSparked(r,c,bool) {
+    if(!isInBounds(r,c) || typeof bool !== Boolean)
+        return
+    particleGrid[r][c].sparked = bool
+}
+
+function setParticleTmpVar(r,c,tmp) {
+    if(!isInBounds(r,c))
+        return
+    particleGrid[r][c].tmp = tmp
 }
 
 function celsiusToFarenheit(temperature) {
@@ -178,4 +194,28 @@ function showParticleCategory(index) {
         document.getElementById(`${particleCategories[i]}Holder`).style.display = index === i ? 'flex' : 'none'
         document.getElementById(`particleCategoryButton${i}`).classList = index === i ? 'whiteButtonActive' : 'whiteButton'
     }
+}
+
+function getParticleType(r,c) {
+    if(!isInBounds(r,c)) return particleTypes[0]
+    return particleTypes[getParticle(r,c).id]
+}
+
+function clearSimulation() {
+    let rows = canvasData.height/canvasData.pixelSize
+    let cols = canvasData.width/canvasData.pixelSize
+    particleGrid = new Array(rows)
+    for(let i = 0; i < rows; i++) {
+        particleGrid[i] = new Array(cols).fill(0)
+        for(let j = 0; j < cols; j++) {
+            particleGrid[i][j] = {
+                id: 0,
+                temp: particleTypes[0].defaultTemp,
+                type: 'Solid',
+                sparked: false,
+                tmp: null,
+            }
+        }
+    }
+    updateCanvas()
 }
