@@ -28,6 +28,8 @@ function Init() {
     console.log(`Particle Grid Successfully Generated`)
     //Generate Button Styles
     generateUI()
+    const el = document.getElementsByClassName('SPRKButton')
+    el[0].style.display = 'none'
     updateCanvas()
 }
 
