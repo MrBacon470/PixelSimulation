@@ -59,6 +59,7 @@ function drawParticle(r,c) {
             const startRGB = mult < 0.5 ? hexToRgb(particleTypes[getParticle(r,c).id].color) : hexToRgb('#ff9b35')
             const endRGB = mult < 0.5 ? hexToRgb('#ff9b35') : hexToRgb('#f9f37c')
             
+            mult = mult < 0.5 ? mult * 2 : mult / 2
             mult = restrictNum(mult,1,0)
             const lerpedColor = lerpRGB(startRGB.r,startRGB.g,startRGB.b,endRGB.r,endRGB.g,endRGB.b,mult)
             const fillColor = `rgb(${lerpedColor.r},${lerpedColor.g},${lerpedColor.b})`

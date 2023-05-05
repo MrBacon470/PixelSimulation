@@ -3,6 +3,7 @@ let isMouseDown = false
 let isMouseInCanvas = false
 let fillEnabled = false
 let tempViewEnabled = true
+let debugMode = false
 const gameData = {
     pixelUpdateRate: 2500
 }
@@ -35,6 +36,7 @@ function Init() {
 }
 
 function Update() {
+    debugMode = document.getElementById('debugMode').checked
     fillEnabled = document.getElementById('bucketFillCheck').checked
     if(!tempViewEnabled && document.getElementById('temperatureDisplay').checked) {
         tempViewEnabled = true
@@ -60,11 +62,13 @@ function Update() {
     for(let i = 0; i < gameData.pixelUpdateRate; i++) {
         updateParticle()
     }
-    let currentParticle = getParticle(mouseRow,mouseCol)
+    const currentParticle = getParticle(mouseRow,mouseCol)
+    const particleInfoString = debugMode ? `Grid Pos: [${mouseRow},${mouseCol}]\nMouse Pos: [${mousePositions.x.toFixed(2)},${mousePositions.y.toFixed(2)}]\nParticle: ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentParticle.temp.toFixed(2)} ºF\nType: ${currentParticle.type}\nTmp: ${currentParticle.tmp}\nSparked: ${currentParticle.sparked}` :
+    `[${mouseRow},${mouseCol}]\nParticle: ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentParticle.temp.toFixed(2)} ºF`
     if(currentParticle.type === 'Liquid' && ((!particleTypes[currentParticle.id].isLiquid && !particleTypes[currentParticle.id].isGas) || particleTypes[currentParticle.id].isPowder))
     document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: Molten ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentParticle.temp.toFixed(2)} ºF`
     else
-        document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle: ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentParticle.temp.toFixed(2)} ºF`
+        document.getElementById('particleInformation').innerText = particleInfoString
 }
 
 function generateUI() {
