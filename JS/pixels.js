@@ -474,8 +474,8 @@ const particleTypes = [
         lowTemperatureChange: {temp:-1,type:-1},
         isLiquid: false,
         isGas: false,
-        isPowder: true,
-        uiCategory: 'Powders'
+        isPowder: false,
+        uiCategory: 'Solids'
     },
     {
         name: 'Silicon',
