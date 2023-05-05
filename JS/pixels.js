@@ -16,6 +16,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        blastResistant: false,
         uiCategory: 'Special'
     },
     {
@@ -33,6 +34,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: true,
+        blastResistant: false,
         uiCategory: 'Powders'
     },
     {
@@ -50,6 +52,7 @@ const particleTypes = [
         isLiquid: true,
         isGas: false,
         isPowder: false,
+        blastResistant: true,
         uiCategory: 'Liquids'
     }, 
     {
@@ -67,6 +70,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        blastResistant: true,
         uiCategory: 'Solids'
     },
     {
@@ -84,6 +88,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        blastResistant: false,
         uiCategory: 'Special'
     },
     {
@@ -101,6 +106,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: true,
         isPowder: false,
+        blastResistant: true,
         uiCategory: 'Gases'
     }, 
     {
@@ -118,6 +124,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
@@ -135,6 +142,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: true,
         isPowder: false,
+        blastResistant: true,
         uiCategory: 'Gases'
     },
     {
@@ -152,6 +160,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        blastResistant: true,
         uiCategory: 'Special'
     },
     {
@@ -169,6 +178,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
@@ -186,6 +196,7 @@ const particleTypes = [
         isLiquid: false,
         isGas:false,
         isPowder:false,
+        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
@@ -203,6 +214,7 @@ const particleTypes = [
         isLiquid: false,
         isGas:false,
         isPowder:true,
+        blastResistant: false,
         uiCategory: 'Explosives'
     },
     {
@@ -220,6 +232,7 @@ const particleTypes = [
         isLiquid: false,
         isGas:false,
         isPowder:false,
+        blastResistant: false,
         uiCategory: 'Electronics'
     },
     {
@@ -237,6 +250,7 @@ const particleTypes = [
         isLiquid: false,
         isGas:false,
         isPowder:false,
+        blastResistant: true,
         uiCategory: 'Special'
     },
     {
@@ -254,6 +268,7 @@ const particleTypes = [
         isLiquid: false,
         isGas:false,
         isPowder:false,
+        blastResistant: true,
         uiCategory: 'Special'
     },
     {
@@ -271,6 +286,7 @@ const particleTypes = [
         isLiquid: false,
         isGas:false,
         isPowder:false,
+        blastResistant: true,
         uiCategory: 'Solids'
     },
     {
@@ -288,6 +304,7 @@ const particleTypes = [
         isLiquid: true,
         isGas:false,
         isPowder:false,
+        blastResistant: false,
         uiCategory: 'Liquids'
     },
     {
@@ -305,6 +322,7 @@ const particleTypes = [
         isLiquid: false,
         isGas:true,
         isPowder:false,
+        blastResistant: false,
         uiCategory: 'Gases'
     },
     {
@@ -322,6 +340,7 @@ const particleTypes = [
         isLiquid: false,
         isGas:true,
         isPowder:false,
+        blastResistant: false,
         uiCategory: 'Gases'
     },
     {
@@ -339,6 +358,7 @@ const particleTypes = [
         isLiquid: false,
         isGas:false,
         isPowder:false,
+        blastResistant: true,
         uiCategory: 'Solids'
     },
     {
@@ -356,6 +376,7 @@ const particleTypes = [
         isLiquid: true,
         isGas: false,
         isPowder: false,
+        blastResistant: false,
         uiCategory: 'Liquids'
     },
     {
@@ -373,6 +394,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
@@ -390,6 +412,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: true,
+        blastResistant: false,
         uiCategory: 'Powders'
     },
     {
@@ -407,6 +430,7 @@ const particleTypes = [
         isLiquid: true,
         isGas: false,
         isPowder: false,
+        blastResistant: true,
         uiCategory: 'Liquids'
     },
     {
@@ -424,6 +448,7 @@ const particleTypes = [
         isLiquid: true,
         isGas: false,
         isPowder: false,
+        blastResistant: true,
         uiCategory: 'Liquids'
     },
     {
@@ -441,6 +466,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
@@ -458,6 +484,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
@@ -475,6 +502,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
@@ -492,6 +520,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: true,
+        blastResistant: false,
         uiCategory: 'Powders'
     },
     {
@@ -509,6 +538,7 @@ const particleTypes = [
         isLiquid: true,
         isGas: false,
         isPowder: false,
+        blastResistant: false,
         uiCategory: 'Liquids'
     },
     {
@@ -526,6 +556,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        blastResistant: false,
         uiCategory: 'Explosives'
     },
     {
@@ -543,6 +574,7 @@ const particleTypes = [
         isLiquid: true,
         isGas: false,
         isPowder: false,
+        blastResistant: false,
         uiCategory: 'Explosives'
     },
     {
@@ -560,6 +592,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: true,
+        blastResistant: false,
         uiCategory: 'Powders'
     }
 ]
@@ -872,7 +905,7 @@ function explodeParticle(r,c,radius) {
     setParticle(r,c,FIRE)
     for(let rw = -(radius-1); rw < radius; rw++) {
         for(let cl = -(radius-1); cl < radius; cl++) {
-            if(isInBounds(r+rw,c+cl) && getParticle(r+rw,c+cl).id !== FIRE) {
+            if(isInBounds(r+rw,c+cl) && getParticle(r+rw,c+cl).id !== FIRE && !getParticleType(r+rw,c+cl).blastResistant) {
                 const particleAbbr = getParticleType(r+rw,c+cl).abbr
                     if(particleAbbr === particleType) explodeParticle(r+rw,c+cl)
                     else setParticle(r+rw,c+cl,FIRE)
