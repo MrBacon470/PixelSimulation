@@ -487,7 +487,7 @@ const particleTypes = [
         weight: 90,
         heatConductivity: 100,
         defaultTemp: 72.0,
-        highTemperatureChange: {temp:3538.15,type:-1},
+        highTemperatureChange: {temp:celsiusToFarenheit(3538.15),type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
         isLiquid: false,
         isGas: false,
@@ -504,13 +504,64 @@ const particleTypes = [
         weight: 15,
         heatConductivity: 42,
         defaultTemp: 72.0,
-        highTemperatureChange: {temp:335.0,type:4},
+        highTemperatureChange: {temp:celsiusToFarenheit(335.0),type:4},
         lowTemperatureChange: {temp:-1,type:-1},
         isLiquid: true,
         isGas: false,
         isPowder: false,
         uiCategory: 'Liquids'
     },
+    {
+        name: 'TNT',
+        desc: 'Trinitrotoluene goes boom',
+        abbr: 'TNT',
+        color: '#C05050',
+        flammable: false,
+        conductive: false,
+        weight: 100,
+        heatConductivity: 88,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:-1,type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Explosives'
+    },
+    {
+        name: 'Nitroglycerin',
+        desc: 'Liquid Explosive?',
+        abbr: 'NITR',
+        color: '#20E010',
+        flammable: false,
+        conductive: false,
+        weight: 23,
+        heatConductivity: 50,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:-1,type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        isLiquid: true,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Explosives'
+    },
+    {
+        name: 'Clay Dust',
+        desc: 'Can be Mixed to make TNT',
+        abbr: 'CLST',
+        color: '#E4A4A4',
+        flammable: false,
+        conductive: false,
+        weight: 55,
+        heatConductivity: 70,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:celsiusToFarenheit(1256.0),type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: true,
+        uiCategory: 'Powders'
+    }
 ]
 //Particle Type IDs for easy remebering
 const VACU = 0
@@ -778,8 +829,53 @@ function particleConversions(r,c) {
                 setParticleId(r,c+1,27)
             }
             break
+        case 'TNT':
+            if(particle.temp >= celsiusToFarenheit(90))
+                explodeParticle(r,c,3)
+            break
+        case 'NITR':
+            if(particle.temp >= celsiusToFarenheit(50)) 
+                explodeParticle(r,c,1)
+        case 'CLST':
+            if(isInBounds(r-1,c) && getParticle(r-1,c).id === 31) {
+                setParticleId(r-1,c,VACU)
+                setParticleId(r,c,30)
+            }
+            else if(isInBounds(r+1,c) && getParticle(r+1,c).id === 31) {
+                setParticleId(r+1,c,VACU)
+                setParticleId(r,c,30)
+            }
+            else if(isInBounds(r,c-1) && getParticle(r,c-1).id === 31) {
+                setParticleId(r,c-1,VACU)
+                setParticleId(r,c,30)
+            }
+            else if(isInBounds(r,c+1) && getParticle(r,c+1).id === 31) {
+                setParticleId(r,c+1,VACU)
+                setParticleId(r,c,30)
+            }
+            break
         default:
             //No Conversion
             break
+    }
+}
+
+/*
+* [r-1,c-1][r-1,c][r-1,c+1]
+* [r,c-1][r,c][r,c+1]
+* [r+1,c-1][r+1,c][r+1,c+1]
+*/
+//Sets Fire to Everyparticle in the area
+function explodeParticle(r,c,radius) {
+    const particleType = getParticleType(r,c).abbr
+    setParticle(r,c,FIRE)
+    for(let rw = -(radius-1); rw < radius; rw++) {
+        for(let cl = -(radius-1); cl < radius; cl++) {
+            if(isInBounds(r+rw,c+cl) && getParticle(r+rw,c+cl).id !== FIRE) {
+                const particleAbbr = getParticleType(r+rw,c+cl).abbr
+                    if(particleAbbr === particleType) explodeParticle(r+rw,c+cl)
+                    else setParticle(r+rw,c+cl,FIRE)
+            }
+        }
     }
 }
