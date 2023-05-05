@@ -55,10 +55,11 @@ function drawParticle(r,c) {
         }
         else if((getParticleType(r,c).isPowder || (!getParticleType(r,c).isPowder && !getParticleType(r,c).isGas && !getParticleType(r,c).isLiquid)) &&(getParticle(r,c).id === 3 || getParticle(r,c).id === 15 || getParticle(r,c).id === 1 || getParticle(r,c).id === 28)) {
             const particle = getParticle(r,c)
-            const startRGB = hexToRgb(particleTypes[getParticle(r,c).id].color)
-            const endRGB = hexToRgb('#f9f37c')
             let mult = (particle.temp - (particleTypes[particle.id].defaultTemp)) / particleTypes[particle.id].highTemperatureChange.temp
-            mult = restrictNum(mult,1,0)
+            const startRGB = mult < 0.5 ? hexToRgb(particleTypes[getParticle(r,c).id].color) : hexToRgb('#ff9b35')
+            const endRGB = mult < 0.5 ? hexToRgb('#ff9b35') : hexToRgb('#f9f37c')
+            
+            mult = mult < 0.5 ? restrictNum(mult*2,1,0) : restrictNum(mult,1,0)
             const lerpedColor = lerpRGB(startRGB.r,startRGB.g,startRGB.b,endRGB.r,endRGB.g,endRGB.b,mult)
             const fillColor = `rgb(${lerpedColor.r},${lerpedColor.g},${lerpedColor.b})`
             canvas2D.fillStyle = fillColor
