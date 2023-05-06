@@ -17,6 +17,7 @@
         isLiquid: false,
         isGas: false,
         isPowder: false,
+        blastResistant: false,
         uiCategory: '',
     },
 ```
@@ -40,11 +41,12 @@ This is just an example particle (yes the vacuum particle is in game though). Pa
 `isGas:` Determines if a particle by default moves like a gas and is the gas type.<br>
 `isPowder:` Determines if a particle by default moves like a powder and is the type powder.<br>
 ### Note: If a particle has the isLiquid, isGas and isPowder attributes false is will be of type Solid which is static. Also a particle can only have one of those attributes set to true
+`blastResistant:` This attribute is a boolean flag which determines if explosive particles can destroy it.<br>
 `uiCategory:` The string here determines which section of the UI the particle's button is placed in if it's not a defined category in the `particleCategories` array then it will be put in the Misc section. Accepted categories by default are: **'Solids','Powders','Liquids','Gases','Explosives','Special','Misc','Tools'**.
 ## Particle Objects in the particleGrid matrix
 ```js
 //Example Particle (VACU)
-{id: 0, temp: 0.0, type: 'Solid'}
+{id: 0, temp: 0.0, type: 'Solid', sparked: false, tmp: null}
 ```
 The **particleGrid** matrix holds all of the particle positions in the game I would recommend you not change data in the matrix unless know what you are doing. You can change particle data in the matrix easily using the built in setParticle functions which are documented in the Utility Functions section.<br>
 It is best to use the get and set functions provided or add your own if you have to due to how javascript objects work.
