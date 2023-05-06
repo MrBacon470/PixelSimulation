@@ -868,7 +868,7 @@ function particleConversions(r,c) {
             break
         case 'NITR':
             if(particle.temp >= celsiusToFarenheit(50)) 
-                explodeParticle(r,c,1)
+                explodeParticle(r,c,2)
             break
         case 'CLST':
             if(isInBounds(r-1,c) && getParticle(r-1,c).id === 31) {
