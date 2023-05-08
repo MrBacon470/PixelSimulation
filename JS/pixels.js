@@ -372,7 +372,7 @@ const particleTypes = [
         heatConductivity: 70,
         defaultTemp: -320.0,
         highTemperatureChange: {temp:-320.4,type:0},
-        lowTemperatureChange: {temp:-1,type:-1},
+        lowTemperatureChange: {temp:-346,type:21},
         isLiquid: true,
         isGas: false,
         isPowder: false,
