@@ -31,7 +31,7 @@ function Init() {
     //Generate Button Styles
     generateUI()
     const el = document.getElementsByClassName('SPRKButton')
-    el[0].style.display = 'none'
+    //el[0].style.display = 'none'
     updateCanvas()
 }
 
@@ -49,6 +49,9 @@ function Update() {
     if(isMouseDown && isMouseInCanvas) {
         if(pixelSelectedIndex === SPRK && getParticleType(mouseRow,mouseCol).conductive) {
             particleGrid[mouseRow][mouseCol].sparked = true
+            particleGrid[mouseRow][mouseCol].tmp = 'Center'
+            updateSPRK(mouseRow,mouseCol)
+            drawParticle(mouseRow,mouseCol)
         }
         else if(fillEnabled === false && (getParticle(mouseRow,mouseCol).id === VACU || pixelSelectedIndex === VACU) && pixelSelectedIndex !== SPRK) {
             setParticle(mouseRow,mouseCol,pixelSelectedIndex)

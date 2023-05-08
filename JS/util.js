@@ -89,7 +89,7 @@ function setParticleObj(r,c,obj) {
 }
 
 function setParticleSparked(r,c,bool) {
-    if(!isInBounds(r,c) || typeof bool !== Boolean)
+    if(!isInBounds(r,c))
         return
     particleGrid[r][c].sparked = bool
 }
