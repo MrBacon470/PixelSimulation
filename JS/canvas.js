@@ -53,7 +53,7 @@ function drawParticle(r,c) {
         else if((particleTypes[getParticle(r,c).id].isPowder || (!particleTypes[getParticle(r,c).id].isPowder && !particleTypes[getParticle(r,c).id].isLiquid && !particleTypes[getParticle(r,c).id].isGas)) && getParticle(r,c).type === 'Liquid') {
             canvas2D.fillStyle = '#f9f37c'
         }
-        else if((getParticleType(r,c).isPowder || (!getParticleType(r,c).isPowder && !getParticleType(r,c).isGas && !getParticleType(r,c).isLiquid)) &&(getParticle(r,c).id === 3 || getParticle(r,c).id === 15 || getParticle(r,c).id === 1 || getParticle(r,c).id === 28)) {
+        else if((getParticleType(r,c).isPowder || (!getParticleType(r,c).isPowder && !getParticleType(r,c).isGas && !getParticleType(r,c).isLiquid)) && (getParticleType(r,c).abbr === 'METL' || getParticleType(r,c).abbr === 'TUNG' || getParticleType(r,c).abbr === 'SLCN' || getParticleType(r,c).abbr === 'SAND' || getParticleType(r,c).abbr === 'IRON' || getParticleType(r,c).abbr === 'BRMT')) {
             const particle = getParticle(r,c)
             let mult = (particle.temp - (particleTypes[particle.id].defaultTemp)) / particleTypes[particle.id].highTemperatureChange.temp
             const startRGB = mult < 0.5 ? hexToRgb(particleTypes[getParticle(r,c).id].color) : hexToRgb('#ff9b35')

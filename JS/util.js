@@ -230,3 +230,8 @@ function clearSimulation() {
     }
     updateCanvas()
 }
+
+function checkParticleAbbr(r,c,target) {
+    if(isInBounds(r,c) && getParticleType(r,c).abbr === target) return true
+    return false
+}

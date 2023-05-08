@@ -407,7 +407,7 @@ const particleTypes = [
         weight: 75,
         heatConductivity: 110,
         defaultTemp: 72.0,
-        highTemperatureChange: {temp:1173,type:-1},
+        highTemperatureChange: {temp:celsiusToFarenheit(1173),type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
         isLiquid: false,
         isGas: false,
@@ -497,7 +497,7 @@ const particleTypes = [
         weight: 100,
         heatConductivity: 3,
         defaultTemp: 72.0,
-        highTemperatureChange: {temp:2573,type:24},
+        highTemperatureChange: {temp:celsiusToFarenheit(2573),type:24},
         lowTemperatureChange: {temp:-1,type:-1},
         isLiquid: false,
         isGas: false,
@@ -594,7 +594,61 @@ const particleTypes = [
         isPowder: true,
         blastResistant: false,
         uiCategory: 'Powders'
-    }
+    },
+    {
+        name: 'Iron',
+        desc: 'SALT rusts it can electrolize water',
+        abbr: 'IRON',
+        color: '#707070',
+        flammable: false,
+        conductive: true,
+        weight: 100,
+        heatConductivity: 251,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:celsiusToFarenheit(1687.0),type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: false,
+        blastResistant: true,
+        uiCategory: 'Solids'
+    },
+    {
+        name: 'Broken Metal',
+        desc: 'Rust, Scrap whatever you want it to be',
+        abbr: 'BRMT',
+        color: '#705060',
+        flammable: false,
+        conductive: true,
+        weight: 90,
+        heatConductivity: 211,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:celsiusToFarenheit(1273.0),type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: true,
+        blastResistant: false,
+        uiCategory: 'Powders'
+    },
+    {
+        name: 'Gunpowder',
+        desc: 'Explosive Powder?',
+        abbr: 'GUNP',
+        color: '#C0C0D0',
+        flammable: false,
+        conductive: false,
+        weight: 90,
+        heatConductivity: 211,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:celsiusToFarenheit(673.0),type:4},
+        lowTemperatureChange: {temp:-1,type:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: true,
+        blastResistant: false,
+        uiCategory: 'Explosives'
+    },
 ]
 //Particle Type IDs for easy remebering
 const VACU = 0
@@ -685,8 +739,10 @@ function updateParticle() {
             }
         }
     }
-    else if(particleType.abbr === 'FIRE') {
-        let up = row-1 > -1 && (particleTypes[getParticle(row-1,col).id].flammable || getParticle(row-1,col).id == WATR)
+    //Special Particle Changes
+    switch(particleType.abbr) {
+        case 'FIRE':
+            let up = row-1 > -1 && (particleTypes[getParticle(row-1,col).id].flammable || getParticle(row-1,col).id == WATR)
         let down = row+1 < particleGrid.length && (particleTypes[getParticle(row+1,col).id].flammable || getParticle(row+1,col).id == WATR)
         let left = col-1 > -1 && (particleTypes[getParticle(row,col-1).id].flammable || getParticle(row,col-1).id == WATR)
         let right = col+1 < particleGrid[row].length && (particleTypes[getParticle(row,col+1).id].flammable || getParticle(row,col+1).id == WATR)
@@ -746,50 +802,48 @@ function updateParticle() {
         setTimeout(() => {
             setParticle(row,col,SMKE)
         },200)
-      
-    }
-    else if(particleType.abbr === 'SFLM') {
-        setTimeout(()=>{
-            setParticle(row,col,0)
-        },200)
-            
-    }
-    else if(particleType.abbr === 'CLNE') {
-        if(currentParticle.tmp === null) {
-            const surroundingParticles = getSurroundingParticles(row,col)
-            for(let i = 0; i < surroundingParticles.length; i++) {
-                if(surroundingParticles[i] !== -1 && surroundingParticles[i].id !== VACU && surroundingParticles[i].type !== 'Solid') {
-                    setParticleTmpVar(row,col,surroundingParticles[i].id)
-                    return
+            break
+        case 'SFLM':
+            setTimeout(()=>{
+                setParticle(row,col,0)
+            },200)
+            break
+        case 'CLNE':
+            if(currentParticle.tmp === null) {
+                const surroundingParticles = getSurroundingParticles(row,col)
+                for(let i = 0; i < surroundingParticles.length; i++) {
+                    if(surroundingParticles[i] !== -1 && surroundingParticles[i].id !== VACU && surroundingParticles[i].type !== 'Solid') {
+                        setParticleTmpVar(row,col,surroundingParticles[i].id)
+                        return
+                    }
                 }
             }
-        }
-        else {
-            const i = getRandomInt(4)
-            switch(i) {
-                case 0:
-                    if(isInBounds(row-1,col) && getParticle(row-1,col).id === VACU)
-                        setParticle(row-1,col,currentParticle.tmp)
-                    break
-                case 1:
-                    if(isInBounds(row+1,col) && getParticle(row+1,col).id === VACU)
-                        setParticle(row+1,col,currentParticle.tmp)
-                    break
-                case 2:
-                    if(isInBounds(row,col-1) && getParticle(row,col-1).id === VACU)
-                        setParticle(row,col-1,currentParticle.tmp)
-                    break
-                case 3:
-                    if(isInBounds(row,col+1) && getParticle(row,col+1).id === VACU)
-                        setParticle(row,col+1,currentParticle.tmp)
-                    break
-                default:
-                    return
+            else {
+                const i = getRandomInt(4)
+                switch(i) {
+                    case 0:
+                        if(isInBounds(row-1,col) && getParticle(row-1,col).id === VACU)
+                            setParticle(row-1,col,currentParticle.tmp)
+                        break
+                    case 1:
+                        if(isInBounds(row+1,col) && getParticle(row+1,col).id === VACU)
+                            setParticle(row+1,col,currentParticle.tmp)
+                        break
+                    case 2:
+                        if(isInBounds(row,col-1) && getParticle(row,col-1).id === VACU)
+                            setParticle(row,col-1,currentParticle.tmp)
+                        break
+                    case 3:
+                        if(isInBounds(row,col+1) && getParticle(row,col+1).id === VACU)
+                            setParticle(row,col+1,currentParticle.tmp)
+                        break
+                    default:
+                        return
+                }
             }
-        }
-    }
-    else if(particleType.abbr === 'VOID') {
-        if(isInBounds(row-1,col) && getParticle(row-1,col).id !== VACU && getParticle(row-1,col).type !== 'Solid')
+            break
+        case 'VOID':
+            if(isInBounds(row-1,col) && getParticle(row-1,col).id !== VACU && getParticle(row-1,col).type !== 'Solid')
             setParticle(row-1,col,0)
         if(isInBounds(row+1,col) && getParticle(row+1,col).id !== VACU && getParticle(row+1,col).type !== 'Solid')
             setParticle(row+1,col,0)
@@ -797,6 +851,7 @@ function updateParticle() {
             setParticle(row,col-1,0)
         if(isInBounds(row,col+1) && getParticle(row,col+1).id !== VACU && getParticle(row,col+1).type !== 'Solid')
             setParticle(row,col+1,0)
+            break
     }
 }
 
@@ -863,12 +918,12 @@ function particleConversions(r,c) {
             }
             break
         case 'TNT':
-            if(particle.temp >= celsiusToFarenheit(90))
+            if(particle.temp >= celsiusToFarenheit(90) || checkSidesForParticle(r,c,'FIRE'))
                 explodeParticle(r,c,3)
             break
         case 'NITR':
-            if(particle.temp >= celsiusToFarenheit(50)) 
-                explodeParticle(r,c,2)
+            if(particle.temp >= celsiusToFarenheit(50) || checkSidesForParticle(r,c,'FIRE')) 
+                explodeParticle(r,c,4)
             break
         case 'CLST':
             if(isInBounds(r-1,c) && getParticle(r-1,c).id === 31) {
@@ -887,6 +942,24 @@ function particleConversions(r,c) {
                 setParticleId(r,c+1,VACU)
                 setParticleId(r,c,30)
             }
+            break
+        case 'IRON': 
+            if(isInBounds(r-1,c) && checkParticleAbbr(r-1,c,'SALT')) {
+                setParticleId(r,c,34)
+            }
+            else if(isInBounds(r+1,c) && checkParticleAbbr(r+1,c,'SALT')) {
+                setParticleId(r,c,34)
+            }
+            else if(isInBounds(r,c-1) && checkParticleAbbr(r,c-1,'SALT')) {
+                setParticleId(r,c,34)
+            }
+            else if(isInBounds(r,c+1) && checkParticleAbbr(r,c+1,'SALT')) {
+                setParticleId(r,c,34)
+            }
+            break
+        case 'GUNP':
+            if(particle.temp >= celsiusToFarenheit(464) || checkSidesForParticle(r,c,'FIRE'))
+                explodeParticle(r,c,2)
             break
         default:
             //No Conversion
@@ -912,4 +985,12 @@ function explodeParticle(r,c,radius) {
             }
         }
     }
+}
+
+function checkSidesForParticle(r,c,particleTargetAbbr) {
+    if(isInBounds(r-1,c) && getParticleType(r-1,c).abbr === particleTargetAbbr) return true
+    else if(isInBounds(r+1,c) && getParticleType(r+1,c).abbr === particleTargetAbbr) return true
+    else if(isInBounds(r,c-1) && getParticleType(r,c-1).abbr === particleTargetAbbr) return true
+    else if(isInBounds(r,c+1) && getParticleType(r,c+1).abbr === particleTargetAbbr) return true
+    return false
 }
