@@ -53,13 +53,15 @@ function updateSPRK(r,c) {
                 setParticleSparked(r + (currentParticle.tmp === 'Up' ? -1 : 1),c,true)
                 setParticleTmpVar(r + (currentParticle.tmp === 'Up' ? -1 : 1),c,currentParticle.tmp)
             }
-            if(isInBounds(r + (currentParticle.tmp === 'Up' ? -1 : 1),c-1) && getParticleType(r + (currentParticle.tmp === 'Up' ? -1 : 1),c-1).conductive && !getParticle(r + (currentParticle.tmp === 'Up' ? -1 : 1),c-1).sparked) {
-                setParticleSparked(r + (currentParticle.tmp === 'Up' ? -1 : 1),c-1,true)
-                setParticleTmpVar(r + (currentParticle.tmp === 'Up' ? -1 : 1),c-1,currentParticle.tmp)
-            }
-            if(isInBounds(r + (currentParticle.tmp === 'Up' ? -1 : 1),c+1) && getParticleType(r + (currentParticle.tmp === 'Up' ? -1 : 1),c+1).conductive && !getParticle(r + (currentParticle.tmp === 'Up' ? -1 : 1),c+1).sparked) {
-                setParticleSparked(r + (currentParticle.tmp === 'Up' ? -1 : 1),c+1,true)
-                setParticleTmpVar(r + (currentParticle.tmp === 'Up' ? -1 : 1),c+1,currentParticle.tmp)
+            else {
+                if(isInBounds(r + (currentParticle.tmp === 'Up' ? -1 : 1),c-1) && getParticleType(r + (currentParticle.tmp === 'Up' ? -1 : 1),c-1).conductive && !getParticle(r + (currentParticle.tmp === 'Up' ? -1 : 1),c-1).sparked) {
+                    setParticleSparked(r + (currentParticle.tmp === 'Up' ? -1 : 1),c-1,true)
+                    setParticleTmpVar(r + (currentParticle.tmp === 'Up' ? -1 : 1),c-1,currentParticle.tmp)
+                }
+                if(isInBounds(r + (currentParticle.tmp === 'Up' ? -1 : 1),c+1) && getParticleType(r + (currentParticle.tmp === 'Up' ? -1 : 1),c+1).conductive && !getParticle(r + (currentParticle.tmp === 'Up' ? -1 : 1),c+1).sparked) {
+                    setParticleSparked(r + (currentParticle.tmp === 'Up' ? -1 : 1),c+1,true)
+                    setParticleTmpVar(r + (currentParticle.tmp === 'Up' ? -1 : 1),c+1,currentParticle.tmp)
+                }
             }
             setTimeout(()=>{
                 setParticleSparked(r,c,false)
@@ -72,13 +74,15 @@ function updateSPRK(r,c) {
                 setParticleSparked(r,c + (currentParticle.tmp === 'Left' ? -1 : 1),true)
                 setParticleTmpVar(r,c + (currentParticle.tmp === 'Left' ? -1 : 1),currentParticle.tmp)
             }
-            if(isInBounds(r-1,c + (currentParticle.tmp === 'Left' ? -1 : 1)) && getParticleType(r-1,c + (currentParticle.tmp === 'Left' ? -1 : 1)).conductive && !getParticle(r-1,c + (currentParticle.tmp === 'Left' ? -1 : 1)).sparked) {
-                setParticleSparked(r-1,c + (currentParticle.tmp === 'Left' ? -1 : 1),true)
-                setParticleTmpVar(r-1,c + (currentParticle.tmp === 'Left' ? -1 : 1),currentParticle.tmp)
-            }
-            if(isInBounds(r+1,c + (currentParticle.tmp === 'Left' ? -1 : 1)) && getParticleType(r+1,c + (currentParticle.tmp === 'Left' ? -1 : 1)).conductive && !getParticle(r+1,c + (currentParticle.tmp === 'Left' ? -1 : 1)).sparked) {
-                setParticleSparked(r+1,c + (currentParticle.tmp === 'Left' ? -1 : 1),true)
-                setParticleTmpVar(r+1,c + (currentParticle.tmp === 'Left' ? -1 : 1),currentParticle.tmp)
+            else {
+                if(isInBounds(r-1,c + (currentParticle.tmp === 'Left' ? -1 : 1)) && getParticleType(r-1,c + (currentParticle.tmp === 'Left' ? -1 : 1)).conductive && !getParticle(r-1,c + (currentParticle.tmp === 'Left' ? -1 : 1)).sparked) {
+                    setParticleSparked(r-1,c + (currentParticle.tmp === 'Left' ? -1 : 1),true)
+                    setParticleTmpVar(r-1,c + (currentParticle.tmp === 'Left' ? -1 : 1),currentParticle.tmp)
+                }
+                if(isInBounds(r+1,c + (currentParticle.tmp === 'Left' ? -1 : 1)) && getParticleType(r+1,c + (currentParticle.tmp === 'Left' ? -1 : 1)).conductive && !getParticle(r+1,c + (currentParticle.tmp === 'Left' ? -1 : 1)).sparked) {
+                    setParticleSparked(r+1,c + (currentParticle.tmp === 'Left' ? -1 : 1),true)
+                    setParticleTmpVar(r+1,c + (currentParticle.tmp === 'Left' ? -1 : 1),currentParticle.tmp)
+                }
             }
             setTimeout(()=>{
                 setParticleSparked(r,c,false)

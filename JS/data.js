@@ -26,10 +26,17 @@ function exportData() {
     dataObject.matrix = particleGrid
     let exportedData = JSON.stringify(dataObject);
     const exportedDataText = document.createElement("textarea");
-    exportedDataText.value = exportedData;
-    document.body.appendChild(exportedDataText);
-    exportedDataText.select();
-    exportedDataText.setSelectionRange(0, 99999);
-    document.execCommand("copy");
-    document.body.removeChild(exportedDataText);
+    const d = new Date()
+    downloadToFile(exportedData, `${d}.txt`, 'text/plain')
+}
+
+const downloadToFile = (content, filename, contentType) => {
+    const a = document.createElement('a');
+    const file = new Blob([content], {type: contentType});
+    
+    a.href= URL.createObjectURL(file);
+    a.download = filename;
+    a.click();
+  
+      URL.revokeObjectURL(a.href);
 }

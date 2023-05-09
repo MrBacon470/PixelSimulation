@@ -235,3 +235,11 @@ function checkParticleAbbr(r,c,target) {
     if(isInBounds(r,c) && getParticleType(r,c).abbr === target) return true
     return false
 }
+
+function updateSelectedIndex(id) {
+    if(pixelSelectedIndex === id || id < 0 || id >= particleTypes.length) return
+    for(let i = 0; i < particleTypes.length; i++) {
+        document.getElementById(`elementButton${i}`).classList = i === id ? `${particleTypes[i].abbr}ButtonActive` : `${particleTypes[i].abbr}Button`
+    }
+    pixelSelectedIndex = id
+}

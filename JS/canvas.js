@@ -9,7 +9,7 @@ canvas.setAttribute('height',`${canvasData.height}px`)
 canvas.setAttribute('width',`${canvasData.width}px`)
 
 let canvas2D = canvas.getContext('2d')
-let pixelSelectedIndex = 0
+let pixelSelectedIndex = -1
 function updateCanvas() {
     canvas2D.clearRect(0,0,canvasData.width,canvasData.height)
     for(let r = 0; r < particleGrid.length; r++) {
