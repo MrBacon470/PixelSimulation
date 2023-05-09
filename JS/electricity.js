@@ -3,10 +3,11 @@
 function updateSPRK(r,c) {
     //SPRK can move 4 directions
     const currentParticle = getParticle(r,c)
+    const currentParticleName = getParticleType(r,c).abbr
     if(currentParticle.sparked && !getParticleType(r,c).conductive){
-        particleGrid[r][c].sparked = false
-        particleGrid[r][c].tmp = null
-        drawParticle(r,c)
+        setParticleSparked(r,c,false)
+        setParticleTmpVar(r,c,null)
+        return
     }
     if(!currentParticle.sparked) return
     /*
@@ -55,7 +56,7 @@ function updateSPRK(r,c) {
                 },200)
                 return
             }
-            if(isInBounds(r-1,c) && getParticleType(r-1,c).conductive && !getParticle(r-1,c).sparked) {
+            if(isInBounds(r-1,c) && particleConducts(r-1,c) && !getParticle(r-1,c).sparked && nscnTransfer(r,c,r-1,c)) {
                 setParticleSparked(r-1,c,true)
                 setParticleTmpVar(r-1,c,'Up')
                 setTimeout(()=>{
@@ -64,11 +65,11 @@ function updateSPRK(r,c) {
                 },200)
             }
             else {
-                if(isInBounds(r,c-1) && getParticleType(r,c-1).conductive && !getParticle(r,c-1).sparked) {
+                if(isInBounds(r,c-1) && particleConducts(r,c-1) && !getParticle(r,c-1).sparked && nscnTransfer(r,c,r,c-1)) {
                     setParticleSparked(r,c-1,true)
                     setParticleTmpVar(r,c-1,'Left')
                 }
-                else if(isInBounds(r,c+1) && getParticleType(r,c+1).conductive && !getParticle(r,c+1).sparked) {
+                else if(isInBounds(r,c+1) && particleConducts(r,c+1) && !getParticle(r,c+1).sparked && nscnTransfer(r,c,r,c+1)) {
                     setParticleSparked(r,c+1,true)
                     setParticleTmpVar(r,c+1,'Right')
                 }
@@ -88,7 +89,7 @@ function updateSPRK(r,c) {
                 },200)
                 return
             }
-            if(isInBounds(r+1,c) && getParticleType(r+1,c).conductive && !getParticle(r+1,c).sparked) {
+            if(isInBounds(r+1,c) && particleConducts(r+1,c) && !getParticle(r+1,c).sparked && nscnTransfer(r,c,r+1,c)) {
                 setParticleSparked(r+1,c,true)
                 setParticleTmpVar(r+1,c,'Down')
                 setTimeout(()=>{
@@ -97,11 +98,11 @@ function updateSPRK(r,c) {
                 },200)
             }
             else {
-                if(isInBounds(r,c-1) && getParticleType(r,c-1).conductive && !getParticle(r,c-1).sparked) {
+                if(isInBounds(r,c-1) && particleConducts(r,c-1) && !getParticle(r,c-1).sparked && nscnTransfer(r,c,r,c-1)) {
                     setParticleSparked(r,c-1,true)
                     setParticleTmpVar(r,c-1,'Left')
                 }
-                else if(isInBounds(r,c+1) && getParticleType(r,c+1).conductive && !getParticle(r,c+1).sparked) {
+                else if(isInBounds(r,c+1) && particleConducts(r,c+1) && !getParticle(r,c+1).sparked && nscnTransfer(r,c,r,c+1)) {
                     setParticleSparked(r,c+1,true)
                     setParticleTmpVar(r,c+1,'Right')
                 }
@@ -122,7 +123,7 @@ function updateSPRK(r,c) {
                 },200)
                 return
             }
-            if(isInBounds(r,c-1) && getParticleType(r,c-1).conductive && !getParticle(r,c-1).sparked) {
+            if(isInBounds(r,c-1) && particleConducts(r,c-1) && !getParticle(r,c-1).sparked && nscnTransfer(r,c,r,c-1)) {
                 setParticleSparked(r,c-1,true)
                 setParticleTmpVar(r,c-1,'Left')
                 setTimeout(()=>{
@@ -131,11 +132,11 @@ function updateSPRK(r,c) {
                 },200)
             }
             else {
-                if(isInBounds(r+1,c) && getParticleType(r+1,c).conductive && !getParticle(r+1,c).sparked) {
+                if(isInBounds(r+1,c) && particleConducts(r+1,c) && !getParticle(r+1,c).sparked && nscnTransfer(r,c,r+1,c)) {
                     setParticleSparked(r+1,c,true)
                     setParticleTmpVar(r+1,c,'Down')
                 }
-                else if(isInBounds(r-1,c) && getParticleType(r-1,c).conductive && !getParticle(r-1,c).sparked) {
+                else if(isInBounds(r-1,c) && particleConducts(r-1,c) && !getParticle(r-1,c).sparked && nscnTransfer(r,c,r-1,c)) {
                     setParticleSparked(r-1,c,true)
                     setParticleTmpVar(r-1,c,'Up')
                 }
@@ -155,7 +156,7 @@ function updateSPRK(r,c) {
                 },200)
                 return
             }
-            if(isInBounds(r,c+1) && getParticleType(r,c+1).conductive && !getParticle(r,c+1).sparked) {
+            if(isInBounds(r,c+1) && particleConducts(r,c+1) && !getParticle(r,c+1).sparked && nscnTransfer(r,c,r,c+1)) {
                 setParticleSparked(r,c+1,true)
                 setParticleTmpVar(r,c+1,'Right')
                 setTimeout(()=>{
@@ -164,11 +165,11 @@ function updateSPRK(r,c) {
                 },200)
             }
             else {
-                if(isInBounds(r+1,c) && getParticleType(r+1,c).conductive && !getParticle(r+1,c).sparked) {
+                if(isInBounds(r+1,c) && particleConducts(r+1,c) && !getParticle(r+1,c).sparked && nscnTransfer(r,c,r+1,c)) {
                     setParticleSparked(r+1,c,true)
                     setParticleTmpVar(r+1,c,'Down')
                 }
-                else if(isInBounds(r-1,c) && getParticleType(r-1,c).conductive && !getParticle(r-1,c).sparked) {
+                else if(isInBounds(r-1,c) && particleConducts(r-1,c) && !getParticle(r-1,c).sparked && nscnTransfer(r,c,r-1,c)) {
                     setParticleSparked(r-1,c,true)
                     setParticleTmpVar(r-1,c,'Up')
                 }
@@ -181,4 +182,19 @@ function updateSPRK(r,c) {
             }
             break
     }
+}
+
+//used to determine if particle can transfer or take a sprk
+
+function particleConducts(r,c) {
+    const particle = getParticle(r,c)
+    const particleType = getParticleType(r,c)
+    
+    return particleType.conductive
+}
+
+function nscnTransfer(r1,c1,r2,c2) {
+    const particle1 = getParticleType(r1,c1).abbr
+    const particle2 = getParticleType(r2,c2).abbr
+    return particle1 !== 'NSCN' || (particle1 === 'NSCN' && particle2 !== 'PSCN')
 }
