@@ -30,8 +30,9 @@ function Init() {
     console.log(`Particle Grid Successfully Generated`)
     //Generate Button Styles
     generateUI()
+    updateSelectedIndex(0)
     const el = document.getElementsByClassName('SPRKButton')
-    el[0].style.display = 'none'
+    //el[0].style.display = 'none'
     updateCanvas()
 }
 
@@ -49,6 +50,9 @@ function Update() {
     if(isMouseDown && isMouseInCanvas) {
         if(pixelSelectedIndex === SPRK && getParticleType(mouseRow,mouseCol).conductive) {
             particleGrid[mouseRow][mouseCol].sparked = true
+            particleGrid[mouseRow][mouseCol].tmp = 'Center'
+            updateSPRK(mouseRow,mouseCol)
+            drawParticle(mouseRow,mouseCol)
         }
         else if(fillEnabled === false && (getParticle(mouseRow,mouseCol).id === VACU || pixelSelectedIndex === VACU) && pixelSelectedIndex !== SPRK) {
             setParticle(mouseRow,mouseCol,pixelSelectedIndex)
@@ -92,6 +96,13 @@ function generateUI() {
                 font-size: 1em;
                 transition-duration: 0.5s;
             }
+            .${particleTypes[i].abbr}ButtonActive {
+                background-color: ${particleTypes[i].color};
+                border: 2px solid ${particleTypes[i].color};
+                color: ${hoverColor};
+                font-size: 1em;
+                transition-duration: 0.5s;
+            }
         `
     }
     for(let i = 0; i < particleCategories.length; i++) {
@@ -111,12 +122,10 @@ function generateUI() {
         else {
             addHTML(`${particleTypes[i].uiCategory}Holder`,htmlString)
         }
-        document.getElementById(`elementButton${i}`).addEventListener('click',() => {pixelSelectedIndex = i;document.getElementById('particleNameText').innerText=particleTypes[i].name;document.getElementById('particleDescText').innerText=particleTypes[i].desc})
+        document.getElementById(`elementButton${i}`).addEventListener('click',() => updateSelectedIndex(i))
     }
     style.innerHTML = styleString;
     document.getElementsByTagName('head')[0].appendChild(style);
-    document.getElementById('particleNameText').innerText=particleTypes[pixelSelectedIndex].name
-    document.getElementById('particleDescText').innerText=particleTypes[pixelSelectedIndex].desc 
     showParticleCategory(0)
     document.getElementById('clearSimButton').addEventListener('click',()=>clearSimulation())
     document.getElementById('exportSimButton').addEventListener('click',()=>exportData())

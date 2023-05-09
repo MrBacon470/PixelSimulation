@@ -4,13 +4,24 @@ let dataObject = {
     matrix: null,
 }
 
-function importData() {
-    const importedData = document.getElementById('importField').value
-    if(importedData <= 0 || importData === undefined) {
-        console.warn('Data Input is undefined or length 0')
+document.getElementById("fileImport").addEventListener("change", (event) => {
+    let fr = new FileReader();
+    const files = event.target.files
+    fr.onload = () => {
+        importData(fr.result)
+    };  
+    fr.readAsText(files[0]);
+});
+
+function importData(dataStr) {
+    let dataObj = null
+    try {
+        dataObj = Object.assign(dataObject,JSON.parse(dataStr))
+    }
+    catch(error) {
+        console.error(error)
         return
     }
-    let dataObj = Object.assign(dataObject,JSON.parse(importedData))
     for(let r = 0; r < dataObj.rows; r++) {
         for(let c = 0; c < dataObj.cols; c++) {
             particleGrid[r][c] = dataObj.matrix[r][c]
@@ -26,10 +37,17 @@ function exportData() {
     dataObject.matrix = particleGrid
     let exportedData = JSON.stringify(dataObject);
     const exportedDataText = document.createElement("textarea");
-    exportedDataText.value = exportedData;
-    document.body.appendChild(exportedDataText);
-    exportedDataText.select();
-    exportedDataText.setSelectionRange(0, 99999);
-    document.execCommand("copy");
-    document.body.removeChild(exportedDataText);
+    const d = new Date()
+    downloadToFile(exportedData, `ParticleSimData - ${d}.txt`, 'text/plain')
+}
+
+const downloadToFile = (content, filename, contentType) => {
+    const a = document.createElement('a');
+    const file = new Blob([content], {type: contentType});
+    
+    a.href= URL.createObjectURL(file);
+    a.download = filename;
+    a.click();
+  
+      URL.revokeObjectURL(a.href);
 }

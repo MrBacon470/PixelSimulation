@@ -9,7 +9,6 @@
     <link id="faviconLink" rel="icon" href="">
 </head>
 <body>
-    
     <div id="uiHolder">
         <canvas id="simulationCanvas">
         </canvas>
@@ -17,8 +16,6 @@
             <h3>Elements</h3>
         </div>
         <div id="selectedParticleInformation" class="flexCol">
-            <h3 id="particleNameText"></h3>
-            <h3 id="particleDescText"></h3>
             <h3 id="particleInformation"></h3>
         </div>
         
@@ -38,9 +35,12 @@
                 <label for="debugMode">Enable Debug Stats</label>
             </div>
             <button id="clearSimButton" class="whiteButton">Clear Simulation</button>
-            <button id="exportSimButton" class="whiteButton">Export Simulation Data To Clipboard</button>
+            <button id="exportSimButton" class="whiteButton">Export Simulation to txt file</button>
             <button id="importSimButton" class="whiteButton">Import Simulation Data</button>
-            <input id="importField">
+            <div class="flexCol">
+                <input type="file" id="fileImport">
+                <label for="fileImport">Import Data txt file</label>
+            </div>
         </div>
         
         
