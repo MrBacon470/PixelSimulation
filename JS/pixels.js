@@ -1,4 +1,4 @@
-const particleCategories = ['Solids','Powders','Liquids','Gases','Explosives','Electronics','Special','Misc','Tools']
+const particleCategories = ['Solids','Powders','Liquids','Gases','Explosives','Electronics','Special','Misc']
 
 const particleTypes = [
     {
@@ -281,7 +281,7 @@ const particleTypes = [
         weight: 0,
         heatConductivity: 251,
         defaultTemp: 72.0,
-        highTemperatureChange: {temp:3695,type:-1},
+        highTemperatureChange: {temp:6191,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
         explosiveChange: {strength:1,id:34},
         isLiquid: false,
@@ -605,7 +605,7 @@ const particleTypes = [
         weight: 100,
         heatConductivity: 251,
         defaultTemp: 72.0,
-        highTemperatureChange: {temp:celsiusToFarenheit(1687.0),type:-1},
+        highTemperatureChange: {temp:2800,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
         explosiveChange: {strength:2,id:34},
         isLiquid: false,
@@ -712,9 +712,9 @@ const particleTypes = [
         conductive: false,
         weight: 30,
         heatConductivity: 29,
-        defaultTemp: 72.0,
-        highTemperatureChange: {temp:celsiusToFarenheit(400.0),type:42},
-        lowTemperatureChange: {temp:celsiusToFarenheit(100.0),type:41},
+        defaultTemp: celsiusToFarenheit(150.0),
+        highTemperatureChange: {temp:celsiusToFarenheit(400.0),type:41},
+        lowTemperatureChange: {temp:celsiusToFarenheit(100.0),type:40},
         explosiveChange: {strength:-1,id:-1},
         isLiquid: true,
         isGas: false,
@@ -731,7 +731,7 @@ const particleTypes = [
         weight: 30,
         heatConductivity: 29,
         defaultTemp: 100.0,
-        highTemperatureChange: {temp:celsiusToFarenheit(100.0),type:40},
+        highTemperatureChange: {temp:celsiusToFarenheit(100.0),type:39},
         lowTemperatureChange: {temp:-1,type:-1},
         explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
@@ -750,7 +750,7 @@ const particleTypes = [
         heatConductivity: 29,
         defaultTemp: 400.0,
         highTemperatureChange: {temp:-1,type:-1},
-        lowTemperatureChange: {temp:celsiusToFarenheit(400.1),type:40},
+        lowTemperatureChange: {temp:celsiusToFarenheit(400.1),type:39},
         explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas: false,
