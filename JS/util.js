@@ -242,4 +242,6 @@ function updateSelectedIndex(id) {
         document.getElementById(`elementButton${i}`).classList = i === id ? `${particleTypes[i].abbr}ButtonActive` : `${particleTypes[i].abbr}Button`
     }
     pixelSelectedIndex = id
+    document.getElementById('selectedParticleText').innerText = `Selected Particle\n\n${particleTypes[id].name}\n\n${particleTypes[id].desc}`
+    document.getElementById('selectedParticleText').style.border = `2px solid ${particleTypes[id].color}`
 }

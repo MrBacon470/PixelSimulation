@@ -8,6 +8,8 @@ let canvas = document.getElementById('simulationCanvas')
 canvas.setAttribute('height',`${canvasData.height}px`)
 canvas.setAttribute('width',`${canvasData.width}px`)
 
+const heatGradientParticles = ['METL','SAND','GLAS','SLCN','TUNG','IRON','BRMT','STNE','NSCN','PSCN']
+
 let canvas2D = canvas.getContext('2d')
 let pixelSelectedIndex = -1
 function updateCanvas() {
@@ -31,7 +33,7 @@ canvas.addEventListener('mousemove',(e) => { //Click Event
 canvas.addEventListener('mousedown',() => {isMouseDown = true})
 canvas.addEventListener('mouseup',() => {isMouseDown = false})
 canvas.addEventListener('mouseenter',()=>{isMouseInCanvas = true})
-canvas.addEventListener('mouseleave',() => {isMouseInCanvas = false})
+canvas.addEventListener('mouseleave',() => {isMouseInCanvas = false; isMouseDown = false})
 
 
 function getMousePos(evt) {
@@ -53,7 +55,7 @@ function drawParticle(r,c) {
         else if((particleTypes[getParticle(r,c).id].isPowder || (!particleTypes[getParticle(r,c).id].isPowder && !particleTypes[getParticle(r,c).id].isLiquid && !particleTypes[getParticle(r,c).id].isGas)) && getParticle(r,c).type === 'Liquid') {
             canvas2D.fillStyle = '#f9f37c'
         }
-        else if((getParticleType(r,c).isPowder || (!getParticleType(r,c).isPowder && !getParticleType(r,c).isGas && !getParticleType(r,c).isLiquid)) && (getParticleType(r,c).abbr === 'METL' || getParticleType(r,c).abbr === 'TUNG' || getParticleType(r,c).abbr === 'SLCN' || getParticleType(r,c).abbr === 'SAND' || getParticleType(r,c).abbr === 'IRON' || getParticleType(r,c).abbr === 'BRMT')) {
+        else if((getParticleType(r,c).isPowder || (!getParticleType(r,c).isPowder && !getParticleType(r,c).isGas && !getParticleType(r,c).isLiquid)) && heatGradientParticles.indexOf(getParticleType(r,c).abbr) !== -1) {
             const particle = getParticle(r,c)
             let mult = (particle.temp - (particleTypes[particle.id].defaultTemp)) / particleTypes[particle.id].highTemperatureChange.temp
             const startRGB = mult < 0.5 ? hexToRgb(particleTypes[getParticle(r,c).id].color) : hexToRgb('#ff9b35')

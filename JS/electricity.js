@@ -1,5 +1,4 @@
 
-
 function updateSPRK(r,c) {
     //SPRK can move 4 directions
     const currentParticle = getParticle(r,c)
