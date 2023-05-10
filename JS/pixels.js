@@ -704,24 +704,6 @@ const particleTypes = [
         uiCategory: 'Powders'
     },
     {
-        name: 'Broken Electronics',
-        desc: 'Formed from exploded or melted electronics',
-        abbr: 'BREL',
-        color: '#707060',
-        flammable: false,
-        conductive: true,
-        weight: 90,
-        heatConductivity: 251,
-        defaultTemp: 72.0,
-        highTemperatureChange: {temp:celsiusToFarenheit(1687.0),type:-1},
-        lowTemperatureChange: {temp:-1,type:-1},
-        explosiveChange: {strength:-1,id:-1},
-        isLiquid: false,
-        isGas: false,
-        isPowder: true,
-        uiCategory: 'Powders'
-    },
-    {
         name: 'Bizarre',
         desc: 'Acts very well... Bizarre',
         abbr: 'BIZR',
