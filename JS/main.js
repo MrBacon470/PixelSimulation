@@ -73,6 +73,7 @@ function Update() {
     document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: Molten ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentParticle.temp.toFixed(2)} ºF`
     else
         document.getElementById('particleInformation').innerText = particleInfoString
+    document.getElementById('particleInformation').style.border = `2px solid ${getParticleType(mouseRow,mouseCol).color}`
 }
 
 function generateUI() {
