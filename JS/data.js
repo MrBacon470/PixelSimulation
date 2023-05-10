@@ -3,20 +3,21 @@ let dataObject = {
     cols: -1,
     matrix: null,
 }
-
+let importedDataStr = ''
 document.getElementById("fileImport").addEventListener("change", (event) => {
     let fr = new FileReader();
     const files = event.target.files
     fr.onload = () => {
-        importData(fr.result)
+        importedDataStr = fr.result
+        importData()
     };  
     fr.readAsText(files[0]);
 });
 
-function importData(dataStr) {
+function importData() {
     let dataObj = null
     try {
-        dataObj = Object.assign(dataObject,JSON.parse(dataStr))
+        dataObj = Object.assign(dataObject,JSON.parse(importedDataStr))
     }
     catch(error) {
         console.error(error)

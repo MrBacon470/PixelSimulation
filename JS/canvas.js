@@ -8,7 +8,7 @@ let canvas = document.getElementById('simulationCanvas')
 canvas.setAttribute('height',`${canvasData.height}px`)
 canvas.setAttribute('width',`${canvasData.width}px`)
 
-const heatGradientParticles = ['METL','SAND','GLAS','SLCN','TUNG','IRON','BRMT','STNE','NSCN','PSCN']
+const heatGradientParticles = ['METL','SAND','GLAS','SLCN','TUNG','IRON','BRMT','STNE','NSCN','PSCN','GOLD','CRMC']
 
 let canvas2D = canvas.getContext('2d')
 let pixelSelectedIndex = -1

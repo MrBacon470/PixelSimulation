@@ -13,10 +13,10 @@ const particleTypes = [
         defaultTemp: 0.0, // In farenheit lol not celsius
         highTemperatureChange: {temp:-1,type:-1}, //-1 Indicates no change
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:0,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Special'
     },
     {
@@ -31,10 +31,10 @@ const particleTypes = [
         defaultTemp: 72.0, // In farenheit lol not celsius
         highTemperatureChange: {temp:3090,type:9}, //-1 Indicates no change
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:0,id:9},
         isLiquid: false,
         isGas: false,
         isPowder: true,
-        blastResistant: false,
         uiCategory: 'Powders'
     },
     {
@@ -49,10 +49,10 @@ const particleTypes = [
         defaultTemp: 72.0, // In farenheit lol not celsius
         highTemperatureChange: {temp:212,type:5}, //-1 Indicates no change
         lowTemperatureChange: {temp:32,type:10},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: true,
         isGas: false,
         isPowder: false,
-        blastResistant: true,
         uiCategory: 'Liquids'
     }, 
     {
@@ -67,10 +67,10 @@ const particleTypes = [
         defaultTemp: 72.0, // In farenheit lol not celsius
         highTemperatureChange: {temp:1273,type:-1}, //-1 Indicates no change
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:2,id:34},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: true,
         uiCategory: 'Solids'
     },
     {
@@ -85,10 +85,10 @@ const particleTypes = [
         defaultTemp: 2000.0, // In farenheit lol not celsius
         highTemperatureChange: {temp:-1,type:-1}, //-1 Indicates no change
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Special'
     },
     {
@@ -103,10 +103,10 @@ const particleTypes = [
         defaultTemp: 212.0, // In farenheit lol not celsius
         highTemperatureChange: {temp:-1,type:-1}, //-1 Indicates no change
         lowTemperatureChange: {temp:211,type:2},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas: true,
         isPowder: false,
-        blastResistant: true,
         uiCategory: 'Gases'
     }, 
     {
@@ -121,10 +121,10 @@ const particleTypes = [
         defaultTemp: 72.0, // In farenheit lol not celsius
         highTemperatureChange: {temp:-1,type:-1}, //-1 Indicates no change
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:0,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
@@ -139,10 +139,10 @@ const particleTypes = [
         defaultTemp: 2000.0, // In farenheit lol not celsius
         highTemperatureChange: {temp:-1,type:-1}, //-1 Indicates no change
         lowTemperatureChange: {temp:1000,type:0},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas: true,
         isPowder: false,
-        blastResistant: true,
         uiCategory: 'Gases'
     },
     {
@@ -157,10 +157,10 @@ const particleTypes = [
         defaultTemp: -500.0,
         highTemperatureChange: {temp:-1,type:-1}, //-1 Indicates no change
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: true,
         uiCategory: 'Special'
     },
     {
@@ -175,10 +175,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:3090,type:-1}, //-1 Indicates no change
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:0,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
@@ -193,10 +193,10 @@ const particleTypes = [
         defaultTemp: 32.0,
         highTemperatureChange: {temp:32.1,type:2},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas:false,
         isPowder:false,
-        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
@@ -211,10 +211,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:-1,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:0,id:-1},
         isLiquid: false,
         isGas:false,
         isPowder:true,
-        blastResistant: false,
         uiCategory: 'Explosives'
     },
     {
@@ -229,10 +229,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:-1,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas:false,
         isPowder:false,
-        blastResistant: false,
         uiCategory: 'Electronics'
     },
     {
@@ -247,10 +247,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:-1,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas:false,
         isPowder:false,
-        blastResistant: true,
         uiCategory: 'Special'
     },
     {
@@ -265,15 +265,15 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:-1,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas:false,
         isPowder:false,
-        blastResistant: true,
         uiCategory: 'Special'
     },
     {
         name: 'Tungsten',
-        desc: 'Very High Melting Point and Strong',
+        desc: 'Very High Melting Point and Brittle',
         abbr: 'TUNG',
         color: '#505050',
         flammable: false,
@@ -283,10 +283,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:3695,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:1,id:34},
         isLiquid: false,
         isGas:false,
         isPowder:false,
-        blastResistant: true,
         uiCategory: 'Solids'
     },
     {
@@ -301,10 +301,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:333,type:17},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:0,id:17},
         isLiquid: true,
         isGas:false,
         isPowder:false,
-        blastResistant: false,
         uiCategory: 'Liquids'
     },
     {
@@ -319,10 +319,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:573,type:4},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:0,id:-1},
         isLiquid: false,
         isGas:true,
         isPowder:false,
-        blastResistant: false,
         uiCategory: 'Gases'
     },
     {
@@ -334,13 +334,13 @@ const particleTypes = [
         conductive: false,
         weight: 1,
         heatConductivity: 5,
-        defaultTemp: 5000,
+        defaultTemp: 7500,
         highTemperatureChange: {temp:-1,type:-1},
-        lowTemperatureChange: {temp:4499,type:0},
+        lowTemperatureChange: {temp:7499,type:0},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas:true,
         isPowder:false,
-        blastResistant: false,
         uiCategory: 'Gases'
     },
     {
@@ -355,10 +355,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:-1,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas:false,
         isPowder:false,
-        blastResistant: true,
         uiCategory: 'Solids'
     },
     {
@@ -373,10 +373,10 @@ const particleTypes = [
         defaultTemp: -320.0,
         highTemperatureChange: {temp:-320.4,type:0},
         lowTemperatureChange: {temp:-346,type:21},
+        explosiveChange: {strength:0,id:-1},
         isLiquid: true,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Liquids'
     },
     {
@@ -391,10 +391,10 @@ const particleTypes = [
         defaultTemp: -346.6,
         highTemperatureChange: {temp:-346,type:20},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:0,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
@@ -409,10 +409,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:celsiusToFarenheit(1173),type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:0,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: true,
-        blastResistant: false,
         uiCategory: 'Powders'
     },
     {
@@ -427,10 +427,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:215.6,type:-1},
         lowTemperatureChange: {temp:28.4,type:10},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: true,
         isGas: false,
         isPowder: false,
-        blastResistant: true,
         uiCategory: 'Liquids'
     },
     {
@@ -445,10 +445,10 @@ const particleTypes = [
         defaultTemp: 1100.0,
         highTemperatureChange: {temp:-1,type:-1},
         lowTemperatureChange: {temp:1099,type:25},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: true,
         isGas: false,
         isPowder: false,
-        blastResistant: true,
         uiCategory: 'Liquids'
     },
     {
@@ -463,10 +463,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:1100,type:24},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:2,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
@@ -481,15 +481,15 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:-1,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:0,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
         name: 'Quartz',
-        desc: 'A powdered crystalline material, grows with SLTW',
+        desc: 'A crystalline material, grows with SLTW',
         abbr: 'QRTZ',
         color: '#AADDDD',
         flammable: false,
@@ -499,10 +499,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:celsiusToFarenheit(2573),type:24},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:2,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Solids'
     },
     {
@@ -517,10 +517,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:2577.2,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:1,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: true,
-        blastResistant: false,
         uiCategory: 'Powders'
     },
     {
@@ -535,10 +535,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:celsiusToFarenheit(335.0),type:4},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:0,id:-1},
         isLiquid: true,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Liquids'
     },
     {
@@ -553,10 +553,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:-1,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Explosives'
     },
     {
@@ -571,10 +571,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:-1,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: true,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Explosives'
     },
     {
@@ -589,10 +589,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:celsiusToFarenheit(1256.0),type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:0,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: true,
-        blastResistant: false,
         uiCategory: 'Powders'
     },
     {
@@ -607,10 +607,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:celsiusToFarenheit(1687.0),type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:2,id:34},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: true,
         uiCategory: 'Solids'
     },
     {
@@ -625,10 +625,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:celsiusToFarenheit(1273.0),type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: true,
-        blastResistant: false,
         uiCategory: 'Powders'
     },
     {
@@ -643,10 +643,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:celsiusToFarenheit(673.0),type:4},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: true,
-        blastResistant: false,
         uiCategory: 'Explosives'
     },
     {
@@ -661,10 +661,10 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:celsiusToFarenheit(1687.0),type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:1,id:38},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Electronics'
     },
     {
@@ -679,11 +679,155 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:celsiusToFarenheit(1687.0),type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:1,id:38},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
         uiCategory: 'Electronics'
+    },
+    {
+        name: 'Broken Electronics',
+        desc: 'Formed from exploded or melted electronics',
+        abbr: 'BREL',
+        color: '#707060',
+        flammable: false,
+        conductive: true,
+        weight: 90,
+        heatConductivity: 251,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:celsiusToFarenheit(1687.0),type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: true,
+        uiCategory: 'Powders'
+    },
+    {
+        name: 'Broken Electronics',
+        desc: 'Formed from exploded or melted electronics',
+        abbr: 'BREL',
+        color: '#707060',
+        flammable: false,
+        conductive: true,
+        weight: 90,
+        heatConductivity: 251,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:celsiusToFarenheit(1687.0),type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: true,
+        uiCategory: 'Powders'
+    },
+    {
+        name: 'Bizarre',
+        desc: 'Acts very well... Bizarre',
+        abbr: 'BIZR',
+        color: '#00FF77',
+        flammable: false,
+        conductive: false,
+        weight: 30,
+        heatConductivity: 29,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:celsiusToFarenheit(400.0),type:42},
+        lowTemperatureChange: {temp:celsiusToFarenheit(100.0),type:41},
+        explosiveChange: {strength:-1,id:-1},
+        isLiquid: true,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Liquids'
+    },
+    {
+        name: 'Bizarre Gas',
+        desc: 'Huh??',
+        abbr: 'BIZG',
+        color: '#00FFBB',
+        flammable: false,
+        conductive: false,
+        weight: 30,
+        heatConductivity: 29,
+        defaultTemp: 100.0,
+        highTemperatureChange: {temp:celsiusToFarenheit(100.0),type:40},
+        lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
+        isLiquid: false,
+        isGas: true,
+        isPowder: false,
+        uiCategory: 'None'
+    },
+    {
+        name: 'Solid Bizarre',
+        desc: 'How??',
+        abbr: 'BIZS',
+        color: '#00E455',
+        flammable: false,
+        conductive: false,
+        weight: 30,
+        heatConductivity: 29,
+        defaultTemp: 400.0,
+        highTemperatureChange: {temp:-1,type:-1},
+        lowTemperatureChange: {temp:celsiusToFarenheit(400.1),type:40},
+        explosiveChange: {strength:-1,id:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'None'
+    },
+    {
+        name: 'Gold',
+        desc: 'So Shiny',
+        abbr: 'GOLD',
+        color: '#DCAD2C',
+        flammable: false,
+        conductive: true,
+        weight: 100,
+        heatConductivity: 251,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:1948,type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:1,id:34},
+        isLiquid: false,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Solids'
+    },
+    {
+        name: 'Diamond',
+        desc: 'Indestructable',
+        abbr: 'DMND',
+        color: '#CCFFFF',
+        flammable: false,
+        conductive: false,
+        weight: 100,
+        heatConductivity: 186,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:-1,type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:-1,id:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Special'
+    },
+    {
+        name: 'Ceramic',
+        desc: 'Heat high tolerance and blast resistance',
+        abbr: 'CRMC',
+        color: '#D6D1D4',
+        flammable: false,
+        conductive: false,
+        weight: 100,
+        heatConductivity: 35,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:celsiusToFarenheit(2887.15),type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:4,id:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Solids'
     },
 ]
 //Particle Type IDs for easy remebering
@@ -1014,9 +1158,13 @@ function explodeParticle(r,c,radius) {
     setParticle(r,c,FIRE)
     for(let rw = -(radius-1); rw < radius; rw++) {
         for(let cl = -(radius-1); cl < radius; cl++) {
-            if(isInBounds(r+rw,c+cl) && getParticle(r+rw,c+cl).id !== FIRE && !getParticleType(r+rw,c+cl).blastResistant) {
+            if(isInBounds(r+rw,c+cl) && getParticle(r+rw,c+cl).id !== FIRE && getParticleType(r+rw,c+cl).explosiveChange.strength <= radius && getParticleType(r+rw,c+cl).explosiveChange.strength !== -1) {
                 const particleAbbr = getParticleType(r+rw,c+cl).abbr
                     if(particleAbbr === particleType) explodeParticle(r+rw,c+cl)
+                    else if(getParticleType(r+rw,c+cl).explosiveChange.id !== -1) {
+                        setParticle(r+rw,c+cl,getParticleType(r+rw,c+cl).explosiveChange.id)
+                        particleGrid[r+rw][c+cl].temp = 2000
+                    }
                     else setParticle(r+rw,c+cl,FIRE)
             }
         }

@@ -1,4 +1,4 @@
-const MAX_TEMP = 5000
+const MAX_TEMP = 7500
 const MIN_TEMP = -500
 
 function heatTransfer(r,c) {

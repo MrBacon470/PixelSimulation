@@ -123,6 +123,7 @@ function generateUI() {
             addHTML(`${particleTypes[i].uiCategory}Holder`,htmlString)
         }
         document.getElementById(`elementButton${i}`).addEventListener('click',() => updateSelectedIndex(i))
+        document.getElementById(`elementButton${i}`).style.display = particleTypes[i].uiCategory !== 'None' ? 'block' : 'none'
     }
     style.innerHTML = styleString;
     document.getElementsByTagName('head')[0].appendChild(style);
