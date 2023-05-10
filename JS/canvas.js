@@ -21,7 +21,7 @@ function updateCanvas() {
     }
 }
 
-let mousePositions = null
+let mousePositions = {x:0,y:0}
 let mouseCol = 0
 let mouseRow = 0
 canvas.addEventListener('mousemove',(e) => { //Click Event
