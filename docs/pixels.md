@@ -2,7 +2,7 @@
 ## Particle Type Objects
 ```js
     //Example Particle Type Object
-    {
+   {
         name: 'Vacuum',
         desc: 'Literally Nothing',
         abbr: 'VACU',
@@ -11,14 +11,14 @@
         conductive: false,
         weight: 0,
         heatConductivity: 0,
-        defaultTemp: 0.0, 
-        highTemperatureChange: {temp:-1,type:-1},
+        defaultTemp: 0.0, // In farenheit lol not celsius
+        highTemperatureChange: {temp:-1,type:-1}, //-1 Indicates no change
         lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:0,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        blastResistant: false,
-        uiCategory: '',
+        uiCategory: 'Special'
     },
 ```
 This is just an example particle (yes the vacuum particle is in game though). Particle Types are housed in the **const particleTypes = []** array inside the pixels.js script, To add your own just add an object just like the one you see above to the end of the array. Now I'm going to explain every particle attribute and how they work.
@@ -34,14 +34,14 @@ This is just an example particle (yes the vacuum particle is in game though). Pa
 `defaultTemp:` This is the temperature in Farenheit that a new particle spawns in at.<br>
 ### **Warning complicated attributes below**
 `highTemperatureChange: {temp: Number, type: Number}` The temp attribute in the highTemperatureChange object determines what temperature the particle will either A) Melt or Boil a particle into a Liquid or Gas, or B) turn into the particle defined in the type attribute. (Ex: Sand melts into glass)<br>
-`lowTemperatureChange: {temp: Number, type: Number}` This object attribute is very similar to the highTemperatureChange attribute except Liquids will freeze solid and Gasses will condense into liquids.
+`lowTemperatureChange: {temp: Number, type: Number}` This object attribute is very similar to the highTemperatureChange attribute except Liquids will freeze solid and Gasses will condense into liquids.<br>
+`explosiveChange: {strength: Number, id: Number}` This object attribute will determine if the particle can be destroyed by an explosion and what it will turn into in that case. A strength of -1 determines it can't be blown up and an id of -1 determines it will turn into fire if its destroyed.
 ### Note for both attributes if temp: is -1 then no conversions will happen if type: is -1 and temp isn't than the particle will by default, freeze, condense, melt or boil.
 ### **Gravity affected particle attributes**
 `isLiquid:` Determines if a particle by default moves like a liquid and is the liquid type.<br>
 `isGas:` Determines if a particle by default moves like a gas and is the gas type.<br>
 `isPowder:` Determines if a particle by default moves like a powder and is the type powder.<br>
 ### Note: If a particle has the isLiquid, isGas and isPowder attributes false is will be of type Solid which is static. Also a particle can only have one of those attributes set to true
-`blastResistant:` This attribute is a boolean flag which determines if explosive particles can destroy it.<br>
 `uiCategory:` The string here determines which section of the UI the particle's button is placed in if it's not a defined category in the `particleCategories` array then it will be put in the Misc section. Accepted categories by default are: **'Solids','Powders','Liquids','Gases','Explosives','Special','Misc','Tools'**.
 ## Particle Objects in the particleGrid matrix
 ```js
