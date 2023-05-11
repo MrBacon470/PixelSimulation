@@ -1,7 +1,7 @@
 const particleCategories = ['Solids','Powders','Liquids','Gases','Explosives','Electronics','Special','Misc']
 
 const particleTypes = [
-    {
+    { /*VACU*/
         name: 'Vacuum',
         desc: 'Literally Nothing',
         abbr: 'VACU',
@@ -19,7 +19,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Special'
     },
-    {
+    {/*SAND*/
         name: 'Sand',
         desc: 'I hate sand! Its coarse and rough and gets everywhere!',
         abbr: 'SAND',
@@ -37,7 +37,7 @@ const particleTypes = [
         isPowder: true,
         uiCategory: 'Powders'
     },
-    {
+    {/*WATR*/
         name: 'Water',
         desc: 'H2O what else do you want?',
         abbr: 'WATR',
@@ -55,7 +55,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Liquids'
     }, 
-    {
+    {/*METL*/
         name: 'Metal',
         desc: 'Your basic conductive metallic metal',
         abbr: 'METL',
@@ -73,7 +73,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Solids'
     },
-    {
+    {/*FIRE*/
         name: 'Fire',
         desc: 'Burns stuff',
         abbr: 'FIRE',
@@ -91,7 +91,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Special'
     },
-    {
+    {/*WTVR*/
         name: 'Water Vapor',
         desc: 'Gassy Water',
         abbr: 'WTRV',
@@ -109,7 +109,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Gases'
     }, 
-    {
+    {/*WOOD*/
         name: 'Wood',
         desc: 'Organic Wood burns!',
         abbr: 'WOOD',
@@ -127,7 +127,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Solids'
     },
-    {
+    {/*SMKE*/
         name: 'Smoke',
         desc: 'The gas byproduct of burning',
         abbr: 'SMKE',
@@ -145,7 +145,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Gases'
     },
-    {
+    {/*SFLM*/
         name: 'Sub Zero Flame',
         desc: 'A fire that freezes?',
         abbr: 'SFLM',
@@ -163,7 +163,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Special'
     },
-    {
+    {/*GLAS*/
         name: 'Glass',
         desc: 'Molten Sand or Smthn idk',
         abbr: 'GLAS',
@@ -181,7 +181,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Solids'
     },
-    {
+    {/*ICE*/
         name: 'Ice',
         desc: 'Frozen Water :O',
         abbr: 'ICE',
@@ -199,7 +199,7 @@ const particleTypes = [
         isPowder:false,
         uiCategory: 'Solids'
     },
-    {
+    {/*THRM*/
         name: 'Thermite',
         desc: 'Heat it up too much and itll combust (3:1 Al + Fe Oxide)',
         abbr: 'THRM',
@@ -217,7 +217,7 @@ const particleTypes = [
         isPowder:true,
         uiCategory: 'Explosives'
     },
-    {
+    {/*SPRK*/
         name: 'Spark',
         desc: 'Electrifying!',
         abbr: 'SPRK',
@@ -235,7 +235,7 @@ const particleTypes = [
         isPowder:false,
         uiCategory: 'Electronics'
     },
-    {
+    {/*CLNE*/
         name: 'Clone',
         desc: 'Dupes Particles!',
         abbr: 'CLNE',
@@ -253,7 +253,7 @@ const particleTypes = [
         isPowder:false,
         uiCategory: 'Special'
     },
-    {
+    {/*VOID*/
         name: 'Void',
         desc: 'Destroys Particles!',
         abbr: 'VOID',
@@ -271,7 +271,7 @@ const particleTypes = [
         isPowder:false,
         uiCategory: 'Special'
     },
-    {
+    {/*TUNG*/
         name: 'Tungsten',
         desc: 'Very High Melting Point and Brittle',
         abbr: 'TUNG',
@@ -289,7 +289,7 @@ const particleTypes = [
         isPowder:false,
         uiCategory: 'Solids'
     },
-    {
+    {/*OIL*/
         name: 'Oil',
         desc: 'Smells like Freedom, Turns into GAS at higher temps',
         abbr: 'OIL',
@@ -307,7 +307,7 @@ const particleTypes = [
         isPowder:false,
         uiCategory: 'Liquids'
     },
-    {
+    {/*GAS*/
         name: 'Gas',
         desc: 'I swear its all natural. Highly Flammable',
         abbr: 'GAS',
@@ -325,7 +325,7 @@ const particleTypes = [
         isPowder:false,
         uiCategory: 'Gases'
     },
-    {
+    {/*PLSM*/
         name: 'Plasma',
         desc: 'Insanely Hot',
         abbr: 'PLSM',
@@ -343,7 +343,7 @@ const particleTypes = [
         isPowder:false,
         uiCategory: 'Gases'
     },
-    {
+    {/*HEAC*/
         name: 'Heat Conductor',
         desc: 'Conducts heat better than anything',
         abbr: 'HEAC',
@@ -361,7 +361,7 @@ const particleTypes = [
         isPowder:false,
         uiCategory: 'Solids'
     },
-    {
+    {/*LN2*/
         name: 'Liquid Nitrogen',
         desc: 'Brrrrrr',
         abbr: 'LN2',
@@ -379,7 +379,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Liquids'
     },
-    {
+    {/*NICE*/
         name: 'Nitrogen Ice',
         desc: 'How is it colder?!',
         abbr: 'NICE',
@@ -397,7 +397,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Solids'
     },
-    {
+    {/*SALT*/
         name: 'Salt',
         desc: 'What purpose does salt that loses its saltiness have',
         abbr: 'SALT',
@@ -415,7 +415,7 @@ const particleTypes = [
         isPowder: true,
         uiCategory: 'Powders'
     },
-    {
+    {/*SLTW*/
         name: 'Salt Water',
         desc: 'Salty Water',
         abbr: 'SLTW',
@@ -433,7 +433,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Liquids'
     },
-    {
+    {/*LAVA*/
         name: 'Lava',
         desc: 'Molten Rock',
         abbr: 'LAVA',
@@ -451,7 +451,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Liquids'
     },
-    {
+    {/*STNE*/
         name: 'Stone',
         desc: 'Rock Solid',
         abbr: 'STNE',
@@ -469,7 +469,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Solids'
     },
-    {
+    {/*INSL*/
         name: 'Insulation',
         desc: 'Opposite of HEAC, Behaves sorta like VACU',
         abbr: 'INSL',
@@ -487,7 +487,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Solids'
     },
-    {
+    {/*QRTZ*/
         name: 'Quartz',
         desc: 'A crystalline material, grows with SLTW',
         abbr: 'QRTZ',
@@ -505,7 +505,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Solids'
     },
-    {
+    {/*SLCN*/
         name: 'Silicon',
         desc: 'Can be used to create electronic things',
         abbr: 'SLCN',
@@ -523,7 +523,7 @@ const particleTypes = [
         isPowder: true,
         uiCategory: 'Powders'
     },
-    {
+    {/*DESL*/
         name: 'Diesel',
         desc: 'Truck Food or smthn idk',
         abbr: 'DESL',
@@ -541,7 +541,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Liquids'
     },
-    {
+    {/*TNT*/
         name: 'TNT',
         desc: 'Trinitrotoluene goes boom',
         abbr: 'TNT',
@@ -559,7 +559,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Explosives'
     },
-    {
+    {/*NITR*/
         name: 'Nitroglycerin',
         desc: 'Liquid Explosive?',
         abbr: 'NITR',
@@ -577,7 +577,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Explosives'
     },
-    {
+    {/*CLST*/
         name: 'Clay Dust',
         desc: 'Can be Mixed to make TNT',
         abbr: 'CLST',
@@ -595,7 +595,7 @@ const particleTypes = [
         isPowder: true,
         uiCategory: 'Powders'
     },
-    {
+    {/*IRON*/
         name: 'Iron',
         desc: 'SALT rusts it can electrolize water',
         abbr: 'IRON',
@@ -613,7 +613,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Solids'
     },
-    {
+    {/*BRMT*/
         name: 'Broken Metal',
         desc: 'Rust, Scrap whatever you want it to be',
         abbr: 'BRMT',
@@ -631,7 +631,7 @@ const particleTypes = [
         isPowder: true,
         uiCategory: 'Powders'
     },
-    {
+    {/*GUNP*/
         name: 'Gunpowder',
         desc: 'Explosive Powder?',
         abbr: 'GUNP',
@@ -649,7 +649,7 @@ const particleTypes = [
         isPowder: true,
         uiCategory: 'Explosives'
     },
-    {
+    {/*NSCN*/
         name: 'N-Type silicon',
         desc: 'Doesn\'t conduct to P-Type Silicon',
         abbr: 'NSCN',
@@ -667,7 +667,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Electronics'
     },
-    {
+    {/*PSCN*/
         name: 'P-Type silicon',
         desc: 'Conducts to everything',
         abbr: 'PSCN',
@@ -685,7 +685,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Electronics'
     },
-    {
+    {/*BREL*/
         name: 'Broken Electronics',
         desc: 'Formed from exploded or melted electronics',
         abbr: 'BREL',
@@ -703,7 +703,7 @@ const particleTypes = [
         isPowder: true,
         uiCategory: 'Powders'
     },
-    {
+    {/*BIZR*/
         name: 'Bizarre',
         desc: 'Acts very well... Bizarre',
         abbr: 'BIZR',
@@ -721,7 +721,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Liquids'
     },
-    {
+    {/*BIZG*/
         name: 'Bizarre Gas',
         desc: 'Huh??',
         abbr: 'BIZG',
@@ -739,7 +739,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'None'
     },
-    {
+    {/*BIZS*/
         name: 'Solid Bizarre',
         desc: 'How??',
         abbr: 'BIZS',
@@ -757,7 +757,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'None'
     },
-    {
+    {/*GOLD*/
         name: 'Gold',
         desc: 'So Shiny',
         abbr: 'GOLD',
@@ -775,7 +775,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Solids'
     },
-    {
+    {/*DMND*/
         name: 'Diamond',
         desc: 'Indestructable',
         abbr: 'DMND',
@@ -793,7 +793,7 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Special'
     },
-    {
+    {/*CRMC*/
         name: 'Ceramic',
         desc: 'Heat high tolerance and blast resistance',
         abbr: 'CRMC',
@@ -811,6 +811,25 @@ const particleTypes = [
         isPowder: false,
         uiCategory: 'Solids'
     },
+    {/*SWCH*/
+        name: 'Switch',
+        desc: 'Conducts when active: (PSCN = ON, NSCN = OFF)',
+        abbr: 'SWCH',
+        color: '#103B11',
+        flammable: false,
+        conductive: false,
+        weight: 100,
+        heatConductivity: 251,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:-1,type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:4,id:-1},
+        isLiquid: false,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Electronics'
+        //Active Color: 11d918
+    }
 ]
 //Particle Type IDs for easy remebering
 const VACU = 0

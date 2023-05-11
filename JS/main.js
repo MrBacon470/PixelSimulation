@@ -24,6 +24,7 @@ function Init() {
                 type: 'Solid',
                 sparked: false,
                 tmp: null,
+                tmp2: null
             }
         }
     }
@@ -48,7 +49,7 @@ function Update() {
         updateCanvas()
     }
     if(isMouseDown && isMouseInCanvas) {
-        if(pixelSelectedIndex === SPRK && getParticleType(mouseRow,mouseCol).conductive) {
+        if(pixelSelectedIndex === SPRK && particleConducts(mouseRow,mouseCol)) {
             particleGrid[mouseRow][mouseCol].sparked = true
             particleGrid[mouseRow][mouseCol].tmp = 'Center'
             updateSPRK(mouseRow,mouseCol)
@@ -67,7 +68,7 @@ function Update() {
         updateParticle()
     }
     const currentParticle = getParticle(mouseRow,mouseCol)
-    const particleInfoString = debugMode ? `Grid Pos: [${mouseRow},${mouseCol}]\nMouse Pos: [${mousePositions.x.toFixed(2)},${mousePositions.y.toFixed(2)}]\nParticle: ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentParticle.temp.toFixed(2)} ºF\nType: ${currentParticle.type}\nTmp: ${currentParticle.tmp}\nSparked: ${currentParticle.sparked}` :
+    const particleInfoString = debugMode ? `Grid Pos: [${mouseRow},${mouseCol}]\nMouse Pos: [${mousePositions.x.toFixed(2)},${mousePositions.y.toFixed(2)}]\nParticle: ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentParticle.temp.toFixed(2)} ºF\nType: ${currentParticle.type}\nTmp: ${currentParticle.tmp}\nTmp2: ${currentParticle.tmp2}\nSparked: ${currentParticle.sparked}` :
     `[${mouseRow},${mouseCol}]\nParticle: ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentParticle.temp.toFixed(2)} ºF`
     if(currentParticle.type === 'Liquid' && ((!particleTypes[currentParticle.id].isLiquid && !particleTypes[currentParticle.id].isGas) || particleTypes[currentParticle.id].isPowder))
     document.getElementById('particleInformation').innerText = `Position: [${mouseRow},${mouseCol}]\nParticle Type: Molten ${getParticleType(mouseRow,mouseCol).abbr}\nTemp: ${currentParticle.temp.toFixed(2)} ºF`

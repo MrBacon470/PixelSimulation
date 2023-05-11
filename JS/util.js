@@ -9,13 +9,15 @@ function addHTML(target,html) {
 function getParticle(r,c) {
     if(!isInBounds(r,c)) {
         //console.error(`r: ${r} or c: ${c} is outOfBounds in getParticle()`)
-        return {id: -1, temp: -1, type: 'None', sparked: false, tmp: null,}
+        return {id: -1, temp: -1, type: 'None', sparked: false, tmp: null, tmp2: null}
     }
     return {id: particleGrid[r][c].id, 
         temp: particleGrid[r][c].temp, 
         type: particleGrid[r][c].type, 
         sparked: particleGrid[r][c].sparked, 
-        tmp: particleGrid[r][c].tmp};
+        tmp: particleGrid[r][c].tmp,
+        tmp2: particleGrid[r][c].tmp2,
+    };
 }
 
 function setParticle(r,c,id) {
@@ -31,6 +33,7 @@ function setParticle(r,c,id) {
     particleGrid[r][c].id = id
     particleGrid[r][c].temp = pixelType.defaultTemp
     particleGrid[r][c].tmp = null
+    particleGrid[r][c].tmp2 = null
     if(pixelType.isGas)
         particleGrid[r][c].type = 'Gas'
     else if(pixelType.isLiquid)

@@ -47,35 +47,42 @@ function getMousePos(evt) {
 }
 
 function drawParticle(r,c) {
+    canvas2D.fillStyle = getParticleColor(r,c)
+    canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
+}
+
+function getParticleColor(r,c) {
+    const part = getParticle(r,c)
+    const partType = getParticleType(r,c)
     if(!tempViewEnabled) {
-        canvas2D.fillStyle = particleTypes[getParticle(r,c).id].color
-        if(getParticle(r,c).sparked) {
-            canvas2D.fillStyle = particleTypes[SPRK].color
+        if(part.sparked && particleConducts(r,c)) {
+            return particleTypes[SPRK].color
         }
-        else if((particleTypes[getParticle(r,c).id].isPowder || (!particleTypes[getParticle(r,c).id].isPowder && !particleTypes[getParticle(r,c).id].isLiquid && !particleTypes[getParticle(r,c).id].isGas)) && getParticle(r,c).type === 'Liquid') {
-            canvas2D.fillStyle = '#f9f37c'
+        else if(partType.abbr === 'SWCH' && part.tmp2 === true) {
+            return '#11d918'
         }
-        else if((getParticleType(r,c).isPowder || (!getParticleType(r,c).isPowder && !getParticleType(r,c).isGas && !getParticleType(r,c).isLiquid)) && heatGradientParticles.indexOf(getParticleType(r,c).abbr) !== -1) {
-            const particle = getParticle(r,c)
-            let mult = (particle.temp - (particleTypes[particle.id].defaultTemp)) / particleTypes[particle.id].highTemperatureChange.temp
-            const startRGB = mult < 0.5 ? hexToRgb(particleTypes[getParticle(r,c).id].color) : hexToRgb('#ff9b35')
+        else if((partType.isPowder || (!partType.isPowder && !partType.isLiquid && !partType.isGas)) && part.type === 'Liquid') {
+            return '#f9f37c'
+        }
+        else if((partType.isPowder || (!partType.isPowder && !partType.isGas && !partType.isLiquid)) && heatGradientParticles.indexOf(partType.abbr) !== -1) {
+            let mult = (part.temp - (partType.defaultTemp)) / partType.highTemperatureChange.temp
+            const startRGB = mult < 0.5 ? hexToRgb(partType.color) : hexToRgb('#ff9b35')
             const endRGB = mult < 0.5 ? hexToRgb('#ff9b35') : hexToRgb('#f9f37c')
             
             mult = mult < 0.5 ? mult * 2 : mult / 2
             mult = restrictNum(mult,1,0)
             const lerpedColor = lerpRGB(startRGB.r,startRGB.g,startRGB.b,endRGB.r,endRGB.g,endRGB.b,mult)
             const fillColor = `rgb(${lerpedColor.r},${lerpedColor.g},${lerpedColor.b})`
-            canvas2D.fillStyle = fillColor
+            return fillColor
         }
+        else 
+            return partType.color
     }
     else {
-        canvas2D.fillStyle = getPixelTempColor(r,c)
+        return getPixelTempColor(r,c)
     }
-    /*
-     */
-        
-    canvas2D.fillRect(c*canvasData.pixelSize,r*canvasData.pixelSize,canvasData.pixelSize,canvasData.pixelSize)
 }
+
 //Flood Fill Runner
 function floodFillPixels(row,col) {
     const current = getParticle(row,col).id
