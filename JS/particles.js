@@ -102,7 +102,7 @@ const particleTypes = [
         heatConductivity: 48,
         defaultTemp: 212.0, // In farenheit lol not celsius
         highTemperatureChange: {temp:-1,type:-1}, //-1 Indicates no change
-        lowTemperatureChange: {temp:211,type:2},
+        lowTemperatureChange: {temp:211,type:50},
         explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas: true,
@@ -885,23 +885,41 @@ const particleTypes = [
         uiCategory: 'Special'
     },
     {/*WIFI*/
-    name: 'WIFI',
-    desc: 'Wireless Electricity? (Temperature Dependant Channels)',
-    abbr: 'WIFI',
-    color: '#40A060',
-    flammable: false,
-    conductive: false,
-    weight: 100,
-    heatConductivity: 0,
-    defaultTemp: 72.0,
-    highTemperatureChange: {temp:-1,type:-1},
-    lowTemperatureChange: {temp:-1,type:-1},
-    explosiveChange: {strength:4,id:38},
-    isLiquid: false,
-    isGas: false,
-    isPowder: false,
-    uiCategory: 'Electronics'
-},
+        name: 'WIFI',
+        desc: 'Wireless Electricity? (Temperature Dependant Channels)',
+        abbr: 'WIFI',
+        color: '#40A060',
+        flammable: false,
+        conductive: false,
+        weight: 100,
+        heatConductivity: 0,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:-1,type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:4,id:38},
+        isLiquid: false,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Electronics'
+    },
+    {/*DSTW*/
+        name: 'Distilled Water',
+        desc: 'Cleaner Water',
+        abbr: 'DSTW',
+        color: '#1020C0',
+        flammable: false,
+        conductive: true,
+        weight: 30,
+        heatConductivity: 0,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:212,type:5},
+        lowTemperatureChange: {temp:32,type:10},
+        explosiveChange: {strength:4,id:38},
+        isLiquid: true,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Liquids'
+    },
 ]
 //Particle Type IDs for easy remebering
 const VACU = 0
@@ -1146,28 +1164,28 @@ function particleConversions(r,c) {
             }
             break
         case 'SALT':
-            if(isInBounds(r-1,c) && getParticle(r-1,c).id === WATR) {
+            if(isInBounds(r-1,c) && (getParticleType(r-1,c).abbr === 'WATR' || getParticleType(r-1,c).abbr === 'DSTW')) {
                 setParticleId(r-1,c,23)
                 if(Math.random() <= 0.33) {
                     setParticleId(r,c,23)
                     return
                 }
             }
-            if(isInBounds(r+1,c) && getParticle(r+1,c).id === WATR) {
+            if(isInBounds(r+1,c) && (getParticleType(r+1,c).abbr === 'WATR' || getParticleType(r+1,c).abbr === 'DSTW')) {
                 setParticleId(r+1,c,23)
                 if(Math.random() <= 0.33) {
                     setParticleId(r,c,23)
                     return
                 }
             }
-            if(isInBounds(r,c-1) && getParticle(r,c-1).id === WATR) {
+            if(isInBounds(r,c-1) && (getParticleType(r,c-1).abbr === 'WATR' || getParticleType(r,c-1).abbr === 'DSTW')) {
                 setParticleId(r,c-1,23)
                 if(Math.random() <= 0.33) {
                     setParticleId(r,c,23)
                     return
                 }
             }
-            if(isInBounds(r,c+1) && getParticle(r,c+1).id === WATR) {
+            if(isInBounds(r,c+1) && (getParticleType(r,c+1).abbr === 'WATR' || getParticleType(r,c+1).abbr === 'DSTW')) {
                 setParticleId(r,c+1,23)
                 if(Math.random() <= 0.33) {
                     setParticleId(r,c,23)
@@ -1242,8 +1260,11 @@ function particleConversions(r,c) {
             if(particle.temp >= celsiusToFarenheit(464) || checkSidesForParticle(r,c,'FIRE'))
                 explodeParticle(r,c,2)
             break
-        default:
-            //No Conversion
+        case 'DSTW':
+            if(checkSidesForParticle(r,c,'WATR'))
+                setParticleId(r,c,WATR)
+            else if(checkSidesForParticle(r,c,'SLTW'))
+                setParticleId(r,c,23)
             break
     }
 }

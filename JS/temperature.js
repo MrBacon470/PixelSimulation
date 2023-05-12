@@ -4,12 +4,12 @@ const MIN_TEMP = -500
 function heatTransfer(r,c) {
     let Particle = getParticle(r,c)
     const partType = getParticleType(r,c)
+    if(Particle.id === VACU && Particle.temp > 0) {
+        setParticle(r,c,VACU)
+        return
+    }
     if(Particle.sparked) {
         Particle.temp += Particle.temp < MAX_TEMP ? 1 : 0
-    }
-    if(Particle.id === VACU && Particle.temp > 0) {
-        setParticle(r,c,0)
-        return
     }
     if(partType.heatConductivity === 0) return
     if(Particle.temp > MAX_TEMP) {
@@ -22,7 +22,7 @@ function heatTransfer(r,c) {
         setParticleObj(r,c,Particle)
         return
     }
-    if(isInBounds(r,c) && partType.heatConductivity !== 0) {
+    if(r === 0 || c === 0 || r === particleGrid.length-1 || c === particleGrid[r].length-1 && partType.heatConductivity !== 0) {
         if(Particle.temp > 72.0) {
             let change = Math.random()*((1)*(particleTypes[Particle.id].heatConductivity/255))
             Particle.temp -= change
@@ -40,7 +40,7 @@ function heatTransfer(r,c) {
     let tempCount = 1
     let tempAvg = 0
     for(let i = 0; i < 8; i++) {
-        if(surroundingParticles[i] !== -1 && particleTypes[surroundingParticles[i].id].heatConductivity !== 0) {
+        if(surroundingParticles[i] !== -1 && particleTypes[surroundingParticles[i].id].heatConductivity !== 0 && surroundingParticles[i].id !== VACU) {
             tempSum += surroundingParticles[i].temp
             tempCount += 1
         }
@@ -53,7 +53,7 @@ function heatTransfer(r,c) {
     Particle.temp = restrictNum(Particle.temp,MAX_TEMP,MIN_TEMP)
 
     for(let i = 0; i < 8; i++) {
-        if(surroundingParticles[i] !== -1) {
+        if(surroundingParticles[i] !== -1 && surroundingParticles[i].id !== VACU) {
             if(tempAvg-surroundingParticles[i].temp !== 0 && particleTypes[surroundingParticles[i].id].heatConductivity !== 0) {
                 surroundingParticles[i].temp += (tempAvg-surroundingParticles[i].temp)*(particleTypes[Particle.id].heatConductivity/255)
                 surroundingParticles[i].temp = restrictNum(surroundingParticles[i].temp,MAX_TEMP,MIN_TEMP)
