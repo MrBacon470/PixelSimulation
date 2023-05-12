@@ -860,7 +860,7 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:-1,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
-        explosiveChange: {strength:4,id:38},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: false,
@@ -878,12 +878,30 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:-1,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
-        explosiveChange: {strength:4,id:38},
+        explosiveChange: {strength:-1,id:-1},
         isLiquid: false,
         isGas: false,
         isPowder: false,
         uiCategory: 'Special'
     },
+    {/*WIFI*/
+    name: 'WIFI',
+    desc: 'Wireless Electricity? (Temperature Dependant Channels)',
+    abbr: 'WIFI',
+    color: '#40A060',
+    flammable: false,
+    conductive: false,
+    weight: 100,
+    heatConductivity: 0,
+    defaultTemp: 72.0,
+    highTemperatureChange: {temp:-1,type:-1},
+    lowTemperatureChange: {temp:-1,type:-1},
+    explosiveChange: {strength:4,id:38},
+    isLiquid: false,
+    isGas: false,
+    isPowder: false,
+    uiCategory: 'Electronics'
+},
 ]
 //Particle Type IDs for easy remebering
 const VACU = 0

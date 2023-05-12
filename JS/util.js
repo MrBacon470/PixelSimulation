@@ -253,3 +253,7 @@ function updateSelectedIndex(id) {
     pixelSelectedIndex = id
     
 }
+
+function isParticleSolid(r,c) {
+    return (!getParticleType(r,c).isGas && !getParticleType(r,c).isLiquid && !getParticleType(r,c).isPowder)
+}

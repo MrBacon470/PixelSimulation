@@ -21,8 +21,7 @@ function update_PRTI(r,c) {
     //Set Particles into Portal Channel Data
     const surroundingParticles = getSurroundingParticlesSpecial(r,c)
     for(let i = 0; i < 8; i++) {
-        if(surroundingParticles[i] !== -1 && portalChannels[particle.tmp2][i] === -1 && 
-            (particleTypes[surroundingParticles[i].id].isGas || particleTypes[surroundingParticles[i].id].isLiquid || particleTypes[surroundingParticles[i].id].isPowder)) {
+        if(surroundingParticles[i] !== -1 && portalChannels[particle.tmp2][i] === -1 && !isParticleSolid(surroundingParticles[i].row,surroundingParticles[i].col)) {
             portalChannels[particle.tmp2][i] = surroundingParticles[i]
         }
     }
@@ -39,8 +38,8 @@ function update_PRTO(r,c) {
     
     for(let i = 0; i < 8; i++) {
         if(surroundingParticles[i] !== -1 && surroundingParticles[i].id === VACU && portalParticles[7-i] !== -1) {
-            setParticle(portalParticles[7-i].row,portalParticles[7-i].col,VACU)
             setParticle(surroundingParticles[i].row,surroundingParticles[i].col,portalParticles[7-i].id)
+            setParticle(portalParticles[7-i].row,portalParticles[7-i].col,VACU)
             portalChannels[particle.tmp2][7-i] = -1
         }
     }
@@ -54,7 +53,7 @@ function getSurroundingParticlesSpecial(r,c) {
     if(isInBounds(r-1,c+1)) pixels[2] = {id:getParticle(r-1,c+1).id,row:r-1,col:c+1}
     //Middle Row
     if(isInBounds(r,c-1)) pixels[3] = {id:getParticle(r,c-1).id,row:r,col:c-1}
-    if(isInBounds(r,c+1)) pixels[4] = {id:getParticle(r,c-+1).id,row:r,col:c+1}
+    if(isInBounds(r,c+1)) pixels[4] = {id:getParticle(r,c+1).id,row:r,col:c+1}
     //Bottom Row
     if(isInBounds(r+1,c-1)) pixels[5] = {id:getParticle(r+1,c-1).id,row:r+1,col:c-1}
     if(isInBounds(r+1,c)) pixels[6] = {id:getParticle(r+1,c).id,row:r+1,col:c}
