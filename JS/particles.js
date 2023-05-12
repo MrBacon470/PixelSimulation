@@ -1,4 +1,4 @@
-const particleCategories = ['Solids','Powders','Liquids','Gases','Explosives','Electronics','Special','Misc']
+const particleCategories = ['Solids','Powders','Liquids','Gases','Explosives','Electronics','Special','Misc','Tools']
 
 const particleTypes = [
     { /*VACU*/
@@ -57,7 +57,7 @@ const particleTypes = [
     }, 
     {/*METL*/
         name: 'Metal',
-        desc: 'Your basic conductive metallic metal',
+        desc: 'Perfect for wires unless it melts',
         abbr: 'METL',
         color: '#8D918D',
         flammable: false,
@@ -71,7 +71,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        uiCategory: 'Solids'
+        uiCategory: 'Electronics'
     },
     {/*FIRE*/
         name: 'Fire',
@@ -119,7 +119,7 @@ const particleTypes = [
         weight: 10,
         heatConductivity: 0.1,
         defaultTemp: 72.0, // In farenheit lol not celsius
-        highTemperatureChange: {temp:-1,type:-1}, //-1 Indicates no change
+        highTemperatureChange: {temp:700,type:4}, //-1 Indicates no change
         lowTemperatureChange: {temp:-1,type:-1},
         explosiveChange: {strength:0,id:-1},
         isLiquid: false,
@@ -823,13 +823,67 @@ const particleTypes = [
         defaultTemp: 72.0,
         highTemperatureChange: {temp:-1,type:-1},
         lowTemperatureChange: {temp:-1,type:-1},
-        explosiveChange: {strength:4,id:-1},
+        explosiveChange: {strength:4,id:38},
         isLiquid: false,
         isGas: false,
         isPowder: false,
         uiCategory: 'Electronics'
         //Active Color: 11d918
-    }
+    },
+    {/*GENR*/
+        name: 'Generator',
+        desc: 'Infinitely Generates SPRK',
+        abbr: 'GENR',
+        color: '#858505',
+        flammable: false,
+        conductive: false,
+        weight: 100,
+        heatConductivity: 251,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:celsiusToFarenheit(2273),type:18},
+        lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:4,id:38},
+        isLiquid: false,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Electronics'
+    },
+    {/*PRTI*/
+        name: 'Portal IN',
+        desc: 'Input Portal (Has Channels Based on Temperature)',
+        abbr: 'PRTI',
+        color: '#EB5917',
+        flammable: false,
+        conductive: false,
+        weight: 100,
+        heatConductivity: 0,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:-1,type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:4,id:38},
+        isLiquid: false,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Special'
+    },
+    {/*PRTO*/
+        name: 'Portal OUT',
+        desc: 'Output Portal (Has Channels Based on Temperature)',
+        abbr: 'PRTO',
+        color: '#0020EB',
+        flammable: false,
+        conductive: false,
+        weight: 100,
+        heatConductivity: 0,
+        defaultTemp: 72.0,
+        highTemperatureChange: {temp:-1,type:-1},
+        lowTemperatureChange: {temp:-1,type:-1},
+        explosiveChange: {strength:4,id:38},
+        isLiquid: false,
+        isGas: false,
+        isPowder: false,
+        uiCategory: 'Special'
+    },
 ]
 //Particle Type IDs for easy remebering
 const VACU = 0
@@ -843,15 +897,18 @@ const CLNE = 13
 const VOID = 14
 
 function updateParticle() {
+    //All the Data
     let row = getRandomInt(particleGrid.length)
     let col = getRandomInt(particleGrid[row].length)
     let currentParticle = getParticle(row,col)
     const particleType = getParticleType(row,col)
+    //Every Special Type of Update
     particleConversions(row,col)
     heatTransfer(row,col)
     if(currentParticle.id === VACU) return
     updatePhase(row,col)
     updateSPRK(row,col)
+    //Default Type Movement
     if(currentParticle.type === 'Powder') {
         let down = isInBounds(row+1,col) && (getParticle(row+1,col).id === VACU || (getParticle(row+1,col).type === 'Powder' && particleTypes[getParticle(row+1,col).id].weight < particleTypes[getParticle(row,col).id].weight) || getParticle(row+1,col).type === 'Liquid' || getParticle(row+1,col).type === 'Gas')
         let left = isInBounds(row+1,col-1) && (getParticle(row+1,col-1).id === VACU || (getParticle(row+1,col-1).type === 'Powder' && particleTypes[getParticle(row+1,col-1).id].weight < particleTypes[getParticle(row,col).id].weight) || getParticle(row+1,col-1).type === 'Liquid' || getParticle(row+1,col-1).type === 'Gas')
@@ -1033,6 +1090,31 @@ function updateParticle() {
         if(isInBounds(row,col+1) && getParticle(row,col+1).id !== VACU && getParticle(row,col+1).type !== 'Solid')
             setParticle(row,col+1,0)
             break
+        case 'GENR':
+            if(isInBounds(row-1,col) && !getParticle(row-1,col).sparked && particleConducts(row-1,col)) {
+                setParticleSparked(row-1,col,true)
+                setParticleTmpVar(row-1,col,'Center')
+            }
+            if(isInBounds(row+1,col) && !getParticle(row+1,col).sparked && particleConducts(row+1,col)) {
+                setParticleSparked(row+1,col,true)
+                setParticleTmpVar(row+1,col,'Center')
+            }
+            if(isInBounds(row,col-1) && !getParticle(row,col-1).sparked && particleConducts(row,col-1)) {
+                setParticleSparked(row,col-1,true)
+                setParticleTmpVar(row,col-1,'Center')
+            }
+            if(isInBounds(row,col+1) && !getParticle(row,col+1).sparked && particleConducts(row,col+1)) {
+                setParticleSparked(row,col+1,true)
+                setParticleTmpVar(row,col+1,'Center')
+            }
+        break
+        case 'PRTI':
+            update_PRTI(row,col)
+            break
+        case 'PRTO':
+            update_PRTO(row,col)
+            break
+    
     }
 }
 

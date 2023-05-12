@@ -237,11 +237,19 @@ function checkParticleAbbr(r,c,target) {
 }
 
 function updateSelectedIndex(id) {
-    if(pixelSelectedIndex === id || id < 0 || id >= particleTypes.length) return
+    if(pixelSelectedIndex === id || id >= particleTypes.length) return
+    if(id < 0 && Math.abs(id+1) >= tools.length) return
     for(let i = 0; i < particleTypes.length; i++) {
         document.getElementById(`elementButton${i}`).classList = i === id ? `${particleTypes[i].abbr}ButtonActive` : `${particleTypes[i].abbr}Button`
+        if(i < tools.length) {
+            document.getElementById(`toolButton${i}`).classList = (i*-1) === id+1 && id < 0 ? `${tools[i].abbr}ButtonActive` : `${tools[i].abbr}Button`
+        }
     }
+    document.getElementById('selectedParticleText').innerText = id >= 0 ? `Selected Particle\n\n${particleTypes[id].name}\n\n${particleTypes[id].desc}` :
+    `Selected Tool\n\n${tools[Math.abs(id+1)].name}\n\n${tools[Math.abs(id+1)].desc}`
+    document.getElementById('selectedParticleText').style.border = id >= 0 ? `2px solid ${particleTypes[id].color}` :
+    `2px solid ${tools[Math.abs(id+1)].color}`
+    
     pixelSelectedIndex = id
-    document.getElementById('selectedParticleText').innerText = `Selected Particle\n\n${particleTypes[id].name}\n\n${particleTypes[id].desc}`
-    document.getElementById('selectedParticleText').style.border = `2px solid ${particleTypes[id].color}`
+    
 }

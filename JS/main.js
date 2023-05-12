@@ -49,7 +49,10 @@ function Update() {
         updateCanvas()
     }
     if(isMouseDown && isMouseInCanvas) {
-        if(pixelSelectedIndex === SPRK && particleConducts(mouseRow,mouseCol)) {
+        if(pixelSelectedIndex < 0) {
+            runTool(mouseRow,mouseCol)
+        }
+        else if(pixelSelectedIndex === SPRK && particleConducts(mouseRow,mouseCol)) {
             particleGrid[mouseRow][mouseCol].sparked = true
             particleGrid[mouseRow][mouseCol].tmp = 'Center'
             updateSPRK(mouseRow,mouseCol)
@@ -106,6 +109,31 @@ function generateUI() {
                 transition-duration: 0.5s;
             }
         `
+        if(i < tools.length) {
+             styleString += `
+            .${tools[i].abbr}Button {
+                background-color: var(--bg-color);
+                border: 2px solid ${tools[i].color};
+                color: #FFFFFF;
+                font-size: 1em;
+                transition-duration: 0.5s;
+            }
+            .${tools[i].abbr}Button:hover {
+                background-color: ${tools[i].color};
+                border: 2px solid ${tools[i].color};
+                color: #000000;
+                font-size: 1em;
+                transition-duration: 0.5s;
+            }
+            .${tools[i].abbr}ButtonActive {
+                background-color: ${tools[i].color};
+                border: 2px solid ${tools[i].color};
+                color: #000000;
+                font-size: 1em;
+                transition-duration: 0.5s;
+            }
+            `
+        }
     }
     for(let i = 0; i < particleCategories.length; i++) {
         htmlString = `<button id="particleCategoryButton${i}" class="whiteButton">${particleCategories[i]}</button>`
@@ -126,6 +154,11 @@ function generateUI() {
         }
         document.getElementById(`elementButton${i}`).addEventListener('click',() => updateSelectedIndex(i))
         document.getElementById(`elementButton${i}`).style.display = particleTypes[i].uiCategory !== 'None' ? 'block' : 'none'
+        if(i < tools.length) {
+            htmlString = `<button id="toolButton${i}" class="${tools[i].abbr}Button">${tools[i].abbr}</button>`
+            addHTML(`ToolsHolder`,htmlString)
+            document.getElementById(`toolButton${i}`).addEventListener('click',() => updateSelectedIndex((i+1)*-1))
+        }
     }
     style.innerHTML = styleString;
     document.getElementsByTagName('head')[0].appendChild(style);

@@ -42,26 +42,11 @@ function updateSPRK(r,c) {
                 setParticleTmpVar(r,c+1,'Right')
                 drawParticle(r,c+1)
             }
-            setTimeout(()=>{
-                setParticleSparked(r,c,false)
-                setParticleTmpVar(r,c,null)
-            },200)
             break
         case 'Up':
-            if(!isInBounds(r-1,c)) {
-                setTimeout(()=>{
-                    setParticleSparked(r,c,false)
-                    setParticleTmpVar(r,c,null)
-                },200)
-                return
-            }
             if(isInBounds(r-1,c) && particleConducts(r-1,c) && !getParticle(r-1,c).sparked && nscnTransfer(r,c,r-1,c)) {
                 setParticleSparked(r-1,c,true)
                 setParticleTmpVar(r-1,c,'Up')
-                setTimeout(()=>{
-                    setParticleSparked(r,c,false)
-                    setParticleTmpVar(r,c,null)
-                },200)
             }
             else {
                 if(isInBounds(r,c-1) && particleConducts(r,c-1) && !getParticle(r,c-1).sparked && nscnTransfer(r,c,r,c-1)) {
@@ -71,30 +56,13 @@ function updateSPRK(r,c) {
                 else if(isInBounds(r,c+1) && particleConducts(r,c+1) && !getParticle(r,c+1).sparked && nscnTransfer(r,c,r,c+1)) {
                     setParticleSparked(r,c+1,true)
                     setParticleTmpVar(r,c+1,'Right')
-                }
-                else {
-                    setTimeout(()=>{
-                        setParticleSparked(r,c,false)
-                        setParticleTmpVar(r,c,null)
-                    },200)
                 }
             }
             break
         case 'Down':
-            if(!isInBounds(r+1,c)) {
-                setTimeout(()=>{
-                    setParticleSparked(r,c,false)
-                    setParticleTmpVar(r,c,null)
-                },200)
-                return
-            }
             if(isInBounds(r+1,c) && particleConducts(r+1,c) && !getParticle(r+1,c).sparked && nscnTransfer(r,c,r+1,c)) {
                 setParticleSparked(r+1,c,true)
                 setParticleTmpVar(r+1,c,'Down')
-                setTimeout(()=>{
-                    setParticleSparked(r,c,false)
-                    setParticleTmpVar(r,c,null)
-                },200)
             }
             else {
                 if(isInBounds(r,c-1) && particleConducts(r,c-1) && !getParticle(r,c-1).sparked && nscnTransfer(r,c,r,c-1)) {
@@ -104,31 +72,14 @@ function updateSPRK(r,c) {
                 else if(isInBounds(r,c+1) && particleConducts(r,c+1) && !getParticle(r,c+1).sparked && nscnTransfer(r,c,r,c+1)) {
                     setParticleSparked(r,c+1,true)
                     setParticleTmpVar(r,c+1,'Right')
-                }
-                else {
-                    setTimeout(()=>{
-                        setParticleSparked(r,c,false)
-                        setParticleTmpVar(r,c,null)
-                    },200)
                 }
             }
             
             break
         case 'Left':
-            if(!isInBounds(r,c-1)) {
-                setTimeout(()=>{
-                    setParticleSparked(r,c,false)
-                    setParticleTmpVar(r,c,null)
-                },200)
-                return
-            }
             if(isInBounds(r,c-1) && particleConducts(r,c-1) && !getParticle(r,c-1).sparked && nscnTransfer(r,c,r,c-1)) {
                 setParticleSparked(r,c-1,true)
                 setParticleTmpVar(r,c-1,'Left')
-                setTimeout(()=>{
-                    setParticleSparked(r,c,false)
-                    setParticleTmpVar(r,c,null)
-                },200)
             }
             else {
                 if(isInBounds(r+1,c) && particleConducts(r+1,c) && !getParticle(r+1,c).sparked && nscnTransfer(r,c,r+1,c)) {
@@ -149,19 +100,11 @@ function updateSPRK(r,c) {
             break
         case 'Right':
             if(!isInBounds(r,c+1)) {
-                setTimeout(()=>{
-                    setParticleSparked(r,c,false)
-                    setParticleTmpVar(r,c,null)
-                },200)
                 return
             }
             if(isInBounds(r,c+1) && particleConducts(r,c+1) && !getParticle(r,c+1).sparked && nscnTransfer(r,c,r,c+1)) {
                 setParticleSparked(r,c+1,true)
                 setParticleTmpVar(r,c+1,'Right')
-                setTimeout(()=>{
-                    setParticleSparked(r,c,false)
-                    setParticleTmpVar(r,c,null)
-                },200)
             }
             else {
                 if(isInBounds(r+1,c) && particleConducts(r+1,c) && !getParticle(r+1,c).sparked && nscnTransfer(r,c,r+1,c)) {
@@ -172,35 +115,51 @@ function updateSPRK(r,c) {
                     setParticleSparked(r-1,c,true)
                     setParticleTmpVar(r-1,c,'Up')
                 }
-                else {
-                    setTimeout(()=>{
-                        setParticleSparked(r,c,false)
-                        setParticleTmpVar(r,c,null)
-                    },200)
-                }
             }
             break
     }
+
     if(currentParticleName === 'PSCN') {
-        if(getParticleType(r-1,c).abbr === 'SWCH')
+        if(getParticleType(r-1,c).abbr === 'SWCH' && getParticle(r-1,c).tmp2 !== true) {
+            particleGrid[r][c].sparked = false
             floodFillSWCH(r-1,c,true)
-        else if(getParticleType(r+1,c).abbr === 'SWCH')
+        }
+        else if(getParticleType(r+1,c).abbr === 'SWCH' && getParticle(r+1,c).tmp2 !== true) {
+            particleGrid[r][c].sparked = false
             floodFillSWCH(r+1,c,true)
-        else if(getParticleType(r,c-1).abbr === 'SWCH')
+        }
+        else if(getParticleType(r,c-1).abbr === 'SWCH' && getParticle(r,c-1).tmp2 !== true) {
+            particleGrid[r][c].sparked = false
             floodFillSWCH(r,c-1,true)
-        else if(getParticleType(r,c+1).abbr === 'SWCH')
+        }
+        else if(getParticleType(r,c+1).abbr === 'SWCH' && getParticle(r,c+1).tmp2 !== true) {
+            particleGrid[r][c].sparked = false
             floodFillSWCH(r,c+1,true)
+        }
     }
     else if(currentParticleName === 'NSCN') {
-        if(getParticleType(r-1,c).abbr === 'SWCH')
+        if(getParticleType(r-1,c).abbr === 'SWCH' && getParticle(r-1,c).tmp2 !== false) {
+            particleGrid[r][c].sparked = false
             floodFillSWCH(r-1,c,false)
-        else if(getParticleType(r+1,c).abbr === 'SWCH')
+        }
+        else if(getParticleType(r+1,c).abbr === 'SWCH' && getParticle(r+1,c).tmp2 !== false) {
+            particleGrid[r][c].sparked = false
             floodFillSWCH(r+1,c,false)
-        else if(getParticleType(r,c-1).abbr === 'SWCH')
+        }
+        else if(getParticleType(r,c-1).abbr === 'SWCH' && getParticle(r,c-1).tmp2 !== false) {
+            particleGrid[r][c].sparked = false
             floodFillSWCH(r,c-1,false)
-        else if(getParticleType(r,c+1).abbr === 'SWCH')
+        }
+        else if(getParticleType(r,c+1).abbr === 'SWCH' && getParticle(r,c+1).tmp2 !== false) {
+            particleGrid[r][c].sparked = false
             floodFillSWCH(r,c+1,false)
+        }
     }
+
+    setTimeout(()=>{
+        setParticleSparked(r,c,false)
+        setParticleTmpVar(r,c,null)
+    },100)
 }
 
 //used to determine if particle can transfer or take a sprk
