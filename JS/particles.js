@@ -65,7 +65,7 @@ const particleTypes = [
         weight: 100,
         heatConductivity: 251,
         defaultTemp: 72.0, // In farenheit lol not celsius
-        highTemperatureChange: {temp:1273,type:-1}, //-1 Indicates no change
+        highTemperatureChange: {temp:celsiusToFarenheit(1273),type:-1}, //-1 Indicates no change
         lowTemperatureChange: {temp:-1,type:-1},
         explosiveChange: {strength:2,id:34},
         isLiquid: false,
@@ -485,7 +485,7 @@ const particleTypes = [
         isLiquid: false,
         isGas: false,
         isPowder: false,
-        uiCategory: 'Solids'
+        uiCategory: 'Electronics'
     },
     {/*QRTZ*/
         name: 'Quartz',

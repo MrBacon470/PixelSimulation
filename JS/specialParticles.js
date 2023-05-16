@@ -6,7 +6,7 @@ let wifiChannels = new Array(NUM_CHANNELS)
 
 for(let i = 0; i < NUM_CHANNELS; i++) {
     portalChannels[i] = new Array(8).fill(-1)
-    wifiChannels[i] = new Array(8).fill(-1)
+    wifiChannels[i] = new Array(4).fill(-1)
 }
 /* wifi & portal channel matrixes made 
     get & set Surrounding Particles Special function will be useful
@@ -43,6 +43,14 @@ function update_PRTO(r,c) {
             portalChannels[particle.tmp2][7-i] = -1
         }
     }
+}
+
+function update_WIFI(r,c) {
+    if(!isInBounds(r,c)) return
+    particleGrid[r][c].tmp2 = Math.floor((particleGrid[r][c].temp-72)/100+1)
+    if(particleGrid[r][c].tmp2 >= NUM_CHANNELS) particleGrid[r][c].tmp2 = NUM_CHANNELS-1
+    else if(particleGrid[r][c].tmp2 < 0) particleGrid[r][c].tmp2 = 0
+    const particle = getParticle(r,c)
 }
 
 function getSurroundingParticlesSpecial(r,c) {
